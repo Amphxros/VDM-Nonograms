@@ -1,7 +1,8 @@
 
 
 enum State {Empty, Marked, Correct, Wrong } //states of the cells
-class Cell{
+
+class Cell extends GameObject{ // elements of the table
     State mState_;
 
     public Cell(){
