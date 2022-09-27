@@ -1,5 +1,5 @@
+package es.ucm.vdm.engine;
 
-
-class Graphics{
+public interface Graphics{
 
 }

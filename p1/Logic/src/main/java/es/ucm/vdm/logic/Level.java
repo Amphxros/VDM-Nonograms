@@ -1,3 +1,4 @@
+package es.ucm.vdm.logic;
 
 class Level{
     Table table;
