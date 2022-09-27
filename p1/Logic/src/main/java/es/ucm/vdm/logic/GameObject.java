@@ -11,5 +11,5 @@ public abstract class GameObject{ //base of all the elements of the game
         position_.y= pos.y;
     }
 
-    
+
 }
