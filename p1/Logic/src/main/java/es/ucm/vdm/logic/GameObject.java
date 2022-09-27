@@ -1,15 +1,12 @@
 package es.ucm.vdm.logic;
 
-import Cell;
-
 public abstract class GameObject{ //base of all the elements of the game
 
     protected Vector2D position_;
-    private GameObject parent=null;
+    private GameObject parent_ = null;
 
     public GameObject(){
-        position_.x=0;
-        position_.y=0;
+        position_ = new Vector2D(0, 0);
     }
 
     public void setPos(Vector2D pos){
@@ -17,9 +14,8 @@ public abstract class GameObject{ //base of all the elements of the game
         position_.y= pos.y;
     }
 
-    public void setParent(GameObject p){
-        parent=p;
+    public GameObject getParent() { return parent_; }
+    public void setParent_(GameObject p){
+        parent_ =p;
     }
-
-
 }
