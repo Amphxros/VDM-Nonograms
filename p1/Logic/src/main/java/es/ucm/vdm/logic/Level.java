@@ -1,12 +1,10 @@
+package es.ucm.vdm.logic;
 
-class Level{
+public class Level {
     Table table;
 
     int nRows_;
     int mCols_;
-
-
-
 
     public Level(){
 

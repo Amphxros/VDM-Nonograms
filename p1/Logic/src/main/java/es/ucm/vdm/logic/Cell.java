@@ -1,20 +1,19 @@
+package es.ucm.vdm.logic;
 
-
-enum State {Empty, Marked, Correct, Wrong } //states of the cells
-class Cell{
-    State mState_;
+public class Cell extends GameObject{ // elements of the table
+    State state_;
+    State solutionState_;
 
     public Cell(){
-        mState_=State.Empty;
+        state_ =State.Empty;
     }
 
     public Cell(State state){
-        mState_= state;
+        state_ = state;
     }
 
-    void changeState(State state){
-        mState_= state;
+    State getState() { return state_; }
+    void setState(State state){
+        state_ = state;
     }
-
-
 }
