@@ -1,4 +1,4 @@
-
+package es.ucm.vdm.logic;
 
 class Table{
     State [,] levelInfo;
