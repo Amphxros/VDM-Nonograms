@@ -7,7 +7,7 @@ public class Table extends GameObject{
     Cell[][] mCells_;
     ArrayList<Integer>[] hints;
     public Table(int n){
-        this.Table(n,n);
+        this(n,n);
     }
 
     public Table(int n, int m) {
