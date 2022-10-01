@@ -1,5 +1,7 @@
 package es.ucm.vdm.logic;
 
+import es.ucm.vdm.logic.Vector2D;
+
 public abstract class GameObject{ //base of all the elements of the game
 
     protected Vector2D position_;

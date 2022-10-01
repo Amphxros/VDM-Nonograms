@@ -1,10 +1,14 @@
 package es.ucm.vdm.engine;
 
-public interface Graphics {
+public class Graphics implements IGraphics{
 
-    boolean isRunning();
-    void drawRectangle(int x, int y, int w, int h);
-    void pause();
-    void resume();
+    @Override
+    public void setCanvasSize(Rect canvas, Rect dimension) {
 
+    }
+
+    @Override
+    public Rect getCanvas() {
+        return null;
+    }
 }
