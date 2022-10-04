@@ -12,8 +12,13 @@ public class Cell extends GameObject{ // elements of the table
         state_ = state;
     }
 
-    State getState() { return state_; }
-    void setState(State state){
+    State getCurrentState() { return state_; }
+    void setCurrentState(State state){
         state_ = state;
     }
+
+    State getSolutionState(){return solutionState_;}
+    void setSolutionState(State state){solutionState_=state;}
+
+    boolean isCellCorrect(){return state_==solutionState_;}
 }

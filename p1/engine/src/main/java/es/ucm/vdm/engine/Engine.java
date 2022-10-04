@@ -1,4 +1,4 @@
 package es.ucm.vdm.engine;
 
-public class Engine {
+public abstract class Engine implements IEngine{
 }

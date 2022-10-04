@@ -5,4 +5,7 @@ public interface IFont {
     public void render();
     public void setContent(String content);
     public void setPosition(int x, int y);
+    public int getSize();
+    public boolean isBold();
+    
 }
