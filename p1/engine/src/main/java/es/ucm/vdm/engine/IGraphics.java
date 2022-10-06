@@ -5,5 +5,4 @@ public interface IGraphics {
     public Rect getCanvas();
     public boolean createFont(String route, int size, int color, boolean bold );
 
-
 }
