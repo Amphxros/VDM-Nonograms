@@ -1,5 +1,8 @@
 package es.ucm.vdm.logic;
 
+import es.ucm.vdm.engine.Color;
+import es.ucm.vdm.engine.Graphics;
+
 public class Cell extends GameObject{ // elements of the table
     State state_;
     State solutionState_;
@@ -21,4 +24,8 @@ public class Cell extends GameObject{ // elements of the table
     void setSolutionState(State state){solutionState_=state;}
 
     boolean isCellCorrect(){return state_==solutionState_;}
+
+    public void render(Graphics graphics){
+        graphics.drawCircle((int)position_.x, (int)position_.y, 2,null);
+    }
 }
