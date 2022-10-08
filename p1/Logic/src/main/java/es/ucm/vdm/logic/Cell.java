@@ -26,6 +26,13 @@ public class Cell extends GameObject{ // elements of the table
     boolean isCellCorrect(){return state_==solutionState_;}
 
     public void render(Graphics graphics){
-        graphics.drawCircle((int)position_.x, (int)position_.y, 2,null);
+        switch (state_){
+            case State.Empty:
+                graphics.drawRectangle((int)position_.x,(int)position_.y,1,1,null);
+                break;
+            case State.Marked:
+                graphics.drawRectangle((int)position_.x,(int)position_.y,1,1,null);
+                break;
+        }
     }
 }

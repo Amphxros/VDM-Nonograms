@@ -20,6 +20,13 @@ public class Table extends GameObject{
         this.cols=m;
         mCells_= new Cell[fils][cols];
     }
+    public void generateRules(){
+        for(int i=0;i<fils;i++){
+            for(int j=0;j<cols;j++){
+                mCells_[i][j].setSolutionState(State.Marked); //de momento todas tienen que estar marcadas
+            }
+        }
+    }
 
     public void render(Graphics graphics){
 
