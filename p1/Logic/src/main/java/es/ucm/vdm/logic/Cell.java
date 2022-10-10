@@ -23,14 +23,22 @@ public class Cell extends GameObject{ // elements of the table
     State getSolutionState(){return solutionState_;}
     void setSolutionState(State state){solutionState_=state;}
 
-    boolean isCellCorrect(){return state_==solutionState_;}
+    boolean isCellCorrect(){
+        return state_==solutionState_ || state_==State.Correct;
+    }
 
-    public void render(Graphics graphics){
+    public void render(Graphics graphics){ //ESTO ES TEMPORAL LUEGO HAY QUE PONER UN SPRITE O CAMBIAR EL COLOR
         switch (state_){
-            case State.Empty:
+            case Empty:
                 graphics.drawRectangle((int)position_.x,(int)position_.y,1,1,null);
                 break;
-            case State.Marked:
+            case Marked:
+                graphics.drawRectangle((int)position_.x,(int)position_.y,1,1,null);
+                break;
+            case Correct:
+                graphics.drawRectangle((int)position_.x,(int)position_.y,1,1,null);
+                break;
+            case Wrong:
                 graphics.drawRectangle((int)position_.x,(int)position_.y,1,1,null);
                 break;
         }

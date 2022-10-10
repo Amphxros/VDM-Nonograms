@@ -28,6 +28,23 @@ public class Table extends GameObject{
         }
     }
 
+    public int checkSolutions(){
+        int wrong=0;
+        for(int i=0;i<fils; i++){
+            for(int j=0;j<cols;j++){
+                if(mCells_[i][j].isCellCorrect()){
+                    mCells_[i][j].setCurrentState(State.Correct);
+                }
+                else{
+
+                    mCells_[i][j].setCurrentState(State.Wrong);
+                    wrong++;
+                }
+            }
+        }
+        return wrong;
+    }
+
     public void render(Graphics graphics){
 
         for(int i=0;i<fils;i++){
