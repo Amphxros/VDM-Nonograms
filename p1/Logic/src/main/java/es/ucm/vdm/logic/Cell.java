@@ -3,7 +3,7 @@ package es.ucm.vdm.logic;
 import es.ucm.vdm.engine.Color;
 import es.ucm.vdm.engine.Graphics;
 
-public class Cell extends GameObject{ // elements of the table
+public final class Cell extends GameObject{ // elements of the table
     State state_;
     State solutionState_;
 

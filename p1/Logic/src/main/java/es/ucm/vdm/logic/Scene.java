@@ -1,6 +1,6 @@
 package es.ucm.vdm.logic;
 
-import es.ucm.vdm.engine.IGraphics;
+import es.ucm.vdm.engine.Graphics;
 
 public abstract class Scene {
 
@@ -11,7 +11,7 @@ public abstract class Scene {
 
     //render the GO in their positions.
     // Receives an instance of graphics to call their own Graphics handler (Different in android and PC)
-    void render(IGraphics g){
+    void render(Graphics graphics){
 
     }
 
