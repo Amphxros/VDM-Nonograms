@@ -1,5 +1,17 @@
 package es.ucm.vdm.engine;
 
 public interface IImage {
-    Rect getRect();
+    /**
+     * Gets the source width of the image.
+     *
+     * @return The source width of the image.
+     */
+    int getWidth();
+
+    /**
+     * Gets the source height of the image.
+     *
+     * @return The source height of the image.
+     */
+    int getHeight();
 }
