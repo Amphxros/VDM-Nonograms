@@ -19,7 +19,7 @@ public class Table extends GameObject{
         this.fils=n;
         this.cols=m;
         mCells_= new Cell[fils][cols];
-        
+
     }
     public void generateRules(){
         for(int i=0;i<fils;i++){
