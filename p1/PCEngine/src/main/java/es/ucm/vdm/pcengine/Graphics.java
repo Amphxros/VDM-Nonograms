@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Stack;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ public class Graphics implements IGraphics {
     private final JFrame view;
     private BufferStrategy buffer;
     private Graphics2D graphics2D;
+    private Stack<Graphics2D> states;
 
     public Graphics() {
         view = new JFrame();
@@ -41,6 +43,7 @@ public class Graphics implements IGraphics {
 
         buffer = view.getBufferStrategy();
         graphics2D = (Graphics2D) buffer.getDrawGraphics();
+        states = new Stack<>();
     }
 
     @Override
@@ -92,7 +95,7 @@ public class Graphics implements IGraphics {
      */
     @Override
     public void drawImage(IImage image, int x, int y, int width, int height) {
-        graphics2D.drawImage(((Image) image).getImage(), x, y, x + width, y + height, null);
+        graphics2D.drawImage(((Image) image).getImage(), x, y, width, height, null);
     }
 
     /**
@@ -204,12 +207,16 @@ public class Graphics implements IGraphics {
 
     @Override
     public void save() {
-
+        Graphics2D clone = (Graphics2D) graphics2D.create();
+        states.push(graphics2D);
+        graphics2D = clone;
     }
 
     @Override
     public void restore() {
-
+        if (states.empty()) return;
+        graphics2D.dispose();
+        graphics2D = states.pop();
     }
 
     @Override

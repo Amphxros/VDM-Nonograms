@@ -13,6 +13,7 @@ public class Image implements IImage {
 
     /**
      * Gets the source width of the image.
+     *
      * @return The source width of the image.
      */
     @Override
@@ -22,6 +23,7 @@ public class Image implements IImage {
 
     /**
      * Gets the source height of the image.
+     *
      * @return The source height of the image.
      */
     @Override
@@ -31,6 +33,7 @@ public class Image implements IImage {
 
     /**
      * Gets the loaded buffered image.
+     *
      * @return The buffered image.
      */
     public BufferedImage getImage() {

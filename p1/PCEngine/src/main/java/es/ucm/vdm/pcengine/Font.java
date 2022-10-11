@@ -29,6 +29,11 @@ public class Font implements IFont {
         return font.isBold();
     }
 
+    /**
+     * Gets the underlying {@link java.awt.Font} this instance hosts.
+     *
+     * @return The underlying {@link java.awt.Font}.
+     */
     public java.awt.Font getFont() {
         return font;
     }
