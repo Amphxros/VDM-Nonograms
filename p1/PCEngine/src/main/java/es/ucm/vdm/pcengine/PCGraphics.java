@@ -10,12 +10,11 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import es.ucm.vdm.engine.Graphics;
 import es.ucm.vdm.engine.IFont;
 import es.ucm.vdm.engine.IGraphics;
 import es.ucm.vdm.engine.IImage;
 
-public class PCGraphics extends Graphics {
+public class PCGraphics implements IGraphics {
     private final JFrame view;
     private BufferStrategy buffer;
     private Graphics2D graphics2D;

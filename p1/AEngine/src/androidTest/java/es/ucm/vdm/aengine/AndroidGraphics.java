@@ -1,14 +1,10 @@
 package es.ucm.vdm.aengine;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
-
-import es.ucm.vdm.engine.Graphics;
 import es.ucm.vdm.engine.IFont;
+import es.ucm.vdm.engine.IGraphics;
 import es.ucm.vdm.engine.IImage;
-import es.ucm.vdm.engine.Rect;
 
-public class AndroidGraphics extends Graphics {
+public class AndroidGraphics implements IGraphics {
 
     @Override
     public IImage newImage(String name) {
