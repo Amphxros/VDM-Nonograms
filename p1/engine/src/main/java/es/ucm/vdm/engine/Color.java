@@ -1,8 +1,10 @@
 package es.ucm.vdm.engine;
 
 public class Color {
-    int r,g,b,a;
-    public Color(){
+    float r_,g_,b_,a_;
+    public Color(float r, float g, float b, float a){
 
     }
+
+
 }
