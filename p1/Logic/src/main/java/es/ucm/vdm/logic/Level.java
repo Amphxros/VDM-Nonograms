@@ -6,11 +6,11 @@ public class Level {
     int nRows_;
     int mCols_;
 
-    public Level(){
+    public Level() {
 
     }
 
-    public void checkLevel(){
+    public void checkLevel() {
 
     }
 }
