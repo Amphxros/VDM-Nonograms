@@ -98,6 +98,7 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public int getWidth() {
+
         return 0;
     }
 

@@ -12,7 +12,8 @@ public class Cell extends GameObject { // elements of the table
         state_ = State.Empty;
     }
 
-    public Cell(State state) {
+    public Cell(State state, int x, int y, int w, int h) {
+        super(x,y,w,h);
         state_ = state;
     }
 
