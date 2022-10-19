@@ -4,7 +4,7 @@ import es.ucm.vdm.engine.Engine;
 
 public class Logic {
     protected Engine mEngine_;
-    protected IScene mCurrentScene_;
+    protected Scene mCurrentScene_;
 
     public Logic(Engine engine){
         this.mEngine_=engine;
@@ -20,6 +20,10 @@ public class Logic {
     }
     public void render(){
         mCurrentScene_.render(mEngine_.getGraphics());
+    }
+
+    public void setCurrScene(Scene scene){
+        mCurrentScene_=scene;
     }
 
 }

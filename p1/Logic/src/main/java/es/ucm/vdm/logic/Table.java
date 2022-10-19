@@ -25,6 +25,10 @@ public class Table extends GameObject {
             }
         }
     }
+
+    public Table(String route){
+
+    }
     public void render(IGraphics graphics){
         for(int i=0;i<mFils_;i++){
             for(int j=0;j<mCols_;j++){

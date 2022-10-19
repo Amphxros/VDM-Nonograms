@@ -8,11 +8,11 @@ import es.ucm.vdm.engine.IInput;
 import es.ucm.vdm.engine.TouchEvent;
 
 public class Scene implements IScene{
-    ArrayList<GameObject> mGameObjects_;
+    protected ArrayList<GameObject> mGameObjects_;
     public Scene(){
        mGameObjects_= new ArrayList<GameObject>();
     }
-    ArrayList<GameObject> getGameObjects(){
+    public ArrayList<GameObject> getGameObjects(){
         return mGameObjects_;
     }
 
