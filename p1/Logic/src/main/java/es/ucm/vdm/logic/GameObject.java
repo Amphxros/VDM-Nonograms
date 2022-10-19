@@ -31,6 +31,10 @@ public abstract class GameObject { //base of all the elements of the game
         return mHeight_;
     }
 
+    public void update(double t){
+
+    }
+
     public void render(IGraphics graphics){
 
     }
