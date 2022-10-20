@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Creamos el SurfaceView que "contendrá" nuestra escena
-        this.renderView = new SurfaceView(this);
+
+
 
     }
 

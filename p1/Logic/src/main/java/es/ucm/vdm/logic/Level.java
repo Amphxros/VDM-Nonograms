@@ -1,16 +1,19 @@
 package es.ucm.vdm.logic;
 
-public class Level {
+import java.util.ArrayList;
+
+public class Level extends Scene{
     Table table;
 
-    int nRows_;
-    int mCols_;
+    public Level(int rows, int cols){
+        super();
+       table= new Table(rows, cols);
+    }
 
-    public Level() {
+    //reading from a file
+    public Level(int n, String route){
 
     }
 
-    public void checkLevel() {
 
-    }
 }
