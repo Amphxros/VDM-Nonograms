@@ -8,7 +8,9 @@ public class PCAudio implements IAudio {
     public PCSound createSound(String filename) {
         try {
             return new PCSound(filename);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            System.err.println("Could not load audio file");
+            e.printStackTrace();
             return null;
         }
     }
