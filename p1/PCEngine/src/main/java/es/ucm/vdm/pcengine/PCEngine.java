@@ -7,10 +7,14 @@ import es.ucm.vdm.engine.IInput;
 
 public class PCEngine extends Engine {
 
+    Window mWindow_;
+    int mWidth_;
+    int mHeight_;
+
     public PCEngine(IGraphics graphics, IAudio audio, IInput input) {
         super(graphics, audio, input);
     }
-    
+
     @Override
     public void run() {
 
