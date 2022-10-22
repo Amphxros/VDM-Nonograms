@@ -10,8 +10,40 @@ public class PCEngine extends Engine {
     public PCEngine(IGraphics graphics, IAudio audio, IInput input) {
         super(graphics, audio, input);
     }
-    public void run(){
+    
+    @Override
+    public void run() {
 
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
+    public boolean openGame() {
+        return false;
+    }
+
+    @Override
+    public boolean closeGame() {
+        return false;
     }
 
 }

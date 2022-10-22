@@ -1,7 +1,5 @@
 package es.ucm.vdm.logic;
 
-import java.util.ArrayList;
-
 public class Level extends Scene{
     Table table;
 

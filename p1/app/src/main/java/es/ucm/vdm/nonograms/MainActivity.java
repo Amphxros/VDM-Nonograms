@@ -10,10 +10,6 @@ import android.view.SurfaceView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SurfaceView renderView;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

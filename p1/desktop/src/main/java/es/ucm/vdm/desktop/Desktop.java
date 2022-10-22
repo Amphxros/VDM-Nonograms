@@ -1,15 +1,18 @@
 package es.ucm.vdm.desktop;
 
+import es.ucm.vdm.logic.Logic;
 import es.ucm.vdm.pcengine.PCEngine;
 import es.ucm.vdm.pcengine.PCGraphics;
 import es.ucm.vdm.pcengine.PCInput;
 
-public class Desktop {
 
+public class Desktop {
+    static final int FPS=60; //frame rate
     public static void main(String[] args){
-        PCGraphics graphics= new PCGraphics();
-        PCInput input= new PCInput();
-        PCEngine eng= new PCEngine(graphics,null,input);
+        //create engine
+        //PCEngine eng= new PCEngine();
+        //Logic logic= new Logic(eng);
+
 
     }
 }

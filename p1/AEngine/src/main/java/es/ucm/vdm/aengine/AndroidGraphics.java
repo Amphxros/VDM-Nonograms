@@ -1,18 +1,36 @@
 package es.ucm.vdm.aengine;
 
+import android.content.res.AssetManager;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.view.SurfaceView;
+
 import es.ucm.vdm.engine.IFont;
 import es.ucm.vdm.engine.IGraphics;
 import es.ucm.vdm.engine.IImage;
 
 public class AndroidGraphics implements IGraphics {
+    SurfaceView mView_;
+    AssetManager mMngr_;
+    Paint mPaint_;
+    Canvas mCanvas_;
+
+    public AndroidGraphics(SurfaceView view, AssetManager mngr){
+        super();
+        this.mView_=view;
+        this.mMngr_=mngr;
+        this.mPaint_=new Paint();
+    }
 
     @Override
     public IImage newImage(String name) {
+
         return null;
     }
 
     @Override
-    public IFont newFont(String name, int size, boolean isBold) {
+    public IFont newFont(String name, int size, boolean isBold)
+    {
         return null;
     }
 
@@ -88,22 +106,22 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void save() {
-
+        mCanvas_.save();
     }
 
     @Override
     public void restore() {
-
+        mCanvas_.restore();
     }
 
     @Override
     public int getWidth() {
 
-        return 0;
+        return mView_.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return mView_.getHeight();
     }
 }

@@ -11,7 +11,8 @@ public interface IEngine {
     void update();
     void render();
 
-    void closeGame();
+    boolean openGame();
+    boolean closeGame();
     double getDeltaTime();
 
     int getWidth();

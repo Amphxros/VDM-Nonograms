@@ -8,6 +8,7 @@ public class Logic {
 
     public Logic(Engine engine){
         this.mEngine_=engine;
+        mCurrentScene_= new MenuScene(this);
     }
     public void initLogic(){
 

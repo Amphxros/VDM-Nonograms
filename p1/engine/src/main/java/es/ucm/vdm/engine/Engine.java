@@ -1,15 +1,19 @@
 package es.ucm.vdm.engine;
 
-public class Engine implements IEngine{
+public abstract class Engine implements IEngine{
  protected IGraphics mGraphics_;
  protected IAudio mAudio_;
  protected IInput mInput_;
 
  protected long mLastFrameTime_;
- protected  volatile boolean mRunning_=false;
+ protected volatile boolean mRunning_=false;
  private Thread mThread_;
 
+ private int mWidth_, mHeight_;
 
+ public Engine(){
+
+ }
  public Engine(IGraphics graphics, IAudio audio, IInput input){
    this.mGraphics_=graphics;
    this.mAudio_=audio;
@@ -22,17 +26,25 @@ public class Engine implements IEngine{
  public IGraphics getGraphics() {
   return mGraphics_;
  }
+ public void setGraphics(IGraphics graphics){
+  mGraphics_=graphics;
+ }
 
  @Override
  public IAudio getAudio() {
   return mAudio_;
  }
-
+ public void setAudio(IAudio audio){
+  mAudio_=audio;
+ }
  @Override
  public IInput getInput(){
     return mInput_;
  }
 
+ public void setInput(IInput input){
+   mInput_=input;
+ }
  @Override
  public double getDeltaTime() {
   return 0;
@@ -40,42 +52,20 @@ public class Engine implements IEngine{
 
  @Override
  public int getWidth() {
-  return 0;
+  return mWidth_;
+ }
+
+ public void setWidth(int width){
+   mWidth_=width;
  }
 
  @Override
  public int getHeight() {
-  return 0;
+   return mHeight_;
  }
 
- @Override
- public void run() {
-
- }
-
- @Override
- public void resume() {
-
- }
-
- @Override
- public void pause() {
-
- }
-
- @Override
- public void update() {
-
- }
-
- @Override
- public void render() {
-
- }
-
- @Override
- public void closeGame() {
-
+ public void setHeight(int height){
+   mHeight_=height;
  }
 
 
