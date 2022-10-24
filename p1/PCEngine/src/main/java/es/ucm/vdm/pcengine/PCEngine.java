@@ -11,6 +11,14 @@ public class PCEngine extends Engine {
     int mWidth_;
     int mHeight_;
 
+    public PCEngine(String title, int width, int height){
+        super();
+        this.mWidth_=width;
+        this.mHeight_=height;
+        mWindow_= new Window(title,mWidth_,mHeight_,this);
+
+    }
+
     public PCEngine(IGraphics graphics, IAudio audio, IInput input) {
         super(graphics, audio, input);
     }

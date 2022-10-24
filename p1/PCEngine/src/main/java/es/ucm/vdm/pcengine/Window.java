@@ -39,6 +39,7 @@ public class Window extends JFrame {
         }
         synchronized (this){
             mBuffer_=getBufferStrategy();
+            setGraphics();
         }
     }
 

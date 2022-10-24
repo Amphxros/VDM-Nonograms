@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import es.ucm.vdm.engine.Engine;
 
 public class AndroidEngine extends Engine {
+
     Window mWindow_;
     AssetManager mMngr_;
     public AndroidEngine(Context context){
@@ -28,7 +29,11 @@ public class AndroidEngine extends Engine {
 
     @Override
     public void run() {
+        while (mRunning_){
+            render();
+            update();
 
+        }
     }
 
     @Override
