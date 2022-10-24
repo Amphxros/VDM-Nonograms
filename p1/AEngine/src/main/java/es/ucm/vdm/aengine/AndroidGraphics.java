@@ -20,6 +20,7 @@ public class AndroidGraphics implements IGraphics {
         this.mView_=view;
         this.mMngr_=mngr;
         this.mPaint_=new Paint();
+        mPaint_.setColor(0xFFFFFFFF);
     }
 
     @Override
