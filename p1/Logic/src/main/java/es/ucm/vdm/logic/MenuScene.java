@@ -9,6 +9,9 @@ public class MenuScene extends Scene{
         this.mLogic_=logic;
         //crear los elementos de la escena
 
+        Table t= new Table(0,0,3);
+        addGameObject(t);
+
     }
 
 }

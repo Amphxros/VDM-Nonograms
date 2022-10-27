@@ -46,6 +46,15 @@ public class PCGraphics implements IGraphics {
         states = new Stack<>();
     }
 
+    public boolean changeBuffer(){
+        if(this.buffer.contentsRestored())
+            return false;
+        else
+            this.buffer.show();
+
+        return !this.buffer.contentsLost();
+    }
+
     @Override
     public Image newImage(String name) {
         BufferedImage image;

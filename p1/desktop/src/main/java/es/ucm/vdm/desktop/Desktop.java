@@ -18,9 +18,6 @@ public class Desktop {
          *
          * if(eng.openGame)
          * eng.resume();
-         *
-         *
-         *
          * eng.run();
          *
          */

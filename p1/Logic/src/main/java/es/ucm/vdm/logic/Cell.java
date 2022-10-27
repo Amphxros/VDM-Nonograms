@@ -1,3 +1,4 @@
+
 package es.ucm.vdm.logic;
 
 import es.ucm.vdm.engine.EventType;

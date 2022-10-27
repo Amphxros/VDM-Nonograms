@@ -5,7 +5,7 @@ public class Level extends Scene{
 
     public Level(int rows, int cols){
         super();
-       table= new Table(rows, cols);
+
     }
 
     //reading from a file

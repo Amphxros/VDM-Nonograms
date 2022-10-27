@@ -27,7 +27,7 @@ public abstract class GameObject { //base of all the elements of the game
     public int getWidth(){
         return mWidth_;
     }
-    public int getHeight_(){
+    public int getHeight(){
         return mHeight_;
     }
 

@@ -16,6 +16,7 @@ public class PCEngine extends Engine {
         this.mWidth_=width;
         this.mHeight_=height;
         mWindow_= new Window(title,mWidth_,mHeight_,this);
+        
 
     }
 
@@ -25,6 +26,7 @@ public class PCEngine extends Engine {
 
     @Override
     public void run() {
+
 
     }
 
