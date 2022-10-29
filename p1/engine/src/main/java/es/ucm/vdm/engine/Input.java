@@ -21,6 +21,7 @@ public abstract class Input implements IInput {
 
     protected synchronized void addEvent(TouchEvent event) {
         synchronized (this) {
+            event.setIndex(mTouchEvents_.size());
             mTouchEvents_.add(event);
         }
     }

@@ -31,6 +31,8 @@ public class TouchEvent{
     public EventType getType(){
         return mEvent_;
     }
-    public  String getKey(){return mKey_;}
+    public String getKey(){return mKey_;}
+    public int getIndex(){return index;}
+    public void setIndex(int ind){this.index=ind;}
 
 }

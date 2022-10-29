@@ -4,6 +4,9 @@ public interface IEngine {
     IGraphics getGraphics();
     IAudio getAudio();
     IInput getInput();
+    Logic getLogic();
+
+    void setLogic(Logic logic);
 
 
     void run();
