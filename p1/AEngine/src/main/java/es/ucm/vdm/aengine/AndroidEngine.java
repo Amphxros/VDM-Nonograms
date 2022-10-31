@@ -28,15 +28,6 @@ public class AndroidEngine extends Engine {
     }
 
     @Override
-    public void run() {
-        while (mRunning_){
-            render();
-            update();
-
-        }
-    }
-
-    @Override
     public void resume() {
 
     }
@@ -45,17 +36,6 @@ public class AndroidEngine extends Engine {
     public void pause() {
 
     }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void render() {
-
-    }
-
     @Override
     public boolean openGame() {
         return false;

@@ -108,7 +108,7 @@ public class Engine implements IEngine, Runnable{
  }
  @Override
  public double getDeltaTime() {
-  return 0;
+  return mLastFrameTime_;
  }
 
  @Override
@@ -128,8 +128,6 @@ public class Engine implements IEngine, Runnable{
  public void setHeight(int height){
    mHeight_=height;
  }
-
-
 
  @Override
  public boolean openGame() {

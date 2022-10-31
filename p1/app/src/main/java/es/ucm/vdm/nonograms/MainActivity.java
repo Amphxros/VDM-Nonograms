@@ -2,19 +2,22 @@ package es.ucm.vdm.nonograms;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+
+import es.ucm.vdm.aengine.AndroidEngine;
+import es.ucm.vdm.logic.NonogramLogic;
+
+
 
 public class MainActivity extends AppCompatActivity {
-
+    private AndroidEngine mEngine_;
+    private NonogramLogic mLogic_;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        mEngine_= new AndroidEngine(this);
+        mLogic_= new NonogramLogic(mEngine_);
+        mEngine_.setLogic(mLogic_);
 
 
     }
