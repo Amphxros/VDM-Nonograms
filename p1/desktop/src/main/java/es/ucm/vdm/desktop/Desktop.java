@@ -12,10 +12,7 @@ private static PCEngine eng;
         eng= new PCEngine("Nonograms",800,800);
         logic.setEngine(eng);
         eng.setLogic(logic);
-
         eng.run();
-
-
 
 
     }

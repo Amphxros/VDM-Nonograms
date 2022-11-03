@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         mEngine_= new AndroidEngine(this);
         mLogic_= new NonogramLogic(mEngine_);
         mEngine_.setLogic(mLogic_);
+        
+        mEngine_.run();
 
 
     }
