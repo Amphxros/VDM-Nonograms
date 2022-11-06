@@ -1,6 +1,10 @@
 package vdm.p1.logic;
 
+import java.util.List;
+
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.Input;
+import vdm.p1.engine.TouchEvent;
 
 public final class Table extends GameObject{
     Cell [][] mCasillas_;
@@ -34,6 +38,15 @@ public final class Table extends GameObject{
             }
 
         }
+    }
+
+    public void handleInput(TouchEvent ev){
+            for(int i=0;i<nRows_;i++){
+                for(int j=0;j<mCols_;j++){
+                    mCasillas_[i][j].handleInput(ev);
+                }
+            }
+
     }
 
     public boolean checkSolutions(){

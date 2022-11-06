@@ -42,7 +42,7 @@ public class Menu extends Scene{
 
         for(TouchEvent t: events){
             for(GameObject g: getGameObjects()){
-                //g.handleInput(t);
+                g.handleInput(t);
             }
         }
 

@@ -1,7 +1,6 @@
 package vdm.p1.logic;
 
 import vdm.p1.engine.IGraphics;
-import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 
 public abstract class GameObject implements IGameObject{
