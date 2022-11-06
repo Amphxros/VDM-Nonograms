@@ -11,6 +11,8 @@ public final class Logic implements ILogic {
         this.mEngine_=eng;
     }
 
+    public Engine getEngine(){return mEngine_;}
+
     @Override
     public void setEngine(Engine eng) {
         this.mEngine_= eng;

@@ -40,9 +40,7 @@ public final class AndroidEngine extends Engine implements Runnable {
         androidInput_= new AndroidInput();
 
         setGraphics(androidGraphics_);
-
-
-
+        setInput(androidInput_);
     }
 
     @Override
@@ -83,6 +81,7 @@ public final class AndroidEngine extends Engine implements Runnable {
             // Pintamos el frame
             this.render();
 
+            this.handleInput();
                 /*
                 // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
                 try { Thread.sleep(1); } catch(Exception e) {}
@@ -107,7 +106,7 @@ public final class AndroidEngine extends Engine implements Runnable {
     }
 
     private void handleInput(){
-
+        mLogic_.handleEvents();
     }
 
 

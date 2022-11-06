@@ -7,4 +7,5 @@ public interface ILogic {
     void update(double t);
     void render();
     void handleEvents();
+
 }

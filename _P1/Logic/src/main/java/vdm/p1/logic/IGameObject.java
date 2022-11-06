@@ -1,7 +1,7 @@
 package vdm.p1.logic;
 
 import vdm.p1.engine.IGraphics;
-import vdm.p1.engine.IInput;
+import vdm.p1.engine.TouchEvent;
 
 public interface IGameObject {
     Vector2D getPosition();
@@ -12,5 +12,5 @@ public interface IGameObject {
 
     void render(IGraphics graphics);
     void update(float t);
-    void handleInput();
+    boolean handleInput(TouchEvent event);
 }

@@ -12,4 +12,7 @@ public interface IEngine {
 
     IAudio getAudio();
     void setAudio(IAudio audio);
+
+    int getWidth();
+    int getHeight();
 }

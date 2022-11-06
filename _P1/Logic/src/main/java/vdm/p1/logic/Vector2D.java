@@ -4,7 +4,8 @@ public class Vector2D {
     int x_; //x axis
     private int y_; //y axis
     public Vector2D(int x, int y){
-
+        this.x_=x;
+        this.y_=y;
     }
 
     public int getX() {

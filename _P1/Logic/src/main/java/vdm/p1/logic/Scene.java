@@ -6,7 +6,13 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IInput;
 
 public abstract class Scene implements IScene{
+
     ArrayList<GameObject> mGameObjects_;
+
+    public Scene(){
+        mGameObjects_= new ArrayList<GameObject>();
+    }
+
     @Override
     public ArrayList<GameObject> getGameObjects() {
         return mGameObjects_;
