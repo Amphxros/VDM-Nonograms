@@ -5,15 +5,19 @@ import vdm.p1.engine.IInput;
 
 public class Menu extends Scene{
 
+    Logic mLogic;
 
     public Menu(Logic logic){
+        this.mLogic=logic;
 
     }
 
     @Override
     public void render(IGraphics graphics) {
         graphics.setColor(0xFFFFFFFF);
-        
+
+        for()
+
     }
 
     @Override

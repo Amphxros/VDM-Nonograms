@@ -140,4 +140,7 @@ public final class AndroidEngine extends Engine implements Runnable {
     public int getWidth(){
         return this.mView.getWidth();
     }
+    public int getHeight(){
+        return this.mView.getHeight();
+    }
 }
