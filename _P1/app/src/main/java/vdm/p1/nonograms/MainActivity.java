@@ -21,36 +21,36 @@ public class MainActivity extends AppCompatActivity {
 
     private MyRenderClass render;
 
-    private boolean run_example = false;
+    private boolean run_example=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Creamos el SurfaceView que "contendrá" nuestra escena
+        this.renderView = new SurfaceView(this);
+        setContentView(this.renderView);
 
-        if (run_example) {
-            //Creamos el SurfaceView que "contendrá" nuestra escena
-            this.renderView = new SurfaceView(this);
-            setContentView(this.renderView);
-            MyScene scene = new MyScene();
+        if(run_example){
+        MyScene scene = new MyScene();
 
-            this.render = new MyRenderClass(this.renderView);
-            scene.init(render);
-            render.setScene(scene);
-        } else {
-            mEngine_ = new AndroidEngine(this);
-            mLogic_ = new Logic(mEngine_);
+        this.render = new MyRenderClass(this.renderView);
+        scene.init(render);
+        render.setScene(scene);
+        }
+        else{
+            mEngine_= new AndroidEngine(this.renderView,this);
+            mLogic_= new Logic(mEngine_);
             mEngine_.setLogic(mLogic_);
             mLogic_.initLogic();
-            ;
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (run_example)
-            this.render.resume();
+        if(run_example)
+        this.render.resume();
         else
             mEngine_.resume();
     }
@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (run_example)
-            this.render.pause();
+        if(run_example)
+        this.render.pause();
         else
             mEngine_.pause();
     }
 
-}
+  }

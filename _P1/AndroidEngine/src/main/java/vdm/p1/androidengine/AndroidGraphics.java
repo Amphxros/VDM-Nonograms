@@ -24,16 +24,21 @@ public class AndroidGraphics implements IGraphics {
 
     private AssetManager mMngr_;
 
-    public AndroidGraphics(Context context, AssetManager mngr){
-        this.mView=new SurfaceView(context);
+    public AndroidGraphics(SurfaceView view,Context context, Canvas canvas, Paint paint){
+        this.mView= new SurfaceView(context);
         this.mHolder= this.mView.getHolder();
-        this.mPaint= new Paint();
-        this.mMngr_=mngr;
+        this.mPaint= paint;
+        this.mCanvas=canvas;
+        this.mMngr_= context.getAssets();
 
         this.mImages_= new HashMap<>();
         this.mFonts_= new HashMap<>();
 
         this.mPaint.setColor(0xFFFFFFFF); // ARGB
+    }
+
+    public void setCanvas(Canvas mCanvas) {
+        this.mCanvas = mCanvas;
     }
 
     public SurfaceView getView(){
@@ -46,21 +51,26 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void clear(int color){
-        this.mCanvas= this.mHolder.lockCanvas();
-        this.mCanvas.drawColor(color);
+
+        this.mCanvas = this.mHolder.lockCanvas();
+        this.mCanvas.drawColor(color); // ARGB
     }
 
     public void present(){
         this.mHolder.unlockCanvasAndPost(mCanvas);
     }
+
+    public boolean surfaceValid(){
+        return this.mHolder.getSurface().isValid();
+    }
     @Override
     public AndroidImage newImage(String name) {
-        return null;
+        return new AndroidImage(name, mMngr_);
     }
 
     @Override
     public AndroidFont newFont(String name, int size, boolean isBold) {
-        return null;
+        return new AndroidFont(name,mMngr_,size,isBold);
     }
 
     @Override
@@ -115,7 +125,7 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void setColor(int color) {
-
+        mPaint.setColor(color);
     }
 
     @Override

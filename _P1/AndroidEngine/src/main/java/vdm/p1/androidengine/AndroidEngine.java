@@ -2,6 +2,9 @@ package vdm.p1.androidengine;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.Console;
@@ -20,16 +23,24 @@ public final class AndroidEngine extends Engine implements Runnable {
     AndroidAudio androidAudio_;
 
 
-    public AndroidEngine(Context context){
+    private SurfaceView mView;
+    private SurfaceHolder mHolder;
+    private Canvas mCanvas;
+    private Paint mPaint;
 
-        this.mMngr_= context.getAssets();
-        androidGraphics_= new AndroidGraphics(context,mMngr_);
-        androidInput_= new AndroidInput();
+    public AndroidEngine(SurfaceView view,Context context){
+
+        this.mView=view;
+        this.mHolder=this.mView.getHolder();
+        this.mPaint=new Paint();
+        this.mPaint.setColor(0xFFFFFFFF);
+
+        androidGraphics_= new AndroidGraphics(mView,context,mCanvas,mPaint);
         androidAudio_= new AndroidAudio(context);
+        androidInput_= new AndroidInput();
 
         setGraphics(androidGraphics_);
-        setAudio(androidAudio_);
-        setInput(androidInput_);
+
 
 
     }
@@ -45,31 +56,50 @@ public final class AndroidEngine extends Engine implements Runnable {
 
         // Si el Thread se pone en marcha
         // muy rápido, la vista podría todavía no estar inicializada.
-        while(this.getView().getWidth() == 0);
+        while(this.running && this.mView.getWidth() == 0);
         // Espera activa. Sería más elegante al menos dormir un poco.
 
+        long lastFrameTime = System.nanoTime();
+        long informePrevio = lastFrameTime; // Informes de FPS
+        int frames = 0;
 
-        running=true;
-            long lastFrameTime = System.nanoTime();
-            long informePrevio = lastFrameTime; // Informes de FPS
-            int frames = 0;
+        // Bucle de juego principal.
+        while(running) {
+            long currentTime = System.nanoTime();
+            long nanoElapsedTime = currentTime - lastFrameTime;
+            lastFrameTime = currentTime;
 
-            while(running) {
-                long currentTime = System.nanoTime();
-                long nanoElapsedTime = currentTime - lastFrameTime;
-                lastFrameTime = currentTime;
-
-                this.render();
-                this.handleInput();
-
+            // Informe de FPS
+            double elapsedTime = (double) nanoElapsedTime / 1.0E9;
+            this.update(elapsedTime);
+            if (currentTime - informePrevio > 1000000000l) {
+                long fps = frames * 1000000000l / (currentTime - informePrevio);
+                System.out.println("" + fps + " fps");
+                frames = 0;
+                informePrevio = currentTime;
             }
+            ++frames;
+
+            // Pintamos el frame
+            this.render();
+
+                /*
+                // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
+                try { Thread.sleep(1); } catch(Exception e) {}
+    			*/
+        }
+
     }
     private void render(){
 
-
-        this.androidGraphics_.clear(0xFFAA00FF);
+        while (!this.mHolder.getSurface().isValid());
+        this.mCanvas = this.mHolder.lockCanvas();
+        androidGraphics_.setCanvas(this.mCanvas);
+        this.mCanvas.drawColor(0xFFB0A0FF); // ARGB
         mLogic_.render();
-        this.androidGraphics_.present();
+        this.mHolder.unlockCanvasAndPost(mCanvas);
+
+
     }
 
     private void update(double delta){
@@ -107,7 +137,7 @@ public final class AndroidEngine extends Engine implements Runnable {
         }
     }
 
-    public SurfaceView getView(){
-        return androidGraphics_.getView();
+    public int getWidth(){
+        return this.mView.getWidth();
     }
 }

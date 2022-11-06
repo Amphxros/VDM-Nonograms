@@ -12,7 +12,8 @@ public class Menu extends Scene{
 
     @Override
     public void render(IGraphics graphics) {
-        graphics.drawRectangle(0,0, 100,100);
+        graphics.setColor(0xFFFFFFFF);
+        
     }
 
     @Override

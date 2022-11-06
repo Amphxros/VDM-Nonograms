@@ -90,6 +90,7 @@ public interface IGraphics {
     void setFont(IFont font);
 
     void present();
+
     void clear(int color);
 
     void translate(int x, int y);
