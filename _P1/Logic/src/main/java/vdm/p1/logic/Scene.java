@@ -11,4 +11,7 @@ public abstract class Scene implements IScene{
     public ArrayList<GameObject> getGameObjects() {
         return mGameObjects_;
     }
+    public void addGameObject(GameObject go){
+        mGameObjects_.add(go);
+    }
 }

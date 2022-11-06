@@ -36,13 +36,30 @@ public class AndroidGraphics implements IGraphics {
         this.mPaint.setColor(0xFFFFFFFF); // ARGB
     }
 
+    public SurfaceView getView(){
+        return mView;
+    }
+
+    public Canvas getCanvas(){
+        return mCanvas;
+    }
+
     @Override
-    public IImage newImage(String name) {
+    public void clear(int color){
+        this.mCanvas= this.mHolder.lockCanvas();
+        this.mCanvas.drawColor(color);
+    }
+
+    public void present(){
+        this.mHolder.unlockCanvasAndPost(mCanvas);
+    }
+    @Override
+    public AndroidImage newImage(String name) {
         return null;
     }
 
     @Override
-    public IFont newFont(String name, int size, boolean isBold) {
+    public AndroidFont newFont(String name, int size, boolean isBold) {
         return null;
     }
 
@@ -56,9 +73,14 @@ public class AndroidGraphics implements IGraphics {
 
     }
 
+
+    public void drawImage(AndroidImage image, int x, int y, int width, int height) {
+        mCanvas.drawBitmap(image.getImage(),x,y,mPaint);
+    }
+
     @Override
     public void drawText(String text, int x, int y) {
-
+        mCanvas.drawText(text,x,y,mPaint);
     }
 
     @Override
@@ -101,10 +123,7 @@ public class AndroidGraphics implements IGraphics {
 
     }
 
-    @Override
-    public void clear(int color) {
 
-    }
 
     @Override
     public void translate(int x, int y) {
@@ -118,12 +137,12 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void save() {
-
+        mCanvas.save();
     }
 
     @Override
     public void restore() {
-
+        mCanvas.restore();
     }
 
     @Override

@@ -12,13 +12,14 @@ public class Menu extends Scene{
 
     @Override
     public void render(IGraphics graphics) {
-
+        graphics.drawRectangle(0,0, 100,100);
     }
 
     @Override
     public void update(double t) {
 
     }
+
 
     @Override
     public void handleInput(IInput input) {
