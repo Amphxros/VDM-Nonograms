@@ -39,8 +39,11 @@ public final class AndroidEngine extends Engine implements Runnable {
         androidAudio_= new AndroidAudio(context);
         androidInput_= new AndroidInput();
 
+        this.mView.setOnTouchListener(androidInput_);
+
         setGraphics(androidGraphics_);
         setInput(androidInput_);
+
     }
 
     @Override
@@ -72,7 +75,7 @@ public final class AndroidEngine extends Engine implements Runnable {
             this.update(elapsedTime);
             if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
-                System.out.println("" + fps + " fps");
+
                 frames = 0;
                 informePrevio = currentTime;
             }
@@ -100,6 +103,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 
     }
+
 
     private void update(double delta){
         mLogic_.update(delta);

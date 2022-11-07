@@ -9,14 +9,12 @@ import vdm.p1.engine.TouchEvent;
 
 public class AndroidInput extends Input implements View.OnTouchListener{
 
-    public AndroidInput(){
-        super();
-    }
-
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        TouchEvent t= new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.CLICKED);
-        mTouchEvents_.add(t);
+
+        System.out.println(" BOOP");
+        TouchEvent t= new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.MOVED);
+        addEvent(t);
         return true;
     }
 }

@@ -40,12 +40,16 @@ public final class Table extends GameObject{
         }
     }
 
-    public void handleInput(TouchEvent ev){
+    public boolean handleInput(TouchEvent ev){
             for(int i=0;i<nRows_;i++){
                 for(int j=0;j<mCols_;j++){
-                    mCasillas_[i][j].handleInput(ev);
+                    if (mCasillas_[i][j].handleInput(ev)){
+                        return true;
+                    }
                 }
             }
+
+            return false;
 
     }
 
