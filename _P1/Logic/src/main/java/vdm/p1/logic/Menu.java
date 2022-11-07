@@ -16,10 +16,10 @@ public class Menu extends Scene{
         super(width,height);
         this.mLogic=logic;
 
-        Table t= new Table(3,3,screen_width/4,screen_height/4,screen_width/2,screen_height/2);
+        Table t= new Table(10,10,screen_width/5,screen_height/4,screen_width/2,screen_width/2);
         addGameObject(t);
 
-        CheckSolutionButton c= new CheckSolutionButton(t,250,300, 600,150,"Check solution",new Color(0xCCCCFFFF));
+        CheckSolutionButton c= new CheckSolutionButton(t,screen_width/3,screen_height/10 ,screen_width/3,screen_height/12,"Check solution",new Color(0xCCCCFFFF));
         addGameObject(c);
     }
 

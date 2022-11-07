@@ -59,7 +59,7 @@ public final class AndroidEngine extends Engine implements Runnable {
         // muy rápido, la vista podría todavía no estar inicializada.
         while(this.running && this.mView.getWidth() == 0);
         // Espera activa. Sería más elegante al menos dormir un poco.
-
+        mLogic_.initLogic();
         long lastFrameTime = System.nanoTime();
         long informePrevio = lastFrameTime; // Informes de FPS
         int frames = 0;
