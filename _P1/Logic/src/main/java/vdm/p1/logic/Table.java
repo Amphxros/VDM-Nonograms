@@ -22,7 +22,7 @@ public final class Table extends GameObject{
         mCasillas_= new Cell[nRows][mCols];
         for(int i=0;i<nRows;i++){
             for(int j=0;j<mCols;j++){
-                mCasillas_[i][j]= new Cell(State.Marked, getPosition().getX() + i*200,getPosition().getY() +j*200,190,190);
+                mCasillas_[i][j]= new Cell(State.Marked, getPosition().getX() + i * mWidth_/nRows,getPosition().getY() +j*mHeight_/mCols,mWidth_/nRows,mHeight_/mCols);
             }
         }
     }
@@ -48,7 +48,6 @@ public final class Table extends GameObject{
                     }
                 }
             }
-
             return false;
 
     }

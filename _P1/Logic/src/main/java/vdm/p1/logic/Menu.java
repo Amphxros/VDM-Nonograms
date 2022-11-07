@@ -11,11 +11,11 @@ public class Menu extends Scene{
 
     ILogic mLogic;
 
-    public Menu(ILogic logic){
-        super();
+    public Menu(ILogic logic, int width, int height){
+        super(width,height);
         this.mLogic=logic;
 
-        Table t= new Table(3,3,250,700,600,600);
+        Table t= new Table(3,3,screen_width/4,screen_height/4,screen_width/2,screen_height/2);
         addGameObject(t);
 
         CheckSolutionButton c= new CheckSolutionButton(t,250,300, 600,150,"Check solution",0xFFCCCCFF);

@@ -8,8 +8,11 @@ import vdm.p1.engine.IInput;
 public abstract class Scene implements IScene{
 
     ArrayList<GameObject> mGameObjects_;
-
-    public Scene(){
+    int screen_width;
+    int screen_height;
+    public Scene( int width, int height){
+        this.screen_height=height;
+        this.screen_width=width;
         mGameObjects_= new ArrayList<GameObject>();
     }
 

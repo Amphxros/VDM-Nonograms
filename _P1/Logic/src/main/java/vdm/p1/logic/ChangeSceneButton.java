@@ -11,6 +11,7 @@ public class ChangeSceneButton extends Button{
         if(event.getX()>=mPosition_.getX() && event.getX()<=mPosition_.getX() + mWidth_ &&
                 event.getY()>=mPosition_.getY() && event.getY()<=mPosition_.getY() + mHeight_)
         {
+
             return true;
         }
 

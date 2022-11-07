@@ -35,7 +35,7 @@ public final class Cell extends GameObject{
                 graphics.setColor(0xFFFF0000);
                 break;
             case Marked:
-                graphics.setColor(0xFFEEEEEE);
+                graphics.setColor(0xFF000000);
                 break;
             case Correct:
                 graphics.setColor(0xFFFFAA00);
@@ -45,12 +45,14 @@ public final class Cell extends GameObject{
     }
     public boolean handleInput(TouchEvent event) {
 
-        if (currState_ == State.Empty) {
-            currState_ = State.Marked;
-            System.out.println(" touch");
-            return true;
+        if(event.getX()>=mPosition_.getX() && event.getX()<=mPosition_.getX() + mWidth_ &&
+                event.getY()>=mPosition_.getY() && event.getY()<=mPosition_.getY() + mHeight_) {
+            if (currState_ == State.Empty) {
+                currState_ = State.Marked;
+                System.out.println(" touch");
+                return true;
+            }
         }
-
         return false;
     }
 }

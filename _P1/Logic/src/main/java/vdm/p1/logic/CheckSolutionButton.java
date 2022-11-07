@@ -6,6 +6,8 @@ public class CheckSolutionButton extends Button{
     Table mTable_;
     public CheckSolutionButton(Table t,int x, int y, int w, int h, String msg, int color) {
         super(x, y, w, h,msg,color);
+        this.mTable_=t;
+
     }
     public boolean handleInput(TouchEvent event){
         if(event.getX()>=mPosition_.getX() && event.getX()<=mPosition_.getX() + mWidth_ &&
