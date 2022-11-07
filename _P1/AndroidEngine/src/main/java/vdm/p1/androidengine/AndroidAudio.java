@@ -9,19 +9,19 @@ import java.io.File;
 import vdm.p1.engine.IAudio;
 import vdm.p1.engine.ISound;
 
-
 public class AndroidAudio implements IAudio {
+
     private final Context context;
     public AndroidAudio(Context context) {
         this.context = context;
     }
+    public MediaPlayer player;
 
     @Override
     public ISound createSound(String filename) {
-        MediaPlayer player = MediaPlayer.create(context, Uri.fromFile(new File(filename)));
+        player = MediaPlayer.create(context, Uri.fromFile(new File(filename)));
         return new AndroidSound(player);
     }
-
 
     @Override
     public void playSound(ISound s) {
@@ -32,4 +32,7 @@ public class AndroidAudio implements IAudio {
     public void stopSound(ISound s) {
         s.stop();
     }
+
+    @Override   // Must be called before playing the sound
+    public void setLoop() {  this.player.setLooping(true);   }
 }
