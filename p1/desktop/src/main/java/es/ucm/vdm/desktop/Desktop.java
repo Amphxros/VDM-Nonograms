@@ -11,9 +11,9 @@ private static PCEngine eng;
         NonogramLogic logic= new NonogramLogic(eng);
         eng= new PCEngine("Nonograms",800,800);
         logic.setEngine(eng);
+        logic.initLogic();
         eng.setLogic(logic);
-        eng.run();
-
-
+        eng.resume();
+        // eng.closeGame();
     }
 }

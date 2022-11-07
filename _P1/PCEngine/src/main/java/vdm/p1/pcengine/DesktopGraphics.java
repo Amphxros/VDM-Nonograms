@@ -1,7 +1,9 @@
 package vdm.p1.pcengine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+
 import javax.swing.JFrame;
 
 import vdm.p1.engine.IFont;
@@ -22,12 +24,13 @@ public class DesktopGraphics implements IGraphics {
         this.window = window;
         int attempts = 10;
 
-        while(attempts > 10){
-            try{
+        while (attempts > 0) {
+            try {
                 this.window.createBufferStrategy(2);
                 break;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            catch(Exception e){ e.printStackTrace();  }
             attempts--;
         }
 
@@ -60,42 +63,42 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void drawText(String text, int x, int y) {
-
+        canvas.drawString(text, x, y);
     }
 
     @Override
     public void fillRectangle(int x, int y, int side) {
-
+        fillRectangle(x, y, side, side);
     }
 
     @Override
     public void fillRectangle(int x, int y, int width, int height) {
-
+        canvas.fillRect(x, y, width, height);
     }
 
     @Override
     public void drawRectangle(int x, int y, int side) {
-
+        drawRectangle(x, y, side, side);
     }
 
     @Override
     public void drawRectangle(int x, int y, int width, int height) {
-
+        canvas.drawRect(x, y, width, height);
     }
 
     @Override
     public void drawLine(int initX, int initY, int endX, int endY) {
-
+        canvas.drawLine(initX, initY, endX, endY);
     }
 
     @Override
     public void setResolution(int width, int height) {
-
+        window.setSize(width, height);
     }
 
     @Override
     public void setColor(int color) {
-
+        canvas.setColor(new Color(color));
     }
 
     @Override
@@ -105,11 +108,15 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void present() {
-
+        // Dispose the current canvas, replace with an updated one, and show the buffer.
+        canvas.dispose();
+        canvas = (Graphics2D) buffer.getDrawGraphics();
+        buffer.show();
     }
 
     @Override
     public void clear(int color) {
+        setColor(color);
         //this.canvas.setColor((DesktopColor)color.getColor());
         //this.canvas.fillRect(0, 0, this.getAncho(), this.getAlto());
         this.canvas.setPaintMode();

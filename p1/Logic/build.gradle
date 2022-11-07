@@ -8,5 +8,5 @@ java {
 }
 
 dependencies {
-    implementation project(path: ':engine')
+    api project(path: ':engine')
 }

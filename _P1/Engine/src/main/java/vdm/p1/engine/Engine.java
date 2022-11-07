@@ -1,14 +1,11 @@
 package vdm.p1.engine;
 
-public abstract class Engine implements IEngine{
+public abstract class Engine implements IEngine {
     protected IGraphics mGraphics_;
     protected IAudio mAudio_;
     protected Input mInput_;
     protected ILogic mLogic_;
 
-    public Engine(){
-
-    }
     /**
      * @return instance of the logic
      */

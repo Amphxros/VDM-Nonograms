@@ -1,18 +1,17 @@
 package vdm.p1.logic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vdm.p1.engine.IGraphics;
-import vdm.p1.engine.IInput;
+import vdm.p1.engine.ILogic;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 
 public class Menu extends Scene{
 
-    Logic mLogic;
+    ILogic mLogic;
 
-    public Menu(Logic logic){
+    public Menu(ILogic logic){
         super();
         this.mLogic=logic;
 

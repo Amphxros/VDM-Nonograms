@@ -2,22 +2,34 @@ package vdm.p1.pclauncher;
 
 import javax.swing.JFrame;
 
+import vdm.p1.logic.Logic;
+import vdm.p1.pcengine.DesktopEngine;
+
 public class MyClass {
 
     public static void main(String[] args) {
 
         JFrame renderView = new JFrame("Nonogramas");
 
-        renderView.setSize(600, 400);
+        renderView.setSize(1000, 1000);
         renderView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         renderView.setIgnoreRepaint(true);
-
         renderView.setVisible(true);
-        //Engine engine = new Engine(renderView);
 
-        //MyScene scene = new MyScene(engine);
+        DesktopEngine engine = new DesktopEngine(renderView);
+        Logic logic = new Logic(engine);
 
-        //engine.setScene(scene);
-        //engine.resume();
+        logic.initLogic();
+
+        // TODO: Replace it with a thread or whatever cool kids do nowadays
+        // Ultimately, move this loop inside DesktopEngine.
+        while (true) {
+            engine.getGraphics().clear(0x00000000);
+            double delta = 0;
+            logic.update(delta);
+            // logic.handleEvents();
+            logic.render();
+            engine.getGraphics().present();
+        }
     }
 }

@@ -8,8 +8,8 @@ public class MenuScene extends Scene{
         super();
         this.mLogic_=logic;
         //crear los elementos de la escena
-        //Table t= new Table(0,0,3, mLogic_.mEngine_.getHeight()/3,mLogic_.mEngine_.getHeight()/3 );
-        //addGameObject(t);
+        Table t= new Table(0,0,3, mLogic_.mEngine_.getHeight()/3,mLogic_.mEngine_.getHeight()/3 );
+        addGameObject(t);
 
     }
 
