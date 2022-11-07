@@ -39,8 +39,6 @@ public final class Logic implements ILogic {
 
     @Override
     public void handleEvents() {
-
         mCurrentScene_.handleInput(mEngine_.getInput());
-
     }
 }

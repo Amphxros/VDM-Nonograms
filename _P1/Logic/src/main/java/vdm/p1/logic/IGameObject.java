@@ -11,6 +11,6 @@ public interface IGameObject {
     int getHeight();
 
     void render(IGraphics graphics);
-    void update(float t);
+    void update(double t);
     boolean handleInput(TouchEvent event);
 }

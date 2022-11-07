@@ -5,10 +5,10 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 
 public final class Cell extends GameObject {
-    private static final Color EMPTY_COLOR = new Color(0xAAAAAAFF);
-    private static final Color WRONG_COLOR = new Color(0xFF0000FF);
-    private static final Color MARKED_COLOR = new Color(0x000000FF);
-    private static final Color CORRECT_COLOR = new Color(0xFFAA00FF);
+    private static final Color EMPTY_COLOR = new Color(170, 170, 170);
+    private static final Color WRONG_COLOR = new Color(255, 0, 0);
+    private static final Color MARKED_COLOR = new Color(0, 0, 0);
+    private static final Color CORRECT_COLOR = new Color(255, 170, 0);
 
     State current = State.Empty;
     State solution;
@@ -44,7 +44,7 @@ public final class Cell extends GameObject {
                 break;
         }
 
-        graphics.drawRectangle(getPosition().getX() - 1, getPosition().getY() - 1, mWidth_ - 2, mHeight_ - 2);
+        graphics.fillRectangle(getPosition().getX() - 1, getPosition().getY() - 1, mWidth_ - 2, mHeight_ - 2);
     }
 
     public boolean handleInput(TouchEvent event) {

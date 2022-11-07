@@ -23,7 +23,7 @@ public class Button extends GameObject{
     }
 
     @Override
-    public void update(float t) {
+    public void update(double t) {
 
     }
     public boolean handleInput(TouchEvent event) {

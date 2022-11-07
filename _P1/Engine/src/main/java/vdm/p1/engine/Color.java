@@ -22,7 +22,7 @@ public final class Color {
      * @param b The Blue value (0-255)
      */
     public Color(int r, int g, int b) {
-        this(r, g, b, 0);
+        this(r, g, b, 255);
     }
 
     /**

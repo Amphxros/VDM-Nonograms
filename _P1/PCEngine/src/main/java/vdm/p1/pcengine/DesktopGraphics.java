@@ -103,7 +103,7 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void setColor(vdm.p1.engine.Color color) {
-        canvas.setColor(new Color(color.getRGBA(), true));
+        canvas.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
     }
 
     @Override

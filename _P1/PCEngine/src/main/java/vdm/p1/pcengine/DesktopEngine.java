@@ -12,7 +12,11 @@ public final class DesktopEngine extends Engine {
 
         // setAudio(new DesktopAudio());
         setGraphics(new DesktopGraphics(frame));
-        // setInput(new DesktopInput());
+
+        DesktopInput input = new DesktopInput();
+        setInput(input);
+
+        frame.addMouseListener(input);
     }
 
     @Override

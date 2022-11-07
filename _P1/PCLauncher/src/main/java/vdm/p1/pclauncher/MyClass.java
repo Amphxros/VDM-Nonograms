@@ -24,8 +24,8 @@ public class MyClass {
         // Ultimately, move this loop inside DesktopEngine.
         while (true) {
             double delta = 0;
+            logic.handleEvents();
             logic.update(delta);
-            // logic.handleEvents();
             logic.render();
             engine.getGraphics().present();
         }

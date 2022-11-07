@@ -39,7 +39,7 @@ public abstract class GameObject implements IGameObject{
     public void render(IGraphics graphics){}
 
     @Override
-    public void update(float t){}
+    public void update(double t){}
 
     @Override
     public boolean handleInput(TouchEvent event) {return false;}

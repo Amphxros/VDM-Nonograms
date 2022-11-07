@@ -33,15 +33,15 @@ public class Menu extends Scene{
 
     @Override
     public void update(double t) {
-
+        for(GameObject go: mGameObjects_)
+            go.update(t);
     }
 
     @Override
     public void handleInput(Input input) {
         List<TouchEvent> events= input.getTouchEvents();
-        System.out.println("Scene " + events.size());
+        // System.out.println("Scene " + events.size());
         for(TouchEvent t: events){
-
             for(GameObject g: getGameObjects()){
                 g.handleInput(t);
             }
