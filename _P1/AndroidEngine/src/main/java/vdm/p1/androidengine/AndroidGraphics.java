@@ -51,8 +51,12 @@ public class AndroidGraphics implements IGraphics {
     }
 
     @Override
-    public void clear(int color){
+    public void clear(Color color) {
+        clear(color.getARGB());
+    }
 
+    @Override
+    public void clear(int color){
         this.mCanvas = this.mHolder.lockCanvas();
         this.mCanvas.drawColor(color); // ARGB
     }

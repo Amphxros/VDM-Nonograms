@@ -89,5 +89,6 @@ public final class Color {
         return ((color & 0xFF) << 24) | (color >> 8);
     }
 
-    public static final Color WHITE = new Color(255, 255, 255, 255);
+    public static final Color WHITE = new Color(255, 255, 255);
+    public static final Color BLACK = new Color(0, 0, 0);
 }

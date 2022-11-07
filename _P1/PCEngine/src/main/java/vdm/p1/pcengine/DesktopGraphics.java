@@ -120,10 +120,15 @@ public class DesktopGraphics implements IGraphics {
     }
 
     @Override
+    public void clear(vdm.p1.engine.Color color) {
+        setColor(color);
+        canvas.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    @Override
     public void clear(int color) {
         setColor(color);
         canvas.fillRect(0, 0, getWidth(), getHeight());
-        // this.canvas.setPaintMode();
     }
 
     @Override
