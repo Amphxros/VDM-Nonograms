@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 
 import java.util.HashMap;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
@@ -34,7 +35,7 @@ public class AndroidGraphics implements IGraphics {
         this.mImages_= new HashMap<>();
         this.mFonts_= new HashMap<>();
 
-        this.mPaint.setColor(0xFFFFFFFF); // ARGB
+        setColor(Color.WHITE);
     }
 
     public void setCanvas(Canvas mCanvas) {
@@ -125,7 +126,12 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void setColor(int color) {
-        mPaint.setColor(color);
+        mPaint.setColor(Color.rgbaToARGB(color));
+    }
+
+    @Override
+    public void setColor(Color color) {
+        mPaint.setColor(color.getARGB());
     }
 
     @Override

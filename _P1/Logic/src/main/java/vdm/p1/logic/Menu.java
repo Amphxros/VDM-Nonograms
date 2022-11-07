@@ -2,6 +2,7 @@ package vdm.p1.logic;
 
 import java.util.List;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.ILogic;
 import vdm.p1.engine.Input;
@@ -18,13 +19,13 @@ public class Menu extends Scene{
         Table t= new Table(3,3,screen_width/4,screen_height/4,screen_width/2,screen_height/2);
         addGameObject(t);
 
-        CheckSolutionButton c= new CheckSolutionButton(t,250,300, 600,150,"Check solution",0xFFCCCCFF);
+        CheckSolutionButton c= new CheckSolutionButton(t,250,300, 600,150,"Check solution",new Color(0xCCCCFFFF));
         addGameObject(c);
     }
 
     @Override
     public void render(IGraphics graphics) {
-        graphics.setColor(0xFFFFFFFF);
+        graphics.setColor(Color.WHITE);
         for(GameObject go: mGameObjects_)
             go.render(graphics);
 

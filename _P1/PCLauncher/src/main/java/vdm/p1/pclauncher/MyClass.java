@@ -8,7 +8,6 @@ import vdm.p1.pcengine.DesktopEngine;
 public class MyClass {
 
     public static void main(String[] args) {
-
         JFrame renderView = new JFrame("Nonogramas");
 
         renderView.setSize(1000, 1000);
@@ -24,7 +23,6 @@ public class MyClass {
         // TODO: Replace it with a thread or whatever cool kids do nowadays
         // Ultimately, move this loop inside DesktopEngine.
         while (true) {
-            engine.getGraphics().clear(0x00000000);
             double delta = 0;
             logic.update(delta);
             // logic.handleEvents();

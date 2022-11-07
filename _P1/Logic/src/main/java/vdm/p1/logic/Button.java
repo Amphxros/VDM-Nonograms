@@ -1,22 +1,24 @@
 package vdm.p1.logic;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 
 public class Button extends GameObject{
     String text_;
-    int mColor_;
-    public Button(int x, int y, int w, int h, String msg, int color) {
+    Color color;
+
+    public Button(int x, int y, int w, int h, String msg, Color color) {
         super(x, y, w, h);
         this.text_=msg;
-        this.mColor_=color;
+        this.color =color;
     }
 
     @Override
     public void render(IGraphics graphics) {
-        graphics.setColor(mColor_);
+        graphics.setColor(color);
         graphics.drawRectangle(mPosition_.getX(), mPosition_.getY(), mWidth_,mHeight_);
-        graphics.setColor(0xFFFFFFFF);
+        graphics.setColor(Color.WHITE);
         graphics.drawText(text_, mPosition_.getX() + mWidth_/3, mPosition_.getY() + mHeight_/2);
     }
 

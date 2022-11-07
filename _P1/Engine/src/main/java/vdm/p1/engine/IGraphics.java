@@ -85,7 +85,15 @@ public interface IGraphics {
 
     void setResolution(int width, int height);
 
+    /**
+     * @param color Sets the current color with a raw RGBA integer.
+     */
     void setColor(int color);
+
+    /**
+     * @param color Sets the current color with a {@link Color} instance.
+     */
+    void setColor(Color color);
 
     void setFont(IFont font);
 

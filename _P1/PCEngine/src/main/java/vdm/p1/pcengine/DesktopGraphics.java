@@ -98,7 +98,12 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void setColor(int color) {
-        canvas.setColor(new Color(color));
+        canvas.setColor(new Color(color, true));
+    }
+
+    @Override
+    public void setColor(vdm.p1.engine.Color color) {
+        canvas.setColor(new Color(color.getRGBA(), true));
     }
 
     @Override
@@ -108,18 +113,17 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void present() {
-        // Dispose the current canvas, replace with an updated one, and show the buffer.
+        // Show the buffer, then dispose the current canvas and replace with an updated one.
+        buffer.show();
         canvas.dispose();
         canvas = (Graphics2D) buffer.getDrawGraphics();
-        buffer.show();
     }
 
     @Override
     public void clear(int color) {
         setColor(color);
-        //this.canvas.setColor((DesktopColor)color.getColor());
-        //this.canvas.fillRect(0, 0, this.getAncho(), this.getAlto());
-        this.canvas.setPaintMode();
+        canvas.fillRect(0, 0, getWidth(), getHeight());
+        // this.canvas.setPaintMode();
     }
 
     @Override
