@@ -6,9 +6,9 @@ import vdm.p1.engine.TouchEvent;
 
 public final class Cell extends GameObject {
     private static final Color EMPTY_COLOR = new Color(170, 170, 170);
-    private static final Color WRONG_COLOR = new Color(200, 100, 222);
+    private static final Color WRONG_COLOR = new Color(255, 255, 255);
     private static final Color MARKED_COLOR = new Color(0, 0, 0);
-    private static final Color CORRECT_COLOR = new Color(255, 255, 255);
+    private static final Color CORRECT_COLOR = new Color(25, 25, 255);
 
     State current = State.Empty;
     State solution;

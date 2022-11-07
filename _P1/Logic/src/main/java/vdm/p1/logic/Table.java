@@ -38,13 +38,13 @@ public final class Table extends GameObject{
         for(int i=0;i<nRows;i++){
             for(int j=0;j<mCols;j++){
                 if(solutions[i].getSolutionOnRow()[j]){
-                    pistas_fila[i]++;
-                    pistas_columna[j]++;
+                    pistas_fila[j]++;
+                    pistas_columna[i]++;
                     mCasillas_[i][j]= new Cell(State.Marked, getPosition().getX() + (i+2) * mHeight_/mCols_,getPosition().getY() +(j+2)*mHeight_/mCols,mHeight_/mCols,mHeight_/mCols);
                 }
                 else {
-                    pistas_fila[i]*=10;
-                    pistas_columna[j]*=10;
+                    pistas_fila[j]*=10;
+                    pistas_columna[i]*=10;
                     mCasillas_[i][j]= new Cell(State.Empty, getPosition().getX() + (i+2) * mHeight_/mCols_,getPosition().getY() +(j+2)*mHeight_/mCols,mHeight_/mCols,mHeight_/mCols);
                 }
             }
@@ -65,14 +65,16 @@ public final class Table extends GameObject{
             graphics.drawRectangle(getPosition().getX(), getPosition().getY()+ (i+2) * mHeight_/mCols_,2*(mHeight_)/mCols_,(mHeight_-20)/mCols_);
             graphics.setColor(0xDEDEFFFF);
             String s=pistas_fila[i]+ "";
-            graphics.drawText(s, getPosition().getX(), getPosition().getY()+ (i+2) * mHeight_/mCols_);
+            s=s.replace('0',' '); // trim all the spaces
+            graphics.drawText(s, getPosition().getX()+(mHeight_/mCols_)/2  , getPosition().getY()+ (i+3) * mHeight_/mCols_);
         }
         for(int i=0;i< pistas_columna.length;i++){
             graphics.setColor(0x000000FF);
             graphics.drawRectangle(getPosition().getX() + (i+2) * mHeight_/mCols_, getPosition().getY(),(mHeight_-20)/mCols_,2*mHeight_/mCols_);
             graphics.setColor(0xDEDEFFFF);
             String s=pistas_columna[i]+ "";
-            graphics.drawText(s, getPosition().getX()+ (i+2) * mHeight_/mCols_, getPosition().getY()+mHeight_/mCols_);
+            s=s.replace('0',' ');// trim all the spaces
+            graphics.drawText(s, getPosition().getX()+ (i+2) * mHeight_/mCols_, getPosition().getY()+(mHeight_/mCols_)/2);
         }
 
         for(int i=0;i<nRows_;i++){

@@ -16,7 +16,7 @@ public class Menu extends Scene{
         super(width,height);
         this.mLogic=logic;
 
-        Table t= new Table(10,10,screen_width/5,screen_height/4,screen_width/2,screen_width/2);
+        Table t= new Table(5,5,screen_width/5,screen_height/4,screen_width/2,screen_width/2);
         addGameObject(t);
 
         CheckSolutionButton c= new CheckSolutionButton(t,screen_width/3,screen_height/10 ,screen_width/3,screen_height/12,"Check solution",new Color(0xCCCCFFFF));
