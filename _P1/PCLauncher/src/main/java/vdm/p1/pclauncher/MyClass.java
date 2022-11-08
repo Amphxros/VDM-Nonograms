@@ -18,6 +18,7 @@ public class MyClass {
 
         DesktopEngine engine = new DesktopEngine(renderView);
         Logic logic = new Logic(engine);
+        engine.setLogic(logic);
 
         logic.initLogic();
         Color background = new Color(0xB0, 0xA0, 0xFF);

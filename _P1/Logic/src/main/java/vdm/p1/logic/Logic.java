@@ -2,46 +2,47 @@ package vdm.p1.logic;
 
 import vdm.p1.engine.Engine;
 import vdm.p1.engine.ILogic;
-import vdm.p1.logic.scenes.Menu;
 import vdm.p1.logic.scenes.Scene;
+import vdm.p1.logic.scenes.StartScene;
 
 public final class Logic implements ILogic {
-    Engine mEngine_;
-    IScene mCurrentScene_;
+    Engine engine;
+    IScene currentScene;
 
-    public Logic(Engine eng){
-        this.mEngine_=eng;
-
+    public Logic(Engine eng) {
+        this.engine = eng;
     }
 
-    public Engine getEngine(){return mEngine_;}
+    public Engine getEngine() {
+        return engine;
+    }
 
     @Override
     public void setEngine(Engine eng) {
-        this.mEngine_= eng;
+        this.engine = eng;
     }
 
     @Override
     public void initLogic() {
-        mCurrentScene_= new Menu(getEngine(), mEngine_.getWidth(), mEngine_.getHeight());
+        currentScene = new StartScene(getEngine());
     }
 
-    public void ChangeScene(Scene scene){
-        mCurrentScene_=scene;
+    public void changeScene(Scene scene) {
+        currentScene = scene;
     }
 
     @Override
     public void update(double t) {
-        mCurrentScene_.update(t);
+        currentScene.update(t);
     }
 
     @Override
     public void render() {
-        mCurrentScene_.render(mEngine_.getGraphics());
+        currentScene.render(engine.getGraphics());
     }
 
     @Override
     public void handleEvents() {
-        mCurrentScene_.handleInput(mEngine_.getInput());
+        currentScene.handleInput(engine.getInput());
     }
 }

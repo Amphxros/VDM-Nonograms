@@ -1,11 +1,11 @@
 package vdm.p1.androidengine;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 
 import java.util.HashMap;
 
@@ -20,34 +20,34 @@ public class AndroidGraphics implements IGraphics {
     private Canvas mCanvas;
     private Paint mPaint;
 
-    private HashMap<String,AndroidImage> mImages_;
-    private  HashMap<String, IFont> mFonts_;
+    private HashMap<String, AndroidImage> mImages_;
+    private HashMap<String, IFont> mFonts_;
 
     private AssetManager mMngr_;
 
-    public AndroidGraphics(SurfaceView view,Context context, Canvas canvas, Paint paint){
-        this.mView= new SurfaceView(context);
-        this.mHolder= this.mView.getHolder();
-        this.mPaint= paint;
-        this.mCanvas=canvas;
-        this.mMngr_= context.getAssets();
+    public AndroidGraphics(SurfaceView view, Context context, Canvas canvas, Paint paint) {
+        this.mView = new SurfaceView(context);
+        this.mHolder = this.mView.getHolder();
+        this.mPaint = paint;
+        this.mCanvas = canvas;
+        this.mMngr_ = context.getAssets();
 
-        this.mImages_= new HashMap<>();
-        this.mFonts_= new HashMap<>();
+        this.mImages_ = new HashMap<>();
+        this.mFonts_ = new HashMap<>();
 
         setColor(Color.WHITE);
     }
 
-    public void setCanvas(Canvas mCanvas) {
-        this.mCanvas = mCanvas;
-    }
-
-    public SurfaceView getView(){
+    public SurfaceView getView() {
         return mView;
     }
 
-    public Canvas getCanvas(){
+    public Canvas getCanvas() {
         return mCanvas;
+    }
+
+    public void setCanvas(Canvas mCanvas) {
+        this.mCanvas = mCanvas;
     }
 
     @Override
@@ -56,18 +56,19 @@ public class AndroidGraphics implements IGraphics {
     }
 
     @Override
-    public void clear(int color){
+    public void clear(int color) {
         this.mCanvas = this.mHolder.lockCanvas();
         this.mCanvas.drawColor(color); // ARGB
     }
 
-    public void present(){
+    public void present() {
         this.mHolder.unlockCanvasAndPost(mCanvas);
     }
 
-    public boolean surfaceValid(){
+    public boolean surfaceValid() {
         return this.mHolder.getSurface().isValid();
     }
+
     @Override
     public AndroidImage newImage(String name) {
         return new AndroidImage(name, mMngr_);
@@ -75,7 +76,7 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public AndroidFont newFont(String name, int size, boolean isBold) {
-        return new AndroidFont(name,mMngr_,size,isBold);
+        return new AndroidFont(name, mMngr_, size, isBold);
     }
 
     @Override
@@ -90,37 +91,39 @@ public class AndroidGraphics implements IGraphics {
 
 
     public void drawImage(AndroidImage image, int x, int y, int width, int height) {
-        mCanvas.drawBitmap(image.getImage(),x,y,mPaint);
+        mCanvas.drawBitmap(image.getImage(), x, y, mPaint);
     }
 
     @Override
     public void drawText(String text, int x, int y) {
-        mCanvas.drawText(text,x,y,mPaint);
+        mCanvas.drawText(text, x, y, mPaint);
     }
 
     @Override
     public void fillRectangle(int x, int y, int side) {
-        mCanvas.drawRect(x,y,x + side,y + side,mPaint);
+        fillRectangle(x, y, side, side);
     }
 
     @Override
     public void fillRectangle(int x, int y, int width, int height) {
-        mCanvas.drawRect(x,y,x + width,y + height,mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
+        mCanvas.drawRect(x, y, x + width, y + height, mPaint);
     }
 
     @Override
     public void drawRectangle(int x, int y, int side) {
-        mCanvas.drawRect(x,y,x + side,y + side,mPaint);
+        drawRectangle(x, y, side, side);
     }
 
     @Override
     public void drawRectangle(int x, int y, int width, int height) {
-        mCanvas.drawRect(x,y,x + width,y + height,mPaint);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mCanvas.drawRect(x, y, x + width, y + height, mPaint);
     }
 
     @Override
     public void drawLine(int initX, int initY, int endX, int endY) {
-        mCanvas.drawLine(initX, initY,endX,endY, mPaint);
+        mCanvas.drawLine(initX, initY, endX, endY, mPaint);
     }
 
     @Override
@@ -142,7 +145,6 @@ public class AndroidGraphics implements IGraphics {
     public void setFont(IFont font) {
 
     }
-
 
 
     @Override

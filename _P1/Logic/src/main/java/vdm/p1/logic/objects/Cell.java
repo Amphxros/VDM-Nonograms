@@ -1,9 +1,11 @@
-package vdm.p1.logic;
+package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.EventType;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
+import vdm.p1.logic.GameObject;
+import vdm.p1.logic.State;
 
 public final class Cell extends GameObject {
     private static final Color EMPTY_COLOR = new Color(170, 170, 170);

@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
-import vdm.p1.logic.Cell;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.State;
 import vdm.p1.logic.layout.FlowDirection;
