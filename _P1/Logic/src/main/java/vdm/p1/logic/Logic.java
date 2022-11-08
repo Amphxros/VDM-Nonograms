@@ -20,7 +20,7 @@ public final class Logic implements ILogic {
 
     @Override
     public void initLogic() {
-        mCurrentScene_= new Menu(this, mEngine_.getWidth(), mEngine_.getHeight());
+        mCurrentScene_= new Menu(getEngine(), mEngine_.getWidth(), mEngine_.getHeight());
     }
 
     public void ChangeScene(Scene scene){

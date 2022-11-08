@@ -17,9 +17,9 @@ public class Button extends GameObject{
     @Override
     public void render(IGraphics graphics) {
         graphics.setColor(color);
-        graphics.fillRectangle(mPosition_.getX(), mPosition_.getY(), mWidth_,mHeight_);
+        graphics.fillRectangle(position.getX(), position.getY(), width, height);
         graphics.setColor(Color.WHITE);
-        graphics.drawText(text_, mPosition_.getX() + mWidth_/3, mPosition_.getY() + mHeight_/2);
+        graphics.drawText(text_, position.getX() + width /3, position.getY() + height /2);
     }
 
     @Override

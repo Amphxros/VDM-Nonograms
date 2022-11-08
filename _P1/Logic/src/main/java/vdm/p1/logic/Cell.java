@@ -47,12 +47,12 @@ public final class Cell extends GameObject {
                 break;
         }
 
-        graphics.fillRectangle(getPosition().getX() - 1, getPosition().getY() - 1, mWidth_ - 2, mHeight_ - 2);
+        graphics.fillRectangle(getPosition().getX() - 1, getPosition().getY() - 1, width - 2, height - 2);
     }
 
     public boolean handleInput(TouchEvent event) {
-        if (event.getX() >= mPosition_.getX() && event.getX() <= mPosition_.getX() + mWidth_ &&
-                event.getY() >= mPosition_.getY() && event.getY() <= mPosition_.getY() + mHeight_) {
+        if (event.getX() >= position.getX() && event.getX() <= position.getX() + width &&
+                event.getY() >= position.getY() && event.getY() <= position.getY() + height) {
             if (current == State.Empty) {
                 current = State.Marked;
                 System.out.println(" touch");

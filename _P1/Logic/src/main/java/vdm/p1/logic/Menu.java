@@ -3,18 +3,26 @@ package vdm.p1.logic;
 import java.util.List;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
-import vdm.p1.engine.ILogic;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
+import vdm.p1.logic.layout.Body;
+import vdm.p1.logic.layout.Container;
+import vdm.p1.logic.layout.VerticalAlignment;
 
 public class Menu extends Scene {
 
-    ILogic mLogic;
+    IEngine engine;
 
-    public Menu(ILogic logic, int width, int height) {
+    public Menu(IEngine engine, int width, int height) {
         super(width, height);
-        this.mLogic = logic;
+        this.engine = engine;
+
+        GameObject container = new Container(400, 600, VerticalAlignment.TOP);
+        GameObject body = new Body(engine);
+        body.addChild(container);
+        addGameObject(body);
 
         Table t = new Table(5, 5, screen_width / 5, screen_height / 4, screen_width / 2, screen_width / 2);
         addGameObject(t);

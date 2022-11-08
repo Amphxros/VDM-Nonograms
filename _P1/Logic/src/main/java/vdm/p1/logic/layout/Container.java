@@ -1,0 +1,122 @@
+package vdm.p1.logic.layout;
+
+import vdm.p1.engine.Color;
+import vdm.p1.engine.IGraphics;
+import vdm.p1.logic.GameObject;
+
+public final class Container extends GameObject {
+    private final VerticalAlignment alignment;
+    private final int innerW;
+    private final int innerH;
+    private int parentW = 0;
+    private int parentH = 0;
+
+    public Container(int innerW, int innerH) {
+        this(innerW, innerH, VerticalAlignment.MIDDLE);
+    }
+
+    public Container(int innerW, int innerH, VerticalAlignment alignment) {
+        super(0, 0, 0, 0);
+        this.innerW = innerW;
+        this.innerH = innerH;
+        this.alignment = alignment;
+    }
+
+    @Override
+    public void update(double t) {
+        updatePositionAndSize();
+
+        super.update(t);
+    }
+
+    @Override
+    public void render(IGraphics graphics) {
+        graphics.setColor(Color.WHITE);
+        graphics.fillRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
+
+        super.render(graphics);
+    }
+
+    private void updatePositionAndSize() {
+        GameObject parent = getParent();
+
+        if (parent.getWidth() != parentW || parent.getHeight() != parentH) {
+            parentW = parent.getWidth();
+            parentH = parent.getHeight();
+
+            updateSize();
+        }
+
+        updateHorizontalPosition();
+        updateVerticalPosition();
+    }
+
+    private void updateSize() {
+        double ratioI = innerW / (double) innerH;
+        double ratioP = parentW / (double) parentH;
+
+        if (ratioI == ratioP) {
+            // Container and Parent have the same ratio:
+            //   → Set width and height of parent
+
+            setWidth(parentW);
+            setHeight(parentH);
+        } else if (ratioI > ratioP) {
+            // Container's height is smaller than Parent's:
+            //   → Set width of parent, calculate height
+
+            setWidth(parentW);
+            setHeight((int) (parentW / ratioI));
+        } else {
+            // Container's width is smaller than Parent's:
+            //   → Set height of parent, calculate width
+
+            setWidth((int) (parentH * ratioI));
+            setHeight(parentH);
+        }
+    }
+
+    /**
+     * This must be called strictly after {@link Container#updateSize} for better results.
+     */
+    private void updateHorizontalPosition() {
+        int leftX = getParent().getPosition().getX();
+        double midPW = parentW / 2.0;
+        double midW = getWidth() / 2.0;
+
+        getPosition().setX((int) (leftX + midPW - midW));
+    }
+
+    /**
+     * This must be called strictly after {@link Container#updateSize} for better results.
+     */
+    private void updateVerticalPosition() {
+        switch (alignment) {
+            case TOP:
+                updateVerticalTopPosition();
+                break;
+            case MIDDLE:
+                updateVerticalMiddlePosition();
+                break;
+            case BOTTOM:
+                updateVerticalBottomPosition();
+                break;
+        }
+    }
+
+    private void updateVerticalTopPosition() {
+        getPosition().setY(getParent().getPosition().getY());
+    }
+
+    private void updateVerticalMiddlePosition() {
+        int topY = getParent().getPosition().getY();
+        double midPH = parentH / 2.0;
+        double midH = getHeight() / 2.0;
+
+        getPosition().setY((int) (topY + midPH - midH));
+    }
+
+    private void updateVerticalBottomPosition() {
+        getPosition().setY(getParent().getPosition().getY() + parentH - getHeight());
+    }
+}

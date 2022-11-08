@@ -9,8 +9,8 @@ public class ChangeSceneButton extends Button{
     }
 
     public boolean handleInput(TouchEvent event){
-        if(event.getX()>=mPosition_.getX() && event.getX()<=mPosition_.getX() + mWidth_ &&
-                event.getY()>=mPosition_.getY() && event.getY()<=mPosition_.getY() + mHeight_)
+        if(event.getX()>= position.getX() && event.getX()<= position.getX() + width &&
+                event.getY()>= position.getY() && event.getY()<= position.getY() + height)
         {
 
             return true;

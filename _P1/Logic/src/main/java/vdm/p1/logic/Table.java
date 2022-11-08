@@ -40,11 +40,11 @@ public final class Table extends GameObject {
                 if (solutions[i].getSolutionOnRow()[j]) {
                     pistas_fila[j]++;
                     pistas_columna[i]++;
-                    mCasillas_[i][j] = new Cell(State.Marked, getPosition().getX() + (i + 2) * mHeight_ / mCols_, getPosition().getY() + (j + 2) * mHeight_ / mCols, mHeight_ / mCols, mHeight_ / mCols);
+                    mCasillas_[i][j] = new Cell(State.Marked, getPosition().getX() + (i + 2) * height / mCols_, getPosition().getY() + (j + 2) * height / mCols, height / mCols, height / mCols);
                 } else {
                     pistas_fila[j] *= 10;
                     pistas_columna[i] *= 10;
-                    mCasillas_[i][j] = new Cell(State.Empty, getPosition().getX() + (i + 2) * mHeight_ / mCols_, getPosition().getY() + (j + 2) * mHeight_ / mCols, mHeight_ / mCols, mHeight_ / mCols);
+                    mCasillas_[i][j] = new Cell(State.Empty, getPosition().getX() + (i + 2) * height / mCols_, getPosition().getY() + (j + 2) * height / mCols, height / mCols, height / mCols);
                 }
             }
         }
@@ -56,22 +56,22 @@ public final class Table extends GameObject {
     @Override
     public void render(IGraphics graphics) {
         graphics.setColor(TABLE_BACKGROUND_COLOR);
-        graphics.fillRectangle(mPosition_.getX(), mPosition_.getY(), fondow, fondoh);
+        graphics.fillRectangle(position.getX(), position.getY(), fondow, fondoh);
 
         for (int i = 0; i < pistas_fila.length; i++) {
             graphics.setColor(HINT_BACKGROUND_COLOR);
-            graphics.fillRectangle(getPosition().getX(), getPosition().getY() + (i + 2) * mHeight_ / mCols_, 2 * (mHeight_) / mCols_, (mHeight_ - 20) / mCols_);
+            graphics.fillRectangle(getPosition().getX(), getPosition().getY() + (i + 2) * height / mCols_, 2 * (height) / mCols_, (height - 20) / mCols_);
             graphics.setColor(HINT_FOREGROUND_COLOR);
             String s = Integer.toString(pistas_fila[i]).replaceAll("0+", "").replaceAll("", " ");
-            graphics.drawText(s, getPosition().getX() + (mHeight_ / mCols_) / 2, getPosition().getY() + (i + 3) * mHeight_ / mCols_);
+            graphics.drawText(s, getPosition().getX() + (height / mCols_) / 2, getPosition().getY() + (i + 3) * height / mCols_);
         }
 
         for (int i = 0; i < pistas_columna.length; i++) {
             graphics.setColor(HINT_BACKGROUND_COLOR);
-            graphics.fillRectangle(getPosition().getX() + (i + 2) * mHeight_ / mCols_, getPosition().getY(), (mHeight_ - 20) / mCols_, 2 * mHeight_ / mCols_);
+            graphics.fillRectangle(getPosition().getX() + (i + 2) * height / mCols_, getPosition().getY(), (height - 20) / mCols_, 2 * height / mCols_);
             graphics.setColor(HINT_FOREGROUND_COLOR);
             String s = Integer.toString(pistas_columna[i]).replaceAll("0+", "").replaceAll("", " ");
-            graphics.drawText(s, getPosition().getX() + (i + 2) * mHeight_ / mCols_, getPosition().getY() + (mHeight_ / mCols_) / 2);
+            graphics.drawText(s, getPosition().getX() + (i + 2) * height / mCols_, getPosition().getY() + (height / mCols_) / 2);
         }
 
         for (int i = 0; i < nRows_; i++) {
