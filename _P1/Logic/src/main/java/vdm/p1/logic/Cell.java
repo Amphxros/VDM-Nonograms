@@ -48,7 +48,7 @@ public final class Cell extends GameObject {
                 break;
         }
 
-        graphics.fillRectangle(getPosition().getX() - 1, getPosition().getY() - 1, width - 2, height - 2);
+        graphics.fillRectangle(getPosition().getX() + 1, getPosition().getY() + 1, width - 2, height - 2);
     }
 
     public boolean handleInput(TouchEvent event) {
@@ -73,5 +73,14 @@ public final class Cell extends GameObject {
             }
         }
         return false;
+    }
+
+    @Override
+    public void handleParentScreenChange() {
+        setPosition(getParent().getPosition());
+        setWidth(getParent().getWidth());
+        setHeight(getParent().getHeight());
+
+        super.handleParentScreenChange();
     }
 }

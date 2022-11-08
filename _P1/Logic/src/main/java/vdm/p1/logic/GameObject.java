@@ -12,6 +12,10 @@ public abstract class GameObject implements IGameObject {
     GameObject parent = null;
     Vector<GameObject> children = new Vector<>();
 
+    public GameObject() {
+        this(0, 0, 0, 0);
+    }
+
     public GameObject(int x, int y, int w, int h) {
         this.position = new Vector2D(x, y);
         this.width = w;
@@ -21,6 +25,11 @@ public abstract class GameObject implements IGameObject {
     @Override
     public Vector2D getPosition() {
         return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position.setX(position.getX());
+        this.position.setY(position.getY());
     }
 
     @Override
