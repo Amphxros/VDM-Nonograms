@@ -14,6 +14,9 @@ public class AndroidFont implements IFont {
         this.size_=size;
         mFont_=Typeface.create(Typeface.createFromAsset(mngr,route),size,isBold);
     }
+    public Typeface getFont(){
+        return mFont_;
+    }
 
     @Override
     public int getSize() {

@@ -19,6 +19,7 @@ public class Menu extends Scene {
         super(width, height);
         this.engine = engine;
 
+
         GameObject container = new Container(400, 600, VerticalAlignment.TOP);
         GameObject body = new Body(engine);
         body.addChild(container);

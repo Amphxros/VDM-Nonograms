@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 
 import java.io.File;
+import java.util.HashMap;
 
 import vdm.p1.engine.IAudio;
 import vdm.p1.engine.ISound;
@@ -12,14 +13,19 @@ import vdm.p1.engine.ISound;
 public class AndroidAudio implements IAudio {
 
     private final Context context;
+    public MediaPlayer player;
+    private HashMap<String, AndroidSound> mSounds_;
+
     public AndroidAudio(Context context) {
         this.context = context;
+        mSounds_= new HashMap<String,AndroidSound>();
     }
-    public MediaPlayer player;
+
 
     @Override
     public ISound createSound(String filename) {
         player = MediaPlayer.create(context, Uri.fromFile(new File(filename)));
+
         return new AndroidSound(player);
     }
 

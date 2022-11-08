@@ -9,6 +9,7 @@ public final class Logic implements ILogic {
 
     public Logic(Engine eng){
         this.mEngine_=eng;
+
     }
 
     public Engine getEngine(){return mEngine_;}

@@ -1,6 +1,7 @@
 package vdm.p1.logic;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.EventType;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 
@@ -51,15 +52,26 @@ public final class Cell extends GameObject {
     }
 
     public boolean handleInput(TouchEvent event) {
-        if (event.getX() >= position.getX() && event.getX() <= position.getX() + width &&
-                event.getY() >= position.getY() && event.getY() <= position.getY() + height) {
-            if (current == State.Empty) {
-                current = State.Marked;
-                System.out.println(" touch");
+        if(event.getType()== EventType.PRESSED_DOWN ||event.getType()== EventType.CLICKED ){
+            if (event.getX() >= position.getX() && event.getX() <= position.getX() + width && event.getY() >= position.getY() && event.getY() <= position.getY() + height) {
+                if (current == State.Empty) {
+                    current = State.Marked;
+                }
+                else if (current==State.Marked){
+                    current = State.Empty;
+                }
                 return true;
             }
         }
 
+        else if(event.getType()== EventType.MOVED){
+            if (event.getX() >= position.getX() && event.getX() <= position.getX() + width && event.getY() >= position.getY() && event.getY() <= position.getY() + height) {
+                if (current == State.Empty) {
+                    current = State.Marked;
+                }
+                return true;
+            }
+        }
         return false;
     }
 }

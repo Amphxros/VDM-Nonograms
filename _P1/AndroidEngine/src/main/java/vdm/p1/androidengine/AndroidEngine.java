@@ -43,6 +43,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 
         setGraphics(androidGraphics_);
         setInput(androidInput_);
+        setAudio(androidAudio_);
 
     }
 
@@ -63,6 +64,7 @@ public final class AndroidEngine extends Engine implements Runnable {
         long lastFrameTime = System.nanoTime();
         long informePrevio = lastFrameTime; // Informes de FPS
         int frames = 0;
+
 
         // Bucle de juego principal.
         while(running) {
