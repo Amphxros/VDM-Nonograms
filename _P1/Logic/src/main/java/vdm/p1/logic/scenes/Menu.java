@@ -27,9 +27,8 @@ public class Menu extends Scene {
 
         Table table = new Table(5);
 
-        ISound s= engine.getAudio().createSound("Audio/Meadow Thoughts.ogg");
+        ISound s = engine.getAudio().createSound("Audio/Meadow Thoughts");
         engine.getAudio().playSound(s);
-
 
         GameObject giveUpButton = new Text("Rendirse").setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.TOP);
         GameObject checkText = new Text("Comprobar");

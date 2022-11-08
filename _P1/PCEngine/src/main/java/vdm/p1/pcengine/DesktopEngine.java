@@ -10,7 +10,7 @@ public final class DesktopEngine extends Engine {
     public DesktopEngine(JFrame frame) {
         this.frame = frame;
 
-        // setAudio(new DesktopAudio());
+        setAudio(new DesktopAudio());
         setGraphics(new DesktopGraphics(frame));
 
         DesktopInput input = new DesktopInput();

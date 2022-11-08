@@ -19,7 +19,7 @@ public class DesktopGraphics implements IGraphics {
     public int logicWidth;
     public int logicHeight;
 
-    public DesktopGraphics(JFrame window){
+    public DesktopGraphics(JFrame window) {
 
         this.window = window;
         int attempts = 10;

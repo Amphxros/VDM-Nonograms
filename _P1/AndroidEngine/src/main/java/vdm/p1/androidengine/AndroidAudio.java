@@ -26,7 +26,7 @@ public class AndroidAudio implements IAudio {
     public AndroidSound createSound(String filename) {
 
         try {
-            AssetFileDescriptor afd = context.getAssets().openFd(filename);
+            AssetFileDescriptor afd = context.getAssets().openFd(filename + ".ogg");
             player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
             afd.close();
             player.prepare();
