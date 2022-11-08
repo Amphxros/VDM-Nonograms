@@ -20,20 +20,11 @@ public class Padding extends GameObject {
     }
 
     public Padding(double marginTop, double marginRight, double marginBottom, double marginLeft) {
-        super(0, 0, 0, 0);
+        super();
         this.marginTop = marginTop;
         this.marginRight = marginRight;
         this.marginBottom = marginBottom;
         this.marginLeft = marginLeft;
-    }
-
-    @Override
-    public void render(IGraphics graphics) {
-        // TODO: Visualization only, remove before delivering the project.
-        graphics.setColor(new Color(200, 120, 40));
-        graphics.fillRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
-
-        super.render(graphics);
     }
 
     @Override

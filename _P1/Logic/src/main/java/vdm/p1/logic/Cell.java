@@ -77,9 +77,7 @@ public final class Cell extends GameObject {
 
     @Override
     public void handleParentScreenChange() {
-        setPosition(getParent().getPosition());
-        setWidth(getParent().getWidth());
-        setHeight(getParent().getHeight());
+        inheritParentArea();
 
         super.handleParentScreenChange();
     }

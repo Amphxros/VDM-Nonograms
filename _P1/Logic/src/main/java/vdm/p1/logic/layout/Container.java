@@ -14,19 +14,10 @@ public final class Container extends GameObject {
     }
 
     public Container(int innerW, int innerH, VerticalAlignment alignment) {
-        super(0, 0, 0, 0);
+        super();
         this.innerW = innerW;
         this.innerH = innerH;
         this.alignment = alignment;
-    }
-
-    @Override
-    public void render(IGraphics graphics) {
-        // TODO: Visualization only, remove before delivering the project.
-        graphics.setColor(Color.WHITE);
-        graphics.fillRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
-
-        super.render(graphics);
     }
 
     @Override

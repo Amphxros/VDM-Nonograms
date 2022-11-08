@@ -9,10 +9,11 @@ import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
-import vdm.p1.logic.layout.FlowDirection;
-import vdm.p1.logic.layout.Grid;
+import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
+import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.Table;
+import vdm.p1.logic.objects.Text;
 
 public class Menu extends Scene {
 
@@ -22,9 +23,13 @@ public class Menu extends Scene {
         super(width, height);
         this.engine = engine;
 
+        GameObject giveUpButton = new Text("Rendirse").setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.TOP);
+        GameObject checkButton = new Text("Comprobar").setHorizontalAlignment(HorizontalAlignment.RIGHT).setVerticalAlignment(VerticalAlignment.TOP);
+        GameObject header = new Padding(0, 0, 0.8, 0).addChild(giveUpButton).addChild(checkButton);
+
         GameObject grid = new Table(5);
-        GameObject padding = new Padding(0.04, 0.1).addChild(grid);
-        GameObject container = new Container(400, 600).addChild(padding);
+        GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(grid);
+        GameObject container = new Container(400, 600).addChild(padding).setBackgroundColor(new Color(0x95, 0x75, 0xcd));
         GameObject body = new Body(engine).addChild(container);
 
         addGameObject(body);

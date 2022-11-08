@@ -7,37 +7,16 @@ import vdm.p1.logic.GameObject;
 public class Grid extends GameObject {
     private final FlowDirection direction;
     private final GridElement[] elements;
-    private double ratio = 1.0;
-
-    public Grid(int values) {
-        this(values, FlowDirection.HORIZONTAL);
-    }
 
     public Grid(int values, FlowDirection direction) {
-        super(0, 0, 0, 0);
+        super();
         this.direction = direction;
         this.elements = new GridElement[values];
         for (int i = 0; i < values; ++i) this.elements[i] = new GridElement();
     }
 
-    /**
-     * Returns the element aspect ratio.
-     * @see Grid#setRatio(double)
-     * @return The element aspect ratio.
-     */
-    public double getRatio() {
-        return ratio;
-    }
-
-    /**
-     * Sets the element aspect ratio. By default, the {@link Grid} is instantiate with a ratio of 1,
-     * or 1:1, which renders the elements as squares.
-     * @param ratio The aspect ratio for each element.
-     * @return The updated {@link Grid} instance.
-     */
-    public Grid setRatio(double ratio) {
-        this.ratio = ratio;
-        return this;
+    public FlowDirection getDirection() {
+        return direction;
     }
 
     /**
@@ -52,14 +31,12 @@ public class Grid extends GameObject {
      * Sets an element at an index.
      * @param index The index to set the {@link GameObject} at.
      * @param gameObject The instance to set at the index.
-     * @return The updated {@link Grid} instance.
      */
-    public Grid setElement(int index, GameObject gameObject) {
+    public void setElement(int index, GameObject gameObject) {
         if (index < 0) throw new RuntimeException("index cannot be negative");
         if (index >= elements.length) throw new RuntimeException("index cannot be superior to elements.length");
 
         elements[index].addChild(gameObject);
-        return this;
     }
 
     @Override
@@ -93,7 +70,8 @@ public class Grid extends GameObject {
 
     @Override
     public void handleParentScreenChange() {
-        setPosition(getParent().getPosition());
+        inheritParentPosition();
+
         switch (direction) {
             case HORIZONTAL:
                 handleParentScreenChangeHorizontal();
@@ -108,7 +86,7 @@ public class Grid extends GameObject {
 
     private void handleParentScreenChangeHorizontal() {
         setWidth(getParent().getWidth());
-        setHeight((int) (getWidth() / (double) elements.length * ratio));
+        setHeight(getParent().getHeight());
 
         double elementWidth = getWidth() / (double) elements.length;
         int elementWidthInt = (int) elementWidth;
@@ -123,7 +101,6 @@ public class Grid extends GameObject {
     }
 
     private void handleParentScreenChangeVertical() {
-        // TODO: Finish this
         setWidth(getParent().getWidth());
         setHeight(getParent().getHeight());
 
