@@ -9,6 +9,7 @@ import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
+import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
 
 public class Menu extends Scene {
@@ -19,9 +20,9 @@ public class Menu extends Scene {
         super(width, height);
         this.engine = engine;
 
-        GameObject container = new Container(400, 600, VerticalAlignment.TOP);
-        GameObject body = new Body(engine);
-        body.addChild(container);
+        GameObject padding = new Padding(0.04, 0.1);
+        GameObject container = new Container(400, 600, VerticalAlignment.MIDDLE).addChild(padding);
+        GameObject body = new Body(engine).addChild(container);
         addGameObject(body);
 
         Table t = new Table(5, 5, screen_width / 5, screen_height / 4, screen_width / 2, screen_width / 2);

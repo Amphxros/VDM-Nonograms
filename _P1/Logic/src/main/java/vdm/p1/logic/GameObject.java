@@ -55,13 +55,14 @@ public abstract class GameObject implements IGameObject {
         return children;
     }
 
-    public void addChild(GameObject gameObject) {
+    public GameObject addChild(GameObject gameObject) {
         if (gameObject.parent != null) {
             throw new RuntimeException("The given GameObject already has a parent");
         }
 
         gameObject.parent = this;
         children.add(gameObject);
+        return this;
     }
 
     @Override
@@ -87,5 +88,15 @@ public abstract class GameObject implements IGameObject {
         }
 
         return false;
+    }
+
+    /**
+     * An event called when the parent's size or position change. This is not called automatically,
+     * and should be called manually based on whether or not the size has changed.
+     */
+    public void handleParentScreenChange() {
+        for (GameObject child : getChildren()) {
+            child.handleParentScreenChange();
+        }
     }
 }
