@@ -16,6 +16,9 @@ import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
 
 public final class Table extends GameObject {
+    private final Cell[][] cells;
+    private boolean checked = false;
+
     public Table(int length) {
         this(length, length);
     }
@@ -23,14 +26,17 @@ public final class Table extends GameObject {
     public Table(int x, int y) {
         super();
 
-        Random rng = new Random();
+        cells = new Cell[x][y];
         boolean[][] solutions = new boolean[x][y];
+        Random rng = new Random();
         Grid grid = new Grid(x, FlowDirection.VERTICAL);
         for (int i = 0; i < x; ++i) {
             Grid row = new Grid(y, FlowDirection.HORIZONTAL);
             for (int j = 0; j < y; ++j) {
                 boolean solution = rng.nextBoolean();
-                row.setElement(j, new Cell(solution ? State.Marked : State.Empty, 0, 0, 0, 0));
+                Cell cell = new Cell(solution ? State.Empty : State.Marked);
+                row.setElement(j, cell);
+                cells[i][j] = cell;
                 solutions[i][j] = solution;
             }
 
@@ -39,12 +45,37 @@ public final class Table extends GameObject {
         addChild(new Padding(0.2, 0, 0, 0.2).addChild(grid));
 
         Grid hintTopGrid = new Grid(x, FlowDirection.HORIZONTAL);
-        setHints(hintTopGrid, getXHints(solutions, x, y));
+        setHints(hintTopGrid, getYHints(solutions, x, y));
         addChild(new Padding(0, 0, 0.8, 0.2).addChild(hintTopGrid).setBackgroundColor(new Color(0x7e, 0x57, 0xc2)));
 
         Grid hintLeftGrid = new Grid(x, FlowDirection.VERTICAL);
-        setHints(hintLeftGrid, getYHints(solutions, x, y));
+        setHints(hintLeftGrid, getXHints(solutions, x, y));
         addChild(new Padding(0.2, 0.8, 0, 0).addChild(hintLeftGrid).setBackgroundColor(new Color(0x7e, 0x57, 0xc2)));
+    }
+
+    /**
+     * Gets the cells from this {@link Table}.
+     * @return A 2D array of {@link Cell}s.
+     */
+    public Cell[][] getCells() {
+        return cells;
+    }
+
+    public int checkSolutions() {
+        if (checked) return -1;
+
+        checked = true;
+        int errors = 0;
+
+        for (Cell[] cells : getCells()) {
+            for (Cell cell : cells) {
+                if (!cell.checkSolution()) {
+                    ++errors;
+                }
+            }
+        }
+
+        return errors;
     }
 
     private static void setHints(Grid grid, List<List<Integer>> lines) {
@@ -55,7 +86,7 @@ public final class Table extends GameObject {
             int size = Math.max(5, line.size());
             Grid lineGrid = new Grid(size, hintDirection);
             for (int j = 0; j < line.size(); j++) {
-                GameObject text = new Text(line.get(j).toString())
+                GameObject text = new Text(line.get(line.size() - j - 1).toString())
                         .setHorizontalAlignment(HorizontalAlignment.CENTRE)
                         .setVerticalAlignment(VerticalAlignment.MIDDLE);
                 lineGrid.setElement(size - j - 1, text);

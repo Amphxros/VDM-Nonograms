@@ -1,11 +1,13 @@
-package vdm.p1.logic;
+package vdm.p1.logic.scenes;
 
 import java.util.ArrayList;
 
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IInput;
+import vdm.p1.logic.GameObject;
+import vdm.p1.logic.IScene;
 
-public abstract class Scene implements IScene{
+public abstract class Scene implements IScene {
 
     ArrayList<GameObject> mGameObjects_;
     int screen_width;

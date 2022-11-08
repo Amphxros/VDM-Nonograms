@@ -2,6 +2,8 @@ package vdm.p1.logic;
 
 import vdm.p1.engine.Engine;
 import vdm.p1.engine.ILogic;
+import vdm.p1.logic.scenes.Menu;
+import vdm.p1.logic.scenes.Scene;
 
 public final class Logic implements ILogic {
     Engine mEngine_;

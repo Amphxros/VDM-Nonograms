@@ -1,4 +1,4 @@
-package vdm.p1.logic;
+package vdm.p1.logic.scenes;
 
 import java.util.List;
 
@@ -7,28 +7,33 @@ import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
+import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
+import vdm.p1.logic.objects.CheckSolutionButton;
 import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.Text;
 
 public class Menu extends Scene {
-
-    IEngine engine;
+    private final IEngine engine;
 
     public Menu(IEngine engine, int width, int height) {
         super(width, height);
         this.engine = engine;
 
+        Table table = new Table(5);
+
         GameObject giveUpButton = new Text("Rendirse").setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.TOP);
-        GameObject checkButton = new Text("Comprobar").setHorizontalAlignment(HorizontalAlignment.RIGHT).setVerticalAlignment(VerticalAlignment.TOP);
+        GameObject checkText = new Text("Comprobar");
+        GameObject checkButton = new CheckSolutionButton(table).addChild(checkText).setHorizontalAlignment(HorizontalAlignment.RIGHT).setVerticalAlignment(VerticalAlignment.TOP);
+        checkButton.setWidth(checkText.getWidth());
+        checkButton.setHeight(checkText.getHeight());
         GameObject header = new Padding(0, 0, 0.8, 0).addChild(giveUpButton).addChild(checkButton);
 
-        GameObject grid = new Table(5);
-        GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(grid);
+        GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(table);
         GameObject container = new Container(400, 600).addChild(padding).setBackgroundColor(new Color(0x95, 0x75, 0xcd));
         GameObject body = new Body(engine).addChild(container);
 

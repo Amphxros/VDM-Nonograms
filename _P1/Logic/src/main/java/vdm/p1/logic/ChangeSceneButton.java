@@ -2,6 +2,7 @@ package vdm.p1.logic;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.TouchEvent;
+import vdm.p1.logic.scenes.Scene;
 
 public class ChangeSceneButton extends Button{
     Logic mLogic;
