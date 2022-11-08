@@ -1,6 +1,7 @@
 package vdm.p1.androidengine;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
@@ -14,23 +15,33 @@ public class AndroidAudio implements IAudio {
 
     private final Context context;
     public MediaPlayer player;
-    private HashMap<String, AndroidSound> mSounds_;
-
     public AndroidAudio(Context context) {
         this.context = context;
-        mSounds_= new HashMap<String,AndroidSound>();
+
+        player= new MediaPlayer();
     }
 
 
     @Override
-    public ISound createSound(String filename) {
-        player = MediaPlayer.create(context, Uri.fromFile(new File(filename)));
+    public AndroidSound createSound(String filename) {
 
+        try {
+            AssetFileDescriptor afd = context.getAssets().openFd(filename);
+            player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            afd.close();
+            player.prepare();
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return new AndroidSound(player);
     }
 
     @Override
     public void playSound(ISound s) {
+       player.start();
         s.play();
     }
 

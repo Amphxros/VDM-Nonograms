@@ -8,6 +8,7 @@ public class AndroidSound implements ISound {
     MediaPlayer player;
 
     public AndroidSound(MediaPlayer player) {
+
         this.player = player;
     }
 

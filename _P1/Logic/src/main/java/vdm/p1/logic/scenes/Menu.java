@@ -5,6 +5,7 @@ import java.util.List;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.ISound;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
@@ -25,6 +26,10 @@ public class Menu extends Scene {
         this.engine = engine;
 
         Table table = new Table(5);
+
+        ISound s= engine.getAudio().createSound("Audio/Meadow Thoughts.ogg");
+        engine.getAudio().playSound(s);
+
 
         GameObject giveUpButton = new Text("Rendirse").setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.TOP);
         GameObject checkText = new Text("Comprobar");
