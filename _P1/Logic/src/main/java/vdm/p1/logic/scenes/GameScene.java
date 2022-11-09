@@ -1,9 +1,7 @@
 package vdm.p1.logic.scenes;
 
-import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
-import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
@@ -18,55 +16,53 @@ import vdm.p1.logic.objects.Text;
 
 public class GameScene extends Scene {
 
-    public GameScene(IEngine engine, int rows, int columns) {
-        super(engine);
+	public GameScene(IEngine engine, int rows, int columns) {
+		super(engine);
 
-        IFont font= engine.getGraphics().newFont("font/pico.ttf",20,true);
-        IImage im= engine.getGraphics().newImage("image/grey_boxCheckmark.png");
-        IImage im2= engine.getGraphics().newImage("image/grey_boxCross.png");
-        Table table = new Table(font,rows, columns);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		Table table = new Table(font, rows, columns);
 
+		// ISound s = engine.getAudio().createSound("Audio/Meadow Thoughts");
+		// engine.getAudio().playSound(s);
 
-        // ISound s = engine.getAudio().createSound("Audio/Meadow Thoughts");
-        // engine.getAudio().playSound(s);
+		GameObject giveUpImage = new Image(engine.getGraphics().newImage("image/grey_boxCross.png"))
+				.setHorizontalAlignment(HorizontalAlignment.LEFT)
+				.setVerticalAlignment(VerticalAlignment.TOP);
+		GameObject giveUpText = new Text("Rendirse", font)
+				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
+				.setVerticalAlignment(VerticalAlignment.BOTTOM);
+		GameObject giveUpButton = new GoToStartSceneButton(getEngine())
+				.addChild(giveUpText)
+				.addChild(giveUpImage)
+				.setHorizontalAlignment(HorizontalAlignment.LEFT)
+				.setVerticalAlignment(VerticalAlignment.TOP);
+		giveUpImage.setWidth(giveUpText.getHeight());
+		giveUpImage.setHeight(giveUpText.getHeight());
+		giveUpButton.setWidth(giveUpImage.getWidth() + 5 + giveUpText.getWidth());
+		giveUpButton.setHeight(giveUpText.getHeight());
 
-        GameObject giveUpText = new Text("Rendirse",font).
-                setHorizontalAlignment(HorizontalAlignment.RIGHT);
-        Image image1= (Image) new Image(im2).
-                setHorizontalAlignment(HorizontalAlignment.LEFT).
-                setVerticalAlignment(VerticalAlignment.MIDDLE);
+		GameObject checkImage = new Image(engine.getGraphics().newImage("image/grey_boxCheckmark.png"))
+				.setHorizontalAlignment(HorizontalAlignment.LEFT)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		GameObject checkText = new Text("Comprobar", font)
+				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
+				.setVerticalAlignment(VerticalAlignment.BOTTOM);
+		GameObject checkButton = new CheckSolutionButton(table)
+				.addChild(checkText)
+				.addChild(checkImage)
+				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
+				.setVerticalAlignment(VerticalAlignment.TOP);
+		checkImage.setWidth(checkText.getHeight());
+		checkImage.setHeight(checkText.getHeight());
+		checkButton.setWidth(checkImage.getWidth() + 5 + checkText.getWidth());
+		checkButton.setHeight(checkText.getHeight());
 
+		GameObject header = new Padding(0, 0, 0.8, 0).addChild(giveUpButton).addChild(checkButton);
 
-        GameObject giveUpButton = new GoToStartSceneButton(getEngine()).
-                addChild(giveUpText).
-                addChild(image1).
-                setHorizontalAlignment(HorizontalAlignment.LEFT).
-                setVerticalAlignment(VerticalAlignment.TOP);
+		GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(table);
+		GameObject container = new Container(400, 600).addChild(padding);
+		GameObject body = new Body(engine).addChild(container);
 
-        giveUpButton.setWidth(2*giveUpText.getWidth());
-        giveUpButton.setHeight(giveUpText.getHeight());
-
-        Image image2= (Image) new Image(im).
-        setHorizontalAlignment(HorizontalAlignment.LEFT).
-        setVerticalAlignment(VerticalAlignment.MIDDLE);
-
-        GameObject checkText = new Text("Comprobar",font);
-        checkText.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-
-        GameObject checkButton = new CheckSolutionButton(table).
-                addChild(checkText).
-                addChild(image2).
-                setHorizontalAlignment(HorizontalAlignment.RIGHT).
-                setVerticalAlignment(VerticalAlignment.TOP);
-        checkButton.setWidth(2*checkText.getWidth());
-        checkButton.setHeight(checkText.getHeight());
-
-        GameObject header = new Padding(0, 0, 0.8, 0).addChild(giveUpButton).addChild(checkButton);
-
-        GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(table);
-        GameObject container = new Container(400, 600).addChild(padding).setBackgroundColor(new Color(0x95, 0x75, 0xcd));
-        GameObject body = new Body(engine).addChild(container);
-
-        addGameObject(body);
-    }
+		addGameObject(body);
+	}
 }

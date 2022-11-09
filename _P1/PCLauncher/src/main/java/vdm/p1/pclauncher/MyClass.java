@@ -21,12 +21,11 @@ public class MyClass {
         engine.setLogic(logic);
 
         logic.initLogic();
-        Color background = new Color(0xB0, 0xA0, 0xFF);
 
         // TODO: Replace it with a thread or whatever cool kids do nowadays
         // Ultimately, move this loop inside DesktopEngine.
         while (true) {
-            engine.getGraphics().clear(background);
+            engine.getGraphics().clear(Color.WHITE);
             double delta = 0;
             logic.handleEvents();
             logic.update(delta);
