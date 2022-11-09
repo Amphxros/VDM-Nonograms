@@ -106,7 +106,6 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void fillRectangle(int x, int y, int width, int height) {
-        mPaint.setStyle(Paint.Style.FILL);
         mCanvas.drawRect(x, y, x + width, y + height, mPaint);
     }
 
@@ -119,6 +118,7 @@ public class AndroidGraphics implements IGraphics {
     public void drawRectangle(int x, int y, int width, int height) {
         mPaint.setStyle(Paint.Style.STROKE);
         mCanvas.drawRect(x, y, x + width, y + height, mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
