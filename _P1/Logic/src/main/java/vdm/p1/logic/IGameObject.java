@@ -14,7 +14,7 @@ public interface IGameObject {
 
     void render(IGraphics graphics);
 
-    void update(double t);
+    void update(double delta);
 
     boolean handleInput(TouchEvent event);
 }

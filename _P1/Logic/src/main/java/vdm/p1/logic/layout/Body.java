@@ -12,11 +12,11 @@ public final class Body extends GameObject {
     }
 
     @Override
-    public void update(double t) {
+    public void update(double delta) {
         // Detect if the screen size has changed, if it did, send a signal to the children elements.
         if (detectSizeChanges()) this.handleParentScreenChange();
 
-        super.update(t);
+        super.update(delta);
     }
 
     private boolean detectSizeChanges() {

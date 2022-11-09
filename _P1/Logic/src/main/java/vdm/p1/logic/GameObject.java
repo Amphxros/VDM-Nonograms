@@ -77,14 +77,12 @@ public abstract class GameObject implements IGameObject {
     }
 
     public void setPosition(Vector2D position) {
-        this.position.setX(position.getX());
-        this.position.setY(position.getY());
+        this.position.set(position);
     }
 
     @Override
     public void setPosition(int x, int y) {
-        position.setX(x);
-        position.setY(y);
+        position.set(x, y);
     }
 
     @Override
@@ -143,9 +141,9 @@ public abstract class GameObject implements IGameObject {
     }
 
     @Override
-    public void update(double t) {
+    public void update(double delta) {
         for (GameObject child : getChildren()) {
-            child.update(t);
+            child.update(delta);
         }
     }
 

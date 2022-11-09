@@ -6,8 +6,8 @@ import vdm.p1.logic.scenes.Scene;
 import vdm.p1.logic.scenes.StartScene;
 
 public final class Logic implements ILogic {
-    Engine engine;
-    IScene currentScene;
+    private Engine engine;
+    private IScene currentScene;
 
     public Logic(Engine eng) {
         this.engine = eng;
@@ -24,6 +24,7 @@ public final class Logic implements ILogic {
 
     @Override
     public void initLogic() {
+        if (currentScene != null) currentScene.dispose();
         currentScene = new StartScene(getEngine());
     }
 

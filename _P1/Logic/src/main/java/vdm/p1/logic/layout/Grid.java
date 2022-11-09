@@ -21,6 +21,7 @@ public class Grid extends GameObject {
 
     /**
      * Gets the {@link GridElement}s that compose this {@link Grid} instance.
+     *
      * @return The {@link GridElement}s managed by this {@link Grid} instance.
      */
     public GridElement[] getElements() {
@@ -29,23 +30,25 @@ public class Grid extends GameObject {
 
     /**
      * Sets an element at an index.
-     * @param index The index to set the {@link GameObject} at.
+     *
+     * @param index      The index to set the {@link GameObject} at.
      * @param gameObject The instance to set at the index.
      */
     public void setElement(int index, GameObject gameObject) {
         if (index < 0) throw new RuntimeException("index cannot be negative");
-        if (index >= elements.length) throw new RuntimeException("index cannot be superior to elements.length");
+        if (index >= elements.length)
+            throw new RuntimeException("index cannot be superior to elements.length");
 
         elements[index].addChild(gameObject);
     }
 
     @Override
-    public void update(double t) {
+    public void update(double delta) {
         for (GridElement element : elements) {
-            element.update(t);
+            element.update(delta);
         }
 
-        super.update(t);
+        super.update(delta);
     }
 
     @Override
