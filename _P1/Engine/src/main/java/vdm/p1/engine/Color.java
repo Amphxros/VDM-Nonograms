@@ -6,7 +6,7 @@ package vdm.p1.engine;
 public final class Color {
     public static final Color WHITE = new Color(255, 255, 255);
     public static final Color BLACK = new Color(0, 0, 0);
-    private final int red;
+    private final int r;
     private final int g;
     private final int b;
     private final int a;
@@ -34,7 +34,7 @@ public final class Color {
      * @param a The Alpha value (0-255)
      */
     public Color(int r, int g, int b, int a) {
-        this.red = r & 0xFF;
+        this.r = r & 0xFF;
         this.g = g & 0xFF;
         this.b = b & 0xFF;
         this.a = a & 0xFF;
@@ -54,7 +54,7 @@ public final class Color {
      * @return Gets the Red component.
      */
     public int getRed() {
-        return red;
+        return r;
     }
 
     /**
@@ -82,13 +82,13 @@ public final class Color {
      * @return Gets an integer of the color encoded in RGBA.
      */
     public int getRGBA() {
-        return (red << 24) | (g << 16) | (g << 8) | a;
+        return (r << 24) | (g << 16) | (b << 8) | a;
     }
 
     /**
      * @return Gets an integer of the color encoded in ARGB.
      */
     public int getARGB() {
-        return (a << 24) | (red << 16) | (red << 8) | b;
+        return (a << 24) | (r << 16) | (g << 8) | b;
     }
 }

@@ -5,8 +5,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import vdm.p1.engine.Dimension;
@@ -14,13 +16,12 @@ import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 
-public class DesktopGraphics implements IGraphics {
-    public JFrame window;
-    public BufferStrategy buffer;
-    public Graphics2D canvas;
+public final class DesktopGraphics implements IGraphics {
+    private final JFrame window;
+    private final BufferStrategy buffer;
+    private Graphics2D canvas;
 
     public DesktopGraphics(JFrame window) {
-
         this.window = window;
         int attempts = 10;
 
@@ -40,7 +41,15 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public IImage newImage(String name) {
-        return null;
+        BufferedImage image;
+        try {
+            image = ImageIO.read(new File(name));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+
+        return new DesktopImage(image);
     }
 
     @Override
@@ -64,12 +73,12 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, int x, int y) {
-
+        canvas.drawImage(((DesktopImage) image).getUnderlyingImage(), x, y, null);
     }
 
     @Override
     public void drawImage(IImage image, int x, int y, int width, int height) {
-
+        canvas.drawImage(((DesktopImage) image).getUnderlyingImage(), x, y, width, height, null);
     }
 
     @Override
@@ -144,12 +153,12 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void translate(int x, int y) {
-
+        canvas.translate(x, y);
     }
 
     @Override
     public void scale(double x, double y) {
-
+        canvas.scale(x, y);
     }
 
     @Override
@@ -164,11 +173,11 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public int getWidth() {
-        return this.window.getWidth();
+        return window.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return this.window.getHeight();
+        return window.getHeight();
     }
 }

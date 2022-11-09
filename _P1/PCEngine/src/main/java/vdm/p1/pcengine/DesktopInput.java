@@ -8,7 +8,7 @@ import vdm.p1.engine.EventType;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 
-public class DesktopInput extends Input implements MouseInputListener {
+public final class DesktopInput extends Input implements MouseInputListener {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 

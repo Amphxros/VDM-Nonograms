@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 
-public class AndroidFont implements IFont {
+public final class AndroidFont implements IFont {
     private final AndroidGraphics graphics;
     private final Typeface font;
     private final int size;

@@ -1,37 +1,42 @@
 package vdm.p1.androidengine;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import java.io.InputStream;
 
 import vdm.p1.engine.IImage;
 
-public class AndroidImage implements IImage {
+public final class AndroidImage implements IImage {
+    private final Bitmap image;
 
-    private Bitmap mImage_;
-
-    public AndroidImage(String route, AssetManager mngr) {
-        try {
-            InputStream in = mngr.open(route);
-            mImage_ = BitmapFactory.decodeStream(in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public AndroidImage(Bitmap image) {
+        this.image = image;
     }
 
-    public Bitmap getImage() {
-        return mImage_;
-    }
-
+    /**
+     * Gets the source width of the image.
+     *
+     * @return The source width of the image.
+     */
     @Override
     public int getWidth() {
-        return 0;
+        return image.getWidth();
     }
 
+    /**
+     * Gets the source height of the image.
+     *
+     * @return The source height of the image.
+     */
     @Override
     public int getHeight() {
-        return 0;
+        return image.getHeight();
+    }
+
+    /**
+     * Gets the underlying image.
+     *
+     * @return The buffered image.
+     */
+    public Bitmap getUnderlyingImage() {
+        return image;
     }
 }

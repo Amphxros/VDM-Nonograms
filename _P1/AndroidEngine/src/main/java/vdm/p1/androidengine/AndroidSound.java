@@ -4,9 +4,8 @@ import android.media.MediaPlayer;
 
 import vdm.p1.engine.ISound;
 
-public class AndroidSound implements ISound {
-
-    MediaPlayer player;
+public final class AndroidSound implements ISound {
+    private final MediaPlayer player;
 
     public AndroidSound(MediaPlayer player) {
         this.player = player;
@@ -23,6 +22,11 @@ public class AndroidSound implements ISound {
         if (player.isPlaying()) {
             player.stop();
         }
+    }
+
+    @Override
+    public void setLoop() {
+        player.setLooping(true);
     }
 
     // Frees the memory allocated

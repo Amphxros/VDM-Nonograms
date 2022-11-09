@@ -9,21 +9,21 @@ import javax.sound.sampled.Clip;
 import vdm.p1.engine.IAudio;
 import vdm.p1.engine.ISound;
 
-public class DesktopAudio implements IAudio {
-    public Clip sound;
-
+public final class DesktopAudio implements IAudio {
     @Override
     public ISound createSound(String path) {
+        Clip sound;
 
         try {
             File audioFile = new File("assets/" + path + ".wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            this.sound = AudioSystem.getClip();
-            this.sound.open(audioStream);
-        } catch (Exception e) {
-            System.err.println("Couldn't load audio file");
-            e.printStackTrace();
+            sound = AudioSystem.getClip();
+            sound.open(audioStream);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
         }
+
         return new DesktopSound(sound);
     }
 
@@ -35,10 +35,5 @@ public class DesktopAudio implements IAudio {
     @Override
     public void stopSound(ISound s) {
         s.play();
-    }
-
-    @Override   // Must be called before playing the sound
-    public void setLoop() {
-        this.sound.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

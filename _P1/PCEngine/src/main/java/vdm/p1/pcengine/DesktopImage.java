@@ -1,35 +1,42 @@
 package vdm.p1.pcengine;
 
-import java.awt.Image;
-import java.io.File;
-
-import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 import vdm.p1.engine.IImage;
 
-public class DesktopImage implements IImage {
+public final class DesktopImage implements IImage {
+    private final BufferedImage image;
 
-    private Image imagen;
-
-    // Returns imagen on the path given
-    public Image DImage(String path) {
-
-        try {
-            this.imagen = ImageIO.read(new File(path));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return this.imagen;
+    public DesktopImage(BufferedImage image) {
+        this.image = image;
     }
 
+    /**
+     * Gets the source width of the image.
+     *
+     * @return The source width of the image.
+     */
     @Override
     public int getWidth() {
-        return this.imagen.getWidth(null);
+        return image.getWidth(null);
     }
 
+    /**
+     * Gets the source height of the image.
+     *
+     * @return The source height of the image.
+     */
     @Override
     public int getHeight() {
-        return this.imagen.getHeight(null);
+        return image.getHeight(null);
+    }
+
+    /**
+     * Gets the underlying image.
+     *
+     * @return The buffered image.
+     */
+    public BufferedImage getUnderlyingImage() {
+        return image;
     }
 }
