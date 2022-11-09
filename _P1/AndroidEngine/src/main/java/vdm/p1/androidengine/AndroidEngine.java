@@ -1,50 +1,43 @@
 package vdm.p1.androidengine;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import vdm.p1.engine.Engine;
 
 public final class AndroidEngine extends Engine implements Runnable {
-
-    AndroidGraphics androidGraphics_;
-    AndroidInput androidInput_;
-    AndroidAudio androidAudio_;
-    private AssetManager mMngr_;
     private Thread mThread;
     private boolean running;
-    // Screen variables
-    private final SurfaceView mView;
-    private final SurfaceHolder mHolder;
-    private Canvas mCanvas;
-    private final Paint mPaint;
 
-    public AndroidEngine(SurfaceView view, Context context) {
+    public AndroidEngine(SurfaceView surfaceView, Context context) {
+        AndroidGraphics graphics = new AndroidGraphics(surfaceView, context);
+        AndroidInput input = new AndroidInput();
+        AndroidAudio audio = new AndroidAudio(context);
 
-        this.mView = view;
-        this.mHolder = this.mView.getHolder();
-        this.mPaint = new Paint();
-        this.mPaint.setColor(0xFFFFFFFF);
+        surfaceView.setOnTouchListener(input);
 
-        androidGraphics_ = new AndroidGraphics(mView, context, mCanvas, mPaint);
-        androidAudio_ = new AndroidAudio(context);
-        androidInput_ = new AndroidInput();
+        setGraphics(graphics);
+        setInput(input);
+        setAudio(audio);
+    }
 
-        this.mView.setOnTouchListener(androidInput_);
+    @Override
+    public AndroidGraphics getGraphics() {
+        return (AndroidGraphics) super.getGraphics();
+    }
 
-        setGraphics(androidGraphics_);
-        setInput(androidInput_);
-        setAudio(androidAudio_);
+    @Override
+    public int getWidth() {
+        return getGraphics().getWidth();
+    }
 
+    @Override
+    public int getHeight() {
+        return getGraphics().getHeight();
     }
 
     @Override
     public void run() {
-
         if (mThread != Thread.currentThread()) {
             // (Defensive Programming)
             // Makes it so runnable can only be called from this class
@@ -52,8 +45,9 @@ public final class AndroidEngine extends Engine implements Runnable {
         }
 
         // Waits for the view to be initialized (The thread could be faster than the initialization)
-        while (this.running && this.mView.getWidth() == 0) ;
-        mLogic_.initLogic();
+        while (running && getGraphics().getWidth() == 0) ;
+
+        getLogic().initLogic();
         long lastFrameTime = System.nanoTime();
         long informePrevio = lastFrameTime; // FPS
         int frames = 0;
@@ -66,79 +60,69 @@ public final class AndroidEngine extends Engine implements Runnable {
 
             // Frames Per Second
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            this.update(elapsedTime);
-            if (currentTime - informePrevio > 1000000000l) {
-                long fps = frames * 1000000000l / (currentTime - informePrevio);
+            update(elapsedTime);
+
+            // TODO: FPS reporter, keep or yeet?
+            if (currentTime - informePrevio > 1000000000L) {
+                long fps = frames * 1000000000L / (currentTime - informePrevio);
 
                 frames = 0;
                 informePrevio = currentTime;
             }
             ++frames;
 
-            // Full frame rendering
-            this.render();
+            render();
+            handleInput();
 
-            this.handleInput();
-                /*
-                // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
-                try { Thread.sleep(1); } catch(Exception e) {}
-    			*/
+            // TODO: At the end, do we want to use this?
+            // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
+            // try { Thread.sleep(1); } catch(Exception e) {}
         }
 
     }
 
     private void render() {
+        AndroidGraphics graphics = getGraphics();
 
         // Waits for an invalid surface
-        while (!this.mHolder.getSurface().isValid()) ;
+        while (!graphics.surfaceValid()) ;
 
-        this.mCanvas = this.mHolder.lockCanvas();
-        androidGraphics_.setCanvas(this.mCanvas);
-        this.mCanvas.drawColor(0xFFB0A0FF); // ARGB
-        mLogic_.render();
-        this.mHolder.unlockCanvasAndPost(mCanvas);
-
+        graphics.clear(0xFFB0A0FF); // ARGB
+        getLogic().render();
+        graphics.present();
     }
 
     private void update(double delta) {
-        mLogic_.update(delta);
+        getLogic().update(delta);
     }
 
     private void handleInput() {
-        mLogic_.handleEvents();
+        getLogic().handleEvents();
     }
 
     public void resume() {
-        if (!this.running) {
-            // Only if we weren´t doing anything yet
+        if (!running) {
+            // Only if we weren't doing anything yet
             // (Defensive programming at its best)
-            this.running = true;
+            running = true;
             // run() is "running" in a new thread
-            this.mThread = new Thread(this);
-            this.mThread.start();
+            mThread = new Thread(this);
+            mThread.start();
         }
     }
 
     public void pause() {
-        if (this.running) {
-            this.running = false;
+        if (running) {
+            running = false;
             while (true) {
                 try {
-                    this.mThread.join();
-                    this.mThread = null;
+                    mThread.join();
+                    mThread = null;
                     break;
                 } catch (InterruptedException ie) {
                     // Something went REALLY wrong
                 }
             }
         }
-    }
-
-    public int getWidth() {
-        return this.mView.getWidth();
-    }
-
-    public int getHeight() {
-        return this.mView.getHeight();
     }
 }

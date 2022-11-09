@@ -8,6 +8,4 @@ public interface IAudio {
 
     void stopSound(ISound s);
 
-    void setLoop();
-
 }

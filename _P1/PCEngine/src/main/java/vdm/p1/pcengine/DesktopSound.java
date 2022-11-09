@@ -13,15 +13,20 @@ public final class DesktopSound implements ISound {
 
     @Override
     public void play() {
-        if (!this.sound.isRunning())
-            this.sound.start();
+        if (!sound.isRunning())
+            sound.start();
     }
 
     @Override
     public void stop() {
-        if (this.sound.isRunning()) {
-            this.sound.stop();
-            this.sound.setFramePosition(0);
+        if (sound.isRunning()) {
+            sound.stop();
+            sound.setFramePosition(0);
         }
+    }
+
+    @Override
+    public void setLoop() {
+        sound.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

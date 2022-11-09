@@ -5,7 +5,7 @@ import java.awt.Font;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 
-public class DesktopFont implements IFont {
+public final class DesktopFont implements IFont {
     private final DesktopGraphics graphics;
     private final Font font;
 

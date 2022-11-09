@@ -10,4 +10,9 @@ public interface ISound {
      * Stops playing the sound.
      */
     void stop();
+
+    /**
+     * Sets the sound in a loop.
+     */
+    void setLoop();
 }
