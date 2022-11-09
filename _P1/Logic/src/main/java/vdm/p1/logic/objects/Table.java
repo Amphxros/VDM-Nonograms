@@ -23,34 +23,39 @@ public final class Table extends GameObject {
 		super();
 		this.font = font;
 
-        cells = new Cell[x][y];
-        boolean[][] solutions = new boolean[x][y];
+		cells = new Cell[x][y];
+		boolean[][] solutions = new boolean[x][y];
 
-        Random rng = new Random();
-        Grid grid = new Grid(x, FlowDirection.VERTICAL);
-        for (int i = 0; i < x; ++i) {
-            Grid row = new Grid(y, FlowDirection.HORIZONTAL);
-            for (int j = 0; j < y; ++j) {
+		Random rng = new Random();
+		Grid grid = new Grid(x, FlowDirection.VERTICAL);
+		for (int i = 0; i < x; ++i) {
+			Grid row = new Grid(y, FlowDirection.HORIZONTAL);
+			for (int j = 0; j < y; ++j) {
 
-                boolean solution = rng.nextBoolean();
-                Cell cell = new Cell(solution);
-                row.setElement(j, cell);
-                cells[i][j] = cell;
-                solutions[i][j] = solution;
-            }
+				boolean solution = rng.nextBoolean();
+				Cell cell = new Cell(solution);
+				row.setElement(j, cell);
+				cells[i][j] = cell;
+				solutions[i][j] = solution;
+			}
 
-            grid.setElement(i, row);
-        }
-        addChild(new Padding(0.2, 0, 0, 0.2).addChild(grid));
+			grid.setElement(i, row);
+		}
+		addChild(new Padding(0.2, 0, 0, 0.2)
+				.addChild(grid)
+				.setStrokeColor(Color.BLACK));
 
-        Grid hintTopGrid = new Grid(y, FlowDirection.HORIZONTAL);
-        setHints(hintTopGrid, getYHints(solutions, x, y));
-        addChild(new Padding(0, 0, 0.8, 0.2)
-				.addChild(hintTopGrid));
+		Grid hintTopGrid = new Grid(y, FlowDirection.HORIZONTAL);
+		setHints(hintTopGrid, getYHints(solutions, x, y));
+		addChild(new Padding(0, 0, 0.8, 0.2)
+				.addChild(hintTopGrid)
+				.setStrokeColor(Color.BLACK));
 
 		Grid hintLeftGrid = new Grid(x, FlowDirection.VERTICAL);
 		setHints(hintLeftGrid, getXHints(solutions, x, y));
-		addChild(new Padding(0.2, 0.8, 0, 0).addChild(hintLeftGrid).setStrokeColor(Color.BLACK));
+		addChild(new Padding(0.2, 0.8, 0, 0)
+				.addChild(hintLeftGrid)
+				.setStrokeColor(Color.BLACK));
 	}
 
 	private static List<List<Integer>> getXHints(boolean[][] solutions, int x, int y) {
