@@ -29,11 +29,14 @@ public final class Table extends GameObject {
 
         cells = new Cell[x][y];
         boolean[][] solutions = new boolean[x][y];
+
         Random rng = new Random();
         Grid grid = new Grid(x, FlowDirection.VERTICAL);
+       System.out.println("grid");
         for (int i = 0; i < x; ++i) {
             Grid row = new Grid(y, FlowDirection.HORIZONTAL);
             for (int j = 0; j < y; ++j) {
+                System.out.println("grid" + i+" "+j);
                 boolean solution = rng.nextBoolean();
                 Cell cell = new Cell(solution);
                 row.setElement(j, cell);
@@ -44,10 +47,12 @@ public final class Table extends GameObject {
             grid.setElement(i, row);
         }
         addChild(new Padding(0.2, 0, 0, 0.2).addChild(grid));
+        System.out.println("TAB CREADO");
 
-        Grid hintTopGrid = new Grid(x, FlowDirection.HORIZONTAL);
+        Grid hintTopGrid = new Grid(y, FlowDirection.HORIZONTAL);
         setHints(hintTopGrid, getYHints(solutions, x, y));
         addChild(new Padding(0, 0, 0.8, 0.2).addChild(hintTopGrid).setBackgroundColor(new Color(0x7e, 0x57, 0xc2)));
+        System.out.println("grid TOP");
 
         Grid hintLeftGrid = new Grid(x, FlowDirection.VERTICAL);
         setHints(hintLeftGrid, getXHints(solutions, x, y));
