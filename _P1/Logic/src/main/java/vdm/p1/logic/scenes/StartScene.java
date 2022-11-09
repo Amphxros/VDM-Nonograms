@@ -18,6 +18,7 @@ public final class StartScene extends Scene {
     public StartScene(IEngine engine) {
         super(engine);
         IFont font= engine.getGraphics().newFont("font/pico.ttf",48,false);
+
         GameObject title = new Text("Nonogramas",font).
                 setHorizontalAlignment(HorizontalAlignment.CENTRE).
                 setVerticalAlignment(VerticalAlignment.TOP);
