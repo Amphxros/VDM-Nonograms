@@ -49,8 +49,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 
         getLogic().initLogic();
         long lastFrameTime = System.nanoTime();
-        long informePrevio = lastFrameTime; // FPS
-        int frames = 0;
 
         // MAIN GAME LOOP
         while (running) {
@@ -61,22 +59,8 @@ public final class AndroidEngine extends Engine implements Runnable {
             // Frames Per Second
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
             update(elapsedTime);
-
-            // TODO: FPS reporter, keep or yeet?
-            if (currentTime - informePrevio > 1000000000L) {
-                long fps = frames * 1000000000L / (currentTime - informePrevio);
-
-                frames = 0;
-                informePrevio = currentTime;
-            }
-            ++frames;
-
             render();
             handleInput();
-
-            // TODO: At the end, do we want to use this?
-            // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
-            // try { Thread.sleep(1); } catch(Exception e) {}
         }
 
     }

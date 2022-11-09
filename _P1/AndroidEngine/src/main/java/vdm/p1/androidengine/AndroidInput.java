@@ -36,7 +36,7 @@ public final class AndroidInput extends Input implements View.OnTouchListener {
         }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            // Held for longer than 1000 milliseconds, long-press has processed:
+            // Held for longer than LongPressTimeout milliseconds, long-press has processed:
             if (x == -1) return false;
 
             view.performClick();
