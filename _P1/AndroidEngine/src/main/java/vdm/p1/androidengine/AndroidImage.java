@@ -12,17 +12,16 @@ public class AndroidImage implements IImage {
 
     private Bitmap mImage_;
 
-    public AndroidImage(String route, AssetManager mngr){
-        try{
-            InputStream in= mngr.open(route);
-            mImage_= BitmapFactory.decodeStream(in);
-        }
-        catch (Exception e){
+    public AndroidImage(String route, AssetManager mngr) {
+        try {
+            InputStream in = mngr.open(route);
+            mImage_ = BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Bitmap getImage(){
+    public Bitmap getImage() {
         return mImage_;
     }
 

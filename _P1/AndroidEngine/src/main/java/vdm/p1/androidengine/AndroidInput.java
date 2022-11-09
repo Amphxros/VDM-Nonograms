@@ -8,8 +8,10 @@ import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 
 public class AndroidInput extends Input implements View.OnTouchListener {
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+
         if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
             TouchEvent t = new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.PRIMARY);
             addEvent(t);
@@ -23,7 +25,6 @@ public class AndroidInput extends Input implements View.OnTouchListener {
             System.out.println("SECONDARY");
             return true;
         }
-
         return false;
     }
 }

@@ -1,20 +1,22 @@
 package vdm.p1.pcengine;
 
-import vdm.p1.engine.IImage;
 import java.awt.Image;
 import java.io.File;
+
 import javax.imageio.ImageIO;
+
+import vdm.p1.engine.IImage;
 
 public class DesktopImage implements IImage {
 
     private Image imagen;
 
     // Returns imagen on the path given
-    public Image DImage(String path){
+    public Image DImage(String path) {
 
-        try{
-            this.imagen = ImageIO.read(new File(path));}
-        catch(Exception e){
+        try {
+            this.imagen = ImageIO.read(new File(path));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -22,12 +24,12 @@ public class DesktopImage implements IImage {
     }
 
     @Override
-    public int getWidth(){
+    public int getWidth() {
         return this.imagen.getWidth(null);
     }
 
     @Override
-    public int getHeight(){
+    public int getHeight() {
         return this.imagen.getHeight(null);
     }
 }

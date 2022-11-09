@@ -20,13 +20,11 @@ import vdm.p1.engine.IImage;
 public class AndroidGraphics implements IGraphics {
     private final SurfaceView mView;
     private final SurfaceHolder mHolder;
-    private Canvas mCanvas;
     private final Paint mPaint;
-
     private final HashMap<String, AndroidImage> mImages_;
     private final HashMap<String, IFont> mFonts_;
-
     private final AssetManager mMngr_;
+    private Canvas mCanvas;
 
     public AndroidGraphics(SurfaceView view, Context context, Canvas canvas, Paint paint) {
         this.mView = new SurfaceView(context);

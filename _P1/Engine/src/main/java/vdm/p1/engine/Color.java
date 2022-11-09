@@ -4,6 +4,8 @@ package vdm.p1.engine;
  * A shared class for encoding different RGBA colours in multiple formats.
  */
 public final class Color {
+    public static final Color WHITE = new Color(255, 255, 255);
+    public static final Color BLACK = new Color(0, 0, 0);
     private final int red;
     private final int g;
     private final int b;
@@ -36,6 +38,16 @@ public final class Color {
         this.g = g & 0xFF;
         this.b = b & 0xFF;
         this.a = a & 0xFF;
+    }
+
+    /**
+     * Converts a RGBA encoded integer into ARGB.
+     *
+     * @param color The RGBA encoded integer.
+     * @return An ARGB encoded integer.
+     */
+    public static int rgbaToARGB(int color) {
+        return ((color & 0xFF) << 24) | (color >> 8);
     }
 
     /**
@@ -79,16 +91,4 @@ public final class Color {
     public int getARGB() {
         return (a << 24) | (red << 16) | (red << 8) | b;
     }
-
-    /**
-     * Converts a RGBA encoded integer into ARGB.
-     * @param color The RGBA encoded integer.
-     * @return An ARGB encoded integer.
-     */
-    public static int rgbaToARGB(int color) {
-        return ((color & 0xFF) << 24) | (color >> 8);
-    }
-
-    public static final Color WHITE = new Color(255, 255, 255);
-    public static final Color BLACK = new Color(0, 0, 0);
 }

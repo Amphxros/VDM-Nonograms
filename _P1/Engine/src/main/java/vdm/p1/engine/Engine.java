@@ -23,7 +23,7 @@ public abstract class Engine implements IEngine {
      * @return instance of graphics
      */
     @Override
-    public IGraphics getGraphics(){
+    public IGraphics getGraphics() {
         return mGraphics_;
     }
 
@@ -44,6 +44,7 @@ public abstract class Engine implements IEngine {
     public void setInput(Input input) {
         this.mInput_ = input;
     }
+
     /**
      * @return instance of audiomanager
      */

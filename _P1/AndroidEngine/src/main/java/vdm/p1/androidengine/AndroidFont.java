@@ -11,13 +11,13 @@ public class AndroidFont implements IFont {
     private final Typeface font;
     private final int size;
 
-    public AndroidFont(AndroidGraphics graphics, String route, AssetManager assetManager, int size, boolean isBold){
+    public AndroidFont(AndroidGraphics graphics, String route, AssetManager assetManager, int size, boolean isBold) {
         this.graphics = graphics;
         this.size = size;
         font = Typeface.create(Typeface.createFromAsset(assetManager, route), size, isBold);
     }
 
-    public Typeface getFont(){
+    public Typeface getFont() {
         return font;
     }
 

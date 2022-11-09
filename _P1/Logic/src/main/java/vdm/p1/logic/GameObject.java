@@ -35,6 +35,7 @@ public abstract class GameObject implements IGameObject {
     /**
      * Sets the horizontal alignment, applies when {@link #handleParentScreenChange()} is called,
      * unless {@link HorizontalAlignment#NONE} is passed, which resets to a NOP behaviour.
+     *
      * @param horizontalAlignment The alignment to use.
      * @return The updated {@link GameObject} instance.
      */
@@ -50,6 +51,7 @@ public abstract class GameObject implements IGameObject {
     /**
      * Sets the vertical alignment, applies when {@link #handleParentScreenChange()} is called,
      * unless {@link VerticalAlignment#NONE} is passed, which resets to a NOP behaviour.
+     *
      * @param verticalAlignment The alignment to use.
      * @return The updated {@link GameObject} instance.
      */

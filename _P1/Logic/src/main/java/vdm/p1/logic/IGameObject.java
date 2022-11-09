@@ -5,12 +5,16 @@ import vdm.p1.engine.TouchEvent;
 
 public interface IGameObject {
     Vector2D getPosition();
+
     void setPosition(int x, int y);
 
     int getWidth();
+
     int getHeight();
 
     void render(IGraphics graphics);
+
     void update(double t);
+
     boolean handleInput(TouchEvent event);
 }

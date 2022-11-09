@@ -3,10 +3,6 @@ package vdm.p1.androidengine;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.net.Uri;
-
-import java.io.File;
-import java.util.HashMap;
 
 import vdm.p1.engine.IAudio;
 import vdm.p1.engine.ISound;
@@ -15,25 +11,21 @@ public class AndroidAudio implements IAudio {
 
     private final Context context;
     public MediaPlayer player;
+
     public AndroidAudio(Context context) {
         this.context = context;
-
-        player= new MediaPlayer();
+        player = new MediaPlayer();
     }
-
 
     @Override
     public AndroidSound createSound(String filename) {
 
         try {
             AssetFileDescriptor afd = context.getAssets().openFd(filename + ".ogg");
-            player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
             player.prepare();
-
-
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new AndroidSound(player);
@@ -41,7 +33,7 @@ public class AndroidAudio implements IAudio {
 
     @Override
     public void playSound(ISound s) {
-       player.start();
+        player.start();
         s.play();
     }
 
@@ -51,5 +43,7 @@ public class AndroidAudio implements IAudio {
     }
 
     @Override   // Must be called before playing the sound
-    public void setLoop() {  this.player.setLooping(true);   }
+    public void setLoop() {
+        this.player.setLooping(true);
+    }
 }
