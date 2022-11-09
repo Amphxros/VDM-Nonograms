@@ -3,6 +3,7 @@ package vdm.p1.logic.objects;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.VerticalAlignment;
@@ -24,9 +25,10 @@ public final class CreateLevelButton extends Button {
     }
 
     @Override
-    public void onClick() {
+    public boolean onPrimaryAction(TouchEvent event) {
         Logic logic = (Logic) engine.getLogic();
         logic.changeScene(new GameScene(engine, rows, columns));
+        return true;
     }
 
     @Override

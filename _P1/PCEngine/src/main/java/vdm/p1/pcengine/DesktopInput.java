@@ -21,9 +21,8 @@ public class DesktopInput extends Input implements MouseInputListener {
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() != MouseEvent.BUTTON1) return;
-
-        addEvent(new TouchEvent(mouseEvent.getX(), mouseEvent.getY(), EventType.CLICKED));
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) addEvent(new TouchEvent(mouseEvent.getX(), mouseEvent.getY(), EventType.PRIMARY));
+        else if (mouseEvent.getButton() == MouseEvent.BUTTON3) addEvent(new TouchEvent(mouseEvent.getX(), mouseEvent.getY(), EventType.SECONDARY));
     }
 
     @Override

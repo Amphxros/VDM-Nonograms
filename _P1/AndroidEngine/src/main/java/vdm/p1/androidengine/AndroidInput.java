@@ -7,32 +7,23 @@ import vdm.p1.engine.EventType;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 
-public class AndroidInput extends Input implements View.OnTouchListener{
-
-
-
+public class AndroidInput extends Input implements View.OnTouchListener {
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            TouchEvent t = new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.PRIMARY);
+            addEvent(t);
+            System.out.println("PRIMARY");
+            return true;
+        }
 
-        if(motionEvent.getActionMasked()==MotionEvent.ACTION_DOWN){
-            System.out.println(" BOOP");
-            TouchEvent t= new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.PRESSED_DOWN);
+        if (motionEvent.getActionMasked() == MotionEvent.ACTION_MOVE) {
+            TouchEvent t = new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.SECONDARY);
             addEvent(t);
+            System.out.println("SECONDARY");
             return true;
         }
-        else if(motionEvent.getActionMasked()==MotionEvent.ACTION_UP){
-            System.out.println(" BOOP");
-            TouchEvent t= new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.PRESSED_UP);
-            addEvent(t);
-            return true;
-        }
-        else if(motionEvent.getActionMasked()==MotionEvent.ACTION_MOVE){
-            System.out.println(" BOOP");
-            TouchEvent t= new TouchEvent(motionEvent.getX(), motionEvent.getY(), EventType.MOVED);
-            addEvent(t);
-            return true;
 
-        }
         return false;
     }
 }

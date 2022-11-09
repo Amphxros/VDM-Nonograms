@@ -1,5 +1,6 @@
 package vdm.p1.logic.objects;
 
+import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.objects.base.Button;
 
 public final class CheckSolutionButton extends Button {
@@ -11,7 +12,8 @@ public final class CheckSolutionButton extends Button {
     }
 
     @Override
-    public void onClick() {
+    public boolean onPrimaryAction(TouchEvent event) {
         System.out.println("Checking solutions. Found: " + table.checkSolutions() + " error(s)!");
+        return true;
     }
 }

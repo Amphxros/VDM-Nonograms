@@ -1,6 +1,8 @@
 package vdm.p1.engine;
 
 public enum EventType {
+    PRIMARY,
+    SECONDARY,
     PRESSED_DOWN,
     PRESSED_UP,
     MOVED,

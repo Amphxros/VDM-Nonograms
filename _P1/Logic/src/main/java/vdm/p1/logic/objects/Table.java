@@ -33,7 +33,7 @@ public final class Table extends GameObject {
             Grid row = new Grid(y, FlowDirection.HORIZONTAL);
             for (int j = 0; j < y; ++j) {
                 boolean solution = rng.nextBoolean();
-                Cell cell = new Cell(solution ? State.Empty : State.Marked);
+                Cell cell = new Cell(solution);
                 row.setElement(j, cell);
                 cells[i][j] = cell;
                 solutions[i][j] = solution;
