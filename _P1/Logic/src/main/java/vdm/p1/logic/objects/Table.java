@@ -28,11 +28,10 @@ public final class Table extends GameObject {
 
         Random rng = new Random();
         Grid grid = new Grid(x, FlowDirection.VERTICAL);
-       System.out.println("grid");
         for (int i = 0; i < x; ++i) {
             Grid row = new Grid(y, FlowDirection.HORIZONTAL);
             for (int j = 0; j < y; ++j) {
-                System.out.println("grid" + i+" "+j);
+
                 boolean solution = rng.nextBoolean();
                 Cell cell = new Cell(solution);
                 row.setElement(j, cell);
