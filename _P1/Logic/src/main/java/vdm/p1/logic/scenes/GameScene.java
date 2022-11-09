@@ -22,7 +22,8 @@ public class GameScene extends Scene {
         super(engine);
 
         IFont font= engine.getGraphics().newFont("font/pico.ttf",20,true);
-        IImage im= engine.getGraphics().newImage("image/glassPanel.png");
+        IImage im= engine.getGraphics().newImage("image/grey_boxCheckmark.png");
+        IImage im2= engine.getGraphics().newImage("image/grey_boxCross.png");
         Table table = new Table(font,rows, columns);
 
 
@@ -31,7 +32,7 @@ public class GameScene extends Scene {
 
         GameObject giveUpText = new Text("Rendirse",font).
                 setHorizontalAlignment(HorizontalAlignment.RIGHT);
-        Image image1= (Image) new Image(im).
+        Image image1= (Image) new Image(im2).
                 setHorizontalAlignment(HorizontalAlignment.LEFT).
                 setVerticalAlignment(VerticalAlignment.MIDDLE);
 
