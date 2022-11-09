@@ -4,26 +4,29 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.HashMap;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.Dimension;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 
 public class AndroidGraphics implements IGraphics {
-    private SurfaceView mView;
-    private SurfaceHolder mHolder;
+    private final SurfaceView mView;
+    private final SurfaceHolder mHolder;
     private Canvas mCanvas;
-    private Paint mPaint;
+    private final Paint mPaint;
 
-    private HashMap<String, AndroidImage> mImages_;
-    private HashMap<String, IFont> mFonts_;
+    private final HashMap<String, AndroidImage> mImages_;
+    private final HashMap<String, IFont> mFonts_;
 
-    private AssetManager mMngr_;
+    private final AssetManager mMngr_;
 
     public AndroidGraphics(SurfaceView view, Context context, Canvas canvas, Paint paint) {
         this.mView = new SurfaceView(context);
@@ -71,21 +74,33 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public AndroidImage newImage(String name) {
-        AndroidImage aImage= new AndroidImage(name, mMngr_);
+        AndroidImage aImage = new AndroidImage(name, mMngr_);
         mImages_.put(name, aImage);
         return aImage;
     }
 
     @Override
     public AndroidFont newFont(String name, int size, boolean isBold) {
-        AndroidFont aFont= new AndroidFont(name, mMngr_, size, isBold);
-        mFonts_.put(name,aFont);
+        AndroidFont aFont = new AndroidFont(this, name, mMngr_, size, isBold);
+        mFonts_.put(name, aFont);
         return aFont;
     }
 
     @Override
+    public Dimension<Integer> getTextDimensions(IFont font, String string) {
+        Typeface tf = ((AndroidFont) font).getUnderlyingFont();
+        Paint paint = new Paint();
+        paint.setTextSize(font.getSize());
+        paint.setTypeface(tf);
+
+        Rect result = new Rect();
+        paint.getTextBounds(string, 0, string.length(), result);
+        return new Dimension<>(result.width(), result.height());
+    }
+
+    @Override
     public void drawImage(IImage image, int x, int y) {
-        AndroidImage and=(AndroidImage) image;
+        AndroidImage and = (AndroidImage) image;
         mCanvas.drawBitmap(and.getImage(), x, y, mPaint);
     }
 
@@ -148,7 +163,7 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void setFont(IFont font) {
-        AndroidFont aFont= (AndroidFont) font;
+        AndroidFont aFont = (AndroidFont) font;
         mPaint.setTypeface(aFont.getFont());
         mPaint.setTextSize(aFont.getSize());
     }
@@ -187,121 +202,120 @@ public class AndroidGraphics implements IGraphics {
 
 
 /**
-
-//Clase interna encargada de obtener el SurfaceHolder y pintar con el canvas
-class MyRenderClass implements Runnable, IGraphics {
-
-    private SurfaceView myView;
-    private SurfaceHolder holder;
-    private Canvas canvas;
-
-    private Thread renderThread;
-
-    private boolean running;
-
-    private Paint paint;
-
-    private Scene scene;
-
-    public MyRenderClass(SurfaceView myView){
-        this.myView = myView;
-        this.holder = this.myView.getHolder();
-        this.paint = new Paint();
-        this.paint.setColor(0xFFFFFFFF);
-    }
-
-    public int getWidth(){
-        return this.myView.getWidth();
-    }
-
-    @Override
-    public void run() {
-        if (renderThread != Thread.currentThread()) {
-            // Evita que cualquiera que no sea esta clase llame a este Runnable en un Thread
-            // Programación defensiva
-            throw new RuntimeException("run() should not be called directly");
-        }
-
-        // Si el Thread se pone en marcha
-        // muy rápido, la vista podría todavía no estar inicializada.
-        while(this.running && this.myView.getWidth() == 0);
-        // Espera activa. Sería más elegante al menos dormir un poco.
-
-        long lastFrameTime = System.nanoTime();
-
-        long informePrevio = lastFrameTime; // Informes de FPS
-        int frames = 0;
-
-        // Bucle de juego principal.
-        while(running) {
-            long currentTime = System.nanoTime();
-            long nanoElapsedTime = currentTime - lastFrameTime;
-            lastFrameTime = currentTime;
-
-            // Informe de FPS
-            double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            this.update(elapsedTime);
-            if (currentTime - informePrevio > 1000000000l) {
-                long fps = frames * 1000000000l / (currentTime - informePrevio);
-                System.out.println("" + fps + " fps");
-                frames = 0;
-                informePrevio = currentTime;
-            }
-            ++frames;
-
-            // Pintamos el frame
-            while (!this.holder.getSurface().isValid());
-            this.canvas = this.holder.lockCanvas();
-            this.render();
-            this.holder.unlockCanvasAndPost(canvas);
-
-                /*
-                // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
-                try { Thread.sleep(1); } catch(Exception e) {}
-
-        }
-    }
-
-    protected void update(double deltaTime) {
-        scene.update(deltaTime);
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    protected void renderCircle(float x, float y, float r){
-        canvas.drawCircle(x, y, r, this.paint);
-    }
-
-    protected void render() {
-        // "Borramos" el fondo.
-        this.canvas.drawColor(0xFFBBAABB); // ARGB
-        scene.render();
-    }
-
-    public void resume() {
-        if (!this.running) {
-            // Solo hacemos algo si no nos estábamos ejecutando ya
-            // (programación defensiva)
-            this.running = true;
-            // Lanzamos la ejecución de nuestro método run() en un nuevo Thread.
-            this.renderThread = new Thread(this);
-            this.renderThread.start();
-        }
-    }
-
-    public void pause() {
-        if (this.running) {
-            this.running = false;
-            while (true) {
-                try {
-                    this.renderThread.join();
-                    this.renderThread = null;
-                    break;
-                } catch (InterruptedException ie) {
-                    // Esto no debería ocurrir nunca...
-                }
-            }
-        }
-    }*/
+ * //Clase interna encargada de obtener el SurfaceHolder y pintar con el canvas
+ * class MyRenderClass implements Runnable, IGraphics {
+ * <p>
+ * private SurfaceView myView;
+ * private SurfaceHolder holder;
+ * private Canvas canvas;
+ * <p>
+ * private Thread renderThread;
+ * <p>
+ * private boolean running;
+ * <p>
+ * private Paint paint;
+ * <p>
+ * private Scene scene;
+ * <p>
+ * public MyRenderClass(SurfaceView myView){
+ * this.myView = myView;
+ * this.holder = this.myView.getHolder();
+ * this.paint = new Paint();
+ * this.paint.setColor(0xFFFFFFFF);
+ * }
+ * <p>
+ * public int getWidth(){
+ * return this.myView.getWidth();
+ * }
+ *
+ * @Override public void run() {
+ * if (renderThread != Thread.currentThread()) {
+ * // Evita que cualquiera que no sea esta clase llame a este Runnable en un Thread
+ * // Programación defensiva
+ * throw new RuntimeException("run() should not be called directly");
+ * }
+ * <p>
+ * // Si el Thread se pone en marcha
+ * // muy rápido, la vista podría todavía no estar inicializada.
+ * while(this.running && this.myView.getWidth() == 0);
+ * // Espera activa. Sería más elegante al menos dormir un poco.
+ * <p>
+ * long lastFrameTime = System.nanoTime();
+ * <p>
+ * long informePrevio = lastFrameTime; // Informes de FPS
+ * int frames = 0;
+ * <p>
+ * // Bucle de juego principal.
+ * while(running) {
+ * long currentTime = System.nanoTime();
+ * long nanoElapsedTime = currentTime - lastFrameTime;
+ * lastFrameTime = currentTime;
+ * <p>
+ * // Informe de FPS
+ * double elapsedTime = (double) nanoElapsedTime / 1.0E9;
+ * this.update(elapsedTime);
+ * if (currentTime - informePrevio > 1000000000l) {
+ * long fps = frames * 1000000000l / (currentTime - informePrevio);
+ * System.out.println("" + fps + " fps");
+ * frames = 0;
+ * informePrevio = currentTime;
+ * }
+ * ++frames;
+ * <p>
+ * // Pintamos el frame
+ * while (!this.holder.getSurface().isValid());
+ * this.canvas = this.holder.lockCanvas();
+ * this.render();
+ * this.holder.unlockCanvasAndPost(canvas);
+ * <p>
+ * /*
+ * // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
+ * try { Thread.sleep(1); } catch(Exception e) {}
+ * <p>
+ * }
+ * }
+ * <p>
+ * protected void update(double deltaTime) {
+ * scene.update(deltaTime);
+ * }
+ * <p>
+ * public void setScene(Scene scene) {
+ * this.scene = scene;
+ * }
+ * <p>
+ * protected void renderCircle(float x, float y, float r){
+ * canvas.drawCircle(x, y, r, this.paint);
+ * }
+ * <p>
+ * protected void render() {
+ * // "Borramos" el fondo.
+ * this.canvas.drawColor(0xFFBBAABB); // ARGB
+ * scene.render();
+ * }
+ * <p>
+ * public void resume() {
+ * if (!this.running) {
+ * // Solo hacemos algo si no nos estábamos ejecutando ya
+ * // (programación defensiva)
+ * this.running = true;
+ * // Lanzamos la ejecución de nuestro método run() en un nuevo Thread.
+ * this.renderThread = new Thread(this);
+ * this.renderThread.start();
+ * }
+ * }
+ * <p>
+ * public void pause() {
+ * if (this.running) {
+ * this.running = false;
+ * while (true) {
+ * try {
+ * this.renderThread.join();
+ * this.renderThread = null;
+ * break;
+ * } catch (InterruptedException ie) {
+ * // Esto no debería ocurrir nunca...
+ * }
+ * }
+ * }
+ * }
+ */

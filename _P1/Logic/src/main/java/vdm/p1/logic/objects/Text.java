@@ -1,21 +1,23 @@
 package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.Dimension;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.logic.GameObject;
 
 public final class Text extends GameObject {
     private final String text;
-    private IFont mFont_;
+    private final IFont font;
+
     public Text(String text, IFont font) {
         super();
         this.text = text;
-        this.mFont_=font;
+        this.font = font;
 
-        // TODO: Measure this somehow using Graphics, Font, or whatever
-        setWidth(text.length() * 10);
-        setHeight(mFont_.getSize());
+        Dimension<Integer> dimension = font.getGraphics().getTextDimensions(font, text);
+        setWidth(dimension.getWidth());
+        setHeight(dimension.getHeight());
     }
 
     @Override
@@ -23,6 +25,7 @@ public final class Text extends GameObject {
         super.render(graphics);
 
         graphics.setColor(Color.BLACK);
+        graphics.setFont(font);
         graphics.drawText(text, getPosition().getX(), getPosition().getY() + getHeight() - 4);
     }
 

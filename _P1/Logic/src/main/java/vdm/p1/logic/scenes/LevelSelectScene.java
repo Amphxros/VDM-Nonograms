@@ -18,7 +18,7 @@ import vdm.p1.logic.objects.Text;
 public final class LevelSelectScene extends Scene {
     public LevelSelectScene(IEngine engine) {
         super(engine);
-        IFont font= engine.getGraphics().newFont("font/pico.tff",20,true);
+        IFont font= engine.getGraphics().newFont("font/pico.ttf",20,true);
         GameObject goBackText = new Text("Volver",font);
         GameObject goBackButton = new GoToStartSceneButton(getEngine()).addChild(goBackText).setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.TOP);
         goBackButton.setWidth(goBackText.getWidth());

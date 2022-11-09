@@ -1,23 +1,23 @@
 package vdm.p1.pcengine;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 
 import javax.swing.JFrame;
 
+import vdm.p1.engine.Dimension;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 
 public class DesktopGraphics implements IGraphics {
-
     public JFrame window;
     public BufferStrategy buffer;
     public Graphics2D canvas;
-
-    public int logicWidth;
-    public int logicHeight;
 
     public DesktopGraphics(JFrame window) {
 
@@ -36,9 +36,6 @@ public class DesktopGraphics implements IGraphics {
 
         this.buffer = this.window.getBufferStrategy();
         this.canvas = (Graphics2D) this.buffer.getDrawGraphics();
-
-        this.logicHeight = window.getHeight();
-        this.logicWidth = window.getWidth();
     }
 
     @Override
@@ -48,7 +45,21 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public IFont newFont(String name, int size, boolean isBold) {
-        return null;
+        Font font;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Assets/" + name));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+
+        font = font.deriveFont(isBold ? Font.BOLD : Font.PLAIN, (float) size);
+        return new DesktopFont(this, font);
+    }
+
+    public Dimension<Integer> getTextDimensions(IFont font, String string) {
+        FontMetrics metrics = canvas.getFontMetrics(((DesktopFont) font).getUnderlyingFont());
+        return new Dimension<>(metrics.stringWidth(string), metrics.getHeight());
     }
 
     @Override
@@ -108,7 +119,7 @@ public class DesktopGraphics implements IGraphics {
 
     @Override
     public void setFont(IFont font) {
-
+        canvas.setFont(((DesktopFont) font).getUnderlyingFont());
     }
 
     @Override

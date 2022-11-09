@@ -19,7 +19,7 @@ public class GameScene extends Scene {
     public GameScene(IEngine engine, int rows, int columns) {
         super(engine);
 
-        IFont font= engine.getGraphics().newFont("font/pico.tff",20,true);
+        IFont font= engine.getGraphics().newFont("font/pico.ttf",20,true);
         Table table = new Table(font,rows, columns);
 
 
