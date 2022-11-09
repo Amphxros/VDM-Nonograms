@@ -5,6 +5,8 @@ public interface IGraphics {
 
     IFont newFont(String name, int size, boolean isBold);
 
+    Dimension<Integer> getTextDimensions(IFont font, String string);
+
     /**
      * Draws an image with the original size at a point of the canvas.
      *

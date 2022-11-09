@@ -2,6 +2,7 @@ package vdm.p1.logic.scenes;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IFont;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
@@ -15,10 +16,10 @@ import vdm.p1.logic.objects.Text;
 public final class StartScene extends Scene {
     public StartScene(IEngine engine) {
         super(engine);
+        IFont font= engine.getGraphics().newFont("font/pico.ttf",48,false);
+        GameObject title = new Text("Nonogramas",font).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.TOP);
 
-        GameObject title = new Text("Nonogramas").setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.TOP);
-
-        GameObject playText = new Text("Jugar");
+        GameObject playText = new Text("Jugar",font);
         GameObject playButton = new GoToLevelSelectSceneButton(getEngine()).addChild(playText).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.MIDDLE);
         playButton.setWidth(playText.getWidth());
         playButton.setHeight(playText.getHeight());
