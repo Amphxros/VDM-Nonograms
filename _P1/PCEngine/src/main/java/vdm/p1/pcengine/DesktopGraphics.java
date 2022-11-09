@@ -43,7 +43,7 @@ public final class DesktopGraphics implements IGraphics {
     public IImage newImage(String name) {
         BufferedImage image;
         try {
-            image = ImageIO.read(new File(name));
+            image = ImageIO.read(new File("Assets/" + name));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
