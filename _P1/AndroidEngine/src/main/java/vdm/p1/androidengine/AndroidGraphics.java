@@ -2,6 +2,7 @@ package vdm.p1.androidengine;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -79,7 +80,7 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public AndroidFont newFont(String name, int size, boolean isBold) {
-        AndroidFont aFont = new AndroidFont(this, name, mMngr_, size, isBold);
+        AndroidFont aFont = new AndroidFont(this,name, mMngr_, size, isBold);
         mFonts_.put(name, aFont);
         return aFont;
     }
@@ -104,12 +105,10 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void drawImage(IImage image, int x, int y, int width, int height) {
-
-    }
-
-
-    public void drawImage(AndroidImage image, int x, int y, int width, int height) {
-
+        AndroidImage aImage= (AndroidImage) image;
+        Rect src= new Rect(0,0,aImage.getWidth(), aImage.getHeight());
+        Rect dst= new Rect(x,y,x+width, y+height);
+        mCanvas.drawBitmap(aImage.getImage(), src, dst,mPaint);
     }
 
     @Override
