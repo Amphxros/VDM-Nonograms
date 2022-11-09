@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.IFont;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.State;
 import vdm.p1.logic.layout.FlowDirection;
@@ -17,13 +18,14 @@ import vdm.p1.logic.layout.VerticalAlignment;
 public final class Table extends GameObject {
     private final Cell[][] cells;
     private boolean checked = false;
-
-    public Table(int length) {
-        this(length, length);
+    IFont mFont_;
+    public Table(IFont font,int length) {
+        this(font,length, length);
     }
 
-    public Table(int x, int y) {
+    public Table(IFont font,int x, int y) {
         super();
+        this.mFont_=font;
 
         cells = new Cell[x][y];
         boolean[][] solutions = new boolean[x][y];
@@ -77,7 +79,7 @@ public final class Table extends GameObject {
         return errors;
     }
 
-    private static void setHints(Grid grid, List<List<Integer>> lines) {
+    private void setHints(Grid grid, List<List<Integer>> lines) {
         FlowDirection hintDirection = grid.getDirection() == FlowDirection.HORIZONTAL ? FlowDirection.VERTICAL : FlowDirection.HORIZONTAL;
 
         for (int i = 0; i < lines.size(); ++i) {
@@ -85,7 +87,7 @@ public final class Table extends GameObject {
             int size = Math.max(5, line.size());
             Grid lineGrid = new Grid(size, hintDirection);
             for (int j = 0; j < line.size(); j++) {
-                GameObject text = new Text(line.get(line.size() - j - 1).toString())
+                GameObject text = new Text(line.get(line.size() - j - 1).toString(),mFont_)
                         .setHorizontalAlignment(HorizontalAlignment.CENTRE)
                         .setVerticalAlignment(VerticalAlignment.MIDDLE);
                 lineGrid.setElement(size - j - 1, text);

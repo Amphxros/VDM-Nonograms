@@ -2,6 +2,7 @@ package vdm.p1.logic.scenes;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IFont;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
@@ -18,17 +19,19 @@ public class GameScene extends Scene {
     public GameScene(IEngine engine, int rows, int columns) {
         super(engine);
 
-        Table table = new Table(rows, columns);
+        IFont font= engine.getGraphics().newFont("font/pico.tff",20,true);
+        Table table = new Table(font,rows, columns);
+
 
         // ISound s = engine.getAudio().createSound("Audio/Meadow Thoughts");
         // engine.getAudio().playSound(s);
 
-        GameObject giveUpText = new Text("Rendirse");
+        GameObject giveUpText = new Text("Rendirse",font);
         GameObject giveUpButton = new GoToStartSceneButton(getEngine()).addChild(giveUpText).setHorizontalAlignment(HorizontalAlignment.LEFT).setVerticalAlignment(VerticalAlignment.TOP);
         giveUpButton.setWidth(giveUpText.getWidth());
         giveUpButton.setHeight(giveUpText.getHeight());
 
-        GameObject checkText = new Text("Comprobar");
+        GameObject checkText = new Text("Comprobar",font);
         GameObject checkButton = new CheckSolutionButton(table).addChild(checkText).setHorizontalAlignment(HorizontalAlignment.RIGHT).setVerticalAlignment(VerticalAlignment.TOP);
         checkButton.setWidth(checkText.getWidth());
         checkButton.setHeight(checkText.getHeight());

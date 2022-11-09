@@ -2,6 +2,7 @@ package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.Logic;
@@ -15,13 +16,13 @@ public final class CreateLevelButton extends Button {
     private final int rows;
     private final int columns;
 
-    public CreateLevelButton(IEngine engine, int rows, int columns) {
+    public CreateLevelButton(IEngine engine, IFont font,int rows, int columns) {
         super();
         this.engine = engine;
         this.rows = rows;
         this.columns = columns;
 
-        addChild(new Text(rows + "x" + columns).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.MIDDLE));
+        addChild(new Text(rows + "x" + columns,font).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.MIDDLE));
     }
 
     @Override

@@ -33,7 +33,7 @@ task copyData(type: Copy) {
         include "**"
         exclude "**/*.wav"
     }
-    into 'src/main/Assets'
+    into 'src/main/res'
 }
 
 tasks.whenTaskAdded { task ->

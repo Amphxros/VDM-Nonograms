@@ -71,17 +71,22 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public AndroidImage newImage(String name) {
-        return new AndroidImage(name, mMngr_);
+        AndroidImage aImage= new AndroidImage(name, mMngr_);
+        mImages_.put(name, aImage);
+        return aImage;
     }
 
     @Override
     public AndroidFont newFont(String name, int size, boolean isBold) {
-        return new AndroidFont(name, mMngr_, size, isBold);
+        AndroidFont aFont= new AndroidFont(name, mMngr_, size, isBold);
+        mFonts_.put(name,aFont);
+        return aFont;
     }
 
     @Override
     public void drawImage(IImage image, int x, int y) {
-
+        AndroidImage and=(AndroidImage) image;
+        mCanvas.drawBitmap(and.getImage(), x, y, mPaint);
     }
 
     @Override
@@ -91,7 +96,7 @@ public class AndroidGraphics implements IGraphics {
 
 
     public void drawImage(AndroidImage image, int x, int y, int width, int height) {
-        mCanvas.drawBitmap(image.getImage(), x, y, mPaint);
+
     }
 
     @Override
@@ -143,7 +148,9 @@ public class AndroidGraphics implements IGraphics {
 
     @Override
     public void setFont(IFont font) {
-
+        AndroidFont aFont= (AndroidFont) font;
+        mPaint.setTypeface(aFont.getFont());
+        mPaint.setTextSize(aFont.getSize());
     }
 
 
