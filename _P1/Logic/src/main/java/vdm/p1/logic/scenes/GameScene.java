@@ -2,6 +2,7 @@ package vdm.p1.logic.scenes;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
+import vdm.p1.engine.ISound;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
@@ -15,6 +16,7 @@ import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.Text;
 
 public class GameScene extends Scene {
+	private final ISound sound;
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);
@@ -22,8 +24,8 @@ public class GameScene extends Scene {
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		Table table = new Table(font, rows, columns);
 
-		// ISound s = engine.getAudio().createSound("Audio/Meadow Thoughts");
-		// engine.getAudio().playSound(s);
+		sound = engine.getAudio().createSound("audio/meadow_thoughts");
+		engine.getAudio().playSound(sound);
 
 		GameObject giveUpImage = new Image(engine.getGraphics().newImage("image/grey_boxCross.png"))
 				.setHorizontalAlignment(HorizontalAlignment.LEFT)
@@ -64,5 +66,11 @@ public class GameScene extends Scene {
 		GameObject body = new Body(engine).addChild(container);
 
 		addGameObject(body);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		getEngine().getAudio().stopSound(sound);
 	}
 }
