@@ -16,21 +16,25 @@ import vdm.p1.logic.layout.VerticalAlignment;
 
 public final class Table extends GameObject {
 	private final Cell[][] cells;
-	IFont font;
+	private final IFont font;
+	private final int rows;
+	private final int columns;
 	private boolean checked = false;
 
-	public Table(IFont font, int x, int y) {
+	public Table(IFont font, int rows, int columns) {
 		super();
 		this.font = font;
+		this.rows = rows;
+		this.columns = columns;
 
-		cells = new Cell[x][y];
-		boolean[][] solutions = new boolean[x][y];
+		cells = new Cell[rows][columns];
+		boolean[][] solutions = new boolean[rows][columns];
 
 		Random rng = new Random();
-		Grid grid = new Grid(x, FlowDirection.VERTICAL);
-		for (int i = 0; i < x; ++i) {
-			Grid row = new Grid(y, FlowDirection.HORIZONTAL);
-			for (int j = 0; j < y; ++j) {
+		Grid grid = new Grid(rows, FlowDirection.VERTICAL);
+		for (int i = 0; i < rows; ++i) {
+			Grid row = new Grid(columns, FlowDirection.HORIZONTAL);
+			for (int j = 0; j < columns; ++j) {
 
 				boolean solution = rng.nextBoolean();
 				Cell cell = new Cell(solution);
@@ -45,65 +49,27 @@ public final class Table extends GameObject {
 				.addChild(grid)
 				.setStrokeColor(Color.BLACK));
 
-		Grid hintTopGrid = new Grid(y, FlowDirection.HORIZONTAL);
-		setHints(hintTopGrid, getYHints(solutions, x, y));
+		Grid hintTopGrid = new Grid(columns, FlowDirection.HORIZONTAL);
+		setHints(hintTopGrid, getYHints(solutions));
 		addChild(new Padding(0, 0, 0.8, 0.2)
 				.addChild(hintTopGrid)
 				.setStrokeColor(Color.BLACK));
 
-		Grid hintLeftGrid = new Grid(x, FlowDirection.VERTICAL);
-		setHints(hintLeftGrid, getXHints(solutions, x, y));
+		Grid hintLeftGrid = new Grid(rows, FlowDirection.VERTICAL);
+		setHints(hintLeftGrid, getXHints(solutions));
 		addChild(new Padding(0.2, 0.8, 0, 0)
 				.addChild(hintLeftGrid)
 				.setStrokeColor(Color.BLACK));
 	}
 
-	private static List<List<Integer>> getXHints(boolean[][] solutions, int x, int y) {
-		// [x][y]
-		// ---
+	@Override
+	public void handleParentScreenChange() {
+		setWidth(getParent().getWidth());
+		setHeight(getWidth());
 
-		List<List<Integer>> lines = new ArrayList<>(x);
-		for (int i = 0; i < x; ++i) {
-			Vector<Integer> line = new Vector<>();
-			int count = 0;
-			for (int j = 0; j < y; ++j) {
-				if (solutions[i][j]) {
-					++count;
-				} else if (count != 0) {
-					line.add(count);
-					count = 0;
-				}
-			}
+		setPosition(getParent().getPosition().getX(), getParent().getPosition().getY() + getParent().getHeight() - getWidth());
 
-			if (count != 0) line.add(count);
-			lines.add(line);
-		}
-
-		return lines;
-	}
-
-	private static List<List<Integer>> getYHints(boolean[][] solutions, int x, int y) {
-		// [x][y]
-		//    ---
-
-		List<List<Integer>> lines = new ArrayList<>(y);
-		for (int j = 0; j < y; ++j) {
-			Vector<Integer> line = new Vector<>();
-			int count = 0;
-			for (int i = 0; i < x; ++i) {
-				if (solutions[i][j]) {
-					++count;
-				} else if (count != 0) {
-					line.add(count);
-					count = 0;
-				}
-			}
-
-			if (count != 0) line.add(count);
-			lines.add(line);
-		}
-
-		return lines;
+		super.handleParentScreenChange();
 	}
 
 	/**
@@ -150,13 +116,51 @@ public final class Table extends GameObject {
 		}
 	}
 
-	@Override
-	public void handleParentScreenChange() {
-		setWidth(getParent().getWidth());
-		setHeight(getWidth());
+	private List<List<Integer>> getXHints(boolean[][] solutions) {
+		// [x][y]
+		// ---
 
-		setPosition(getParent().getPosition().getX(), getParent().getPosition().getY() + getParent().getHeight() - getWidth());
+		List<List<Integer>> lines = new ArrayList<>(rows);
+		for (int i = 0; i < rows; ++i) {
+			Vector<Integer> line = new Vector<>();
+			int count = 0;
+			for (int j = 0; j < columns; ++j) {
+				if (solutions[i][j]) {
+					++count;
+				} else if (count != 0) {
+					line.add(count);
+					count = 0;
+				}
+			}
 
-		super.handleParentScreenChange();
+			if (count != 0) line.add(count);
+			lines.add(line);
+		}
+
+		return lines;
+	}
+
+	private List<List<Integer>> getYHints(boolean[][] solutions) {
+		// [x][y]
+		//    ---
+
+		List<List<Integer>> lines = new ArrayList<>(columns);
+		for (int j = 0; j < columns; ++j) {
+			Vector<Integer> line = new Vector<>();
+			int count = 0;
+			for (int i = 0; i < rows; ++i) {
+				if (solutions[i][j]) {
+					++count;
+				} else if (count != 0) {
+					line.add(count);
+					count = 0;
+				}
+			}
+
+			if (count != 0) line.add(count);
+			lines.add(line);
+		}
+
+		return lines;
 	}
 }
