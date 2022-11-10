@@ -45,29 +45,55 @@ public final class Table extends GameObject {
 
 			grid.setElement(i, row);
 		}
-		addChild(new Padding(0.2, 0, 0, 0.2)
+
+		// Calculate the percentage of the grid's space within the table:
+		// — The width of the grid is always the width of the table minus 20% → 80%:
+		double gridWidth = 1.0 - 0.2;
+		// — The height of the grid is always the width of the grid multiplied by its ratio:
+		//   Examples:
+		//     • 5x5  → 80% * (5 / 5)  = 80%
+		//     • 5x10 → 80% * (5 / 10) = 40%
+		double gridHeight = gridWidth * (rows / (double) columns);
+		// — Calculate the margin top for the horizontal and grid Padding elements, this is
+		//   accomplished by calculating 100% - gridHeight.
+		double scaledMarginTop = 1.0 - gridHeight;
+
+		// The Grid's padding is calculated by doing the following operations:
+		// • Top    : scaledMarginTop
+		// • Right  : 0%
+		// • Bottom : 0%
+		// • Left   : 20%              || matches LeftHint's left padding
+		addChild(new Padding(scaledMarginTop, 0, 0, 0.2)
 				.addChild(grid)
 				.setStrokeColor(Color.BLACK));
 
-		Grid hintTopGrid = new Grid(columns, FlowDirection.HORIZONTAL);
-		setHints(hintTopGrid, getYHints(solutions));
-		addChild(new Padding(0, 0, 0.8, 0.2)
-				.addChild(hintTopGrid)
-				.setStrokeColor(Color.BLACK));
-
+		// The left hint padding is calculated by doing the following operations:
+		// • Top    : scaledMarginTop  || matches Grid's top padding
+		// • Right  : 80%              || matches the Table's width minus 20%
+		// • Bottom : 0%
+		// • Left   : 0%
 		Grid hintLeftGrid = new Grid(rows, FlowDirection.VERTICAL);
 		setHints(hintLeftGrid, getXHints(solutions));
-		addChild(new Padding(0.2, 0.8, 0, 0)
+		addChild(new Padding(scaledMarginTop, 0.8, 0, 0)
 				.addChild(hintLeftGrid)
+				.setStrokeColor(Color.BLACK));
+
+		// The top hint padding is calculated by doing the following operations:
+		// • Top    : 0.8 - gridHeight || matches Grid's top padding minus 20%
+		// • Right  : 0%
+		// • Bottom : gridHeight       || matches Grid's top padding
+		// • Left   : 20%              || matches Grid's left padding
+		Grid hintTopGrid = new Grid(columns, FlowDirection.HORIZONTAL);
+		setHints(hintTopGrid, getYHints(solutions));
+		addChild(new Padding(0.8 - gridHeight, 0, gridHeight, 0.2)
+				.addChild(hintTopGrid)
 				.setStrokeColor(Color.BLACK));
 	}
 
 	@Override
 	public void handleParentScreenChange() {
 		setWidth(getParent().getWidth());
-		setHeight(getWidth());
-
-		setPosition(getParent().getPosition().getX(), getParent().getPosition().getY() + getParent().getHeight() - getWidth());
+		setHeight(getParent().getWidth());
 
 		super.handleParentScreenChange();
 	}

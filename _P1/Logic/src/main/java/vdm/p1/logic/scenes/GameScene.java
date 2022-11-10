@@ -22,7 +22,9 @@ public final class GameScene extends Scene {
 		super(engine);
 
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		Table table = new Table(font, rows, columns);
+		Table table = (Table) new Table(font, rows, columns)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
@@ -59,11 +61,19 @@ public final class GameScene extends Scene {
 		checkButton.setWidth(checkImage.getWidth() + 5 + checkText.getWidth());
 		checkButton.setHeight(checkText.getHeight());
 
-		GameObject header = new Padding(0, 0, 0.8, 0).addChild(giveUpButton).addChild(checkButton);
+		GameObject header = new Padding(0, 0, 0.8, 0)
+				.addChild(giveUpButton)
+				.addChild(checkButton);
 
-		GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(table);
-		GameObject container = new Container(400, 600).addChild(padding);
-		GameObject body = new Body(engine).addChild(container);
+		GameObject padding = new Padding(0.04, 0.1)
+				.addChild(header)
+				.addChild(table);
+
+		GameObject container = new Container(400, 600)
+				.addChild(padding);
+
+		GameObject body = new Body(engine)
+				.addChild(container);
 
 		addGameObject(body);
 	}
