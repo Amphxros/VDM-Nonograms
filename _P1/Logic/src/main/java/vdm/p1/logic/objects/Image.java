@@ -4,7 +4,7 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 
-public class Image extends GameObject {
+public final class Image extends GameObject {
 	private final IImage image;
 
 	public Image(IImage image) {

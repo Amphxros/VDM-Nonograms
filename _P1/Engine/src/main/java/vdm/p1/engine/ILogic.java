@@ -1,14 +1,14 @@
 package vdm.p1.engine;
 
 public interface ILogic {
-    void setEngine(Engine eng);
+	void setEngine(Engine eng);
 
-    void initLogic();
+	void initLogic();
 
-    void update(double t);
+	void update(double t);
 
-    void render();
+	void render();
 
-    void handleEvents();
+	void handleEvents();
 
 }

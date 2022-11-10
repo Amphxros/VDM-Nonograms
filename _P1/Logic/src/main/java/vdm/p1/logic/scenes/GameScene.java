@@ -15,7 +15,7 @@ import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.Text;
 
-public class GameScene extends Scene {
+public final class GameScene extends Scene {
 	private final ISound sound;
 
 	public GameScene(IEngine engine, int rows, int columns) {

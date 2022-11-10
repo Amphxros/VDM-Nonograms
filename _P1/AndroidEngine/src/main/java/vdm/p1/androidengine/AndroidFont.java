@@ -7,36 +7,36 @@ import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 
 public final class AndroidFont implements IFont {
-    private final AndroidGraphics graphics;
-    private final Typeface font;
-    private final int size;
+	private final AndroidGraphics graphics;
+	private final Typeface font;
+	private final int size;
 
-    public AndroidFont(AndroidGraphics graphics, String route, AssetManager assetManager, int size, boolean isBold) {
-        this.graphics = graphics;
-        this.size = size;
-        font = Typeface.create(Typeface.createFromAsset(assetManager, route), size, isBold);
-    }
+	public AndroidFont(AndroidGraphics graphics, String route, AssetManager assetManager, int size, boolean isBold) {
+		this.graphics = graphics;
+		this.size = size;
+		font = Typeface.create(Typeface.createFromAsset(assetManager, route), size, isBold);
+	}
 
-    public Typeface getFont() {
-        return font;
-    }
+	public Typeface getFont() {
+		return font;
+	}
 
-    @Override
-    public int getSize() {
-        return size;
-    }
+	@Override
+	public int getSize() {
+		return size;
+	}
 
-    @Override
-    public boolean isBold() {
-        return font.isBold();
-    }
+	@Override
+	public boolean isBold() {
+		return font.isBold();
+	}
 
-    @Override
-    public IGraphics getGraphics() {
-        return graphics;
-    }
+	@Override
+	public IGraphics getGraphics() {
+		return graphics;
+	}
 
-    public Typeface getUnderlyingFont() {
-        return font;
-    }
+	public Typeface getUnderlyingFont() {
+		return font;
+	}
 }

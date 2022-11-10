@@ -9,7 +9,7 @@ import vdm.p1.androidengine.AndroidEngine;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
-    private AndroidEngine engine;
+	private AndroidEngine engine;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(renderView);
 
 		engine = new AndroidEngine(renderView, this);
-        Logic logic = new Logic(engine);
+		Logic logic = new Logic(engine);
 		engine.setLogic(logic);
 		logic.initLogic();
 	}

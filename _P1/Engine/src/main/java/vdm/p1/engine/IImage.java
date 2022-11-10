@@ -1,17 +1,17 @@
 package vdm.p1.engine;
 
 public interface IImage {
-    /**
-     * Gets the source width of the image.
-     *
-     * @return The source width of the image.
-     */
-    int getWidth();
+	/**
+	 * Gets the source width of the image.
+	 *
+	 * @return The source width of the image.
+	 */
+	int getWidth();
 
-    /**
-     * Gets the source height of the image.
-     *
-     * @return The source height of the image.
-     */
-    int getHeight();
+	/**
+	 * Gets the source height of the image.
+	 *
+	 * @return The source height of the image.
+	 */
+	int getHeight();
 }
