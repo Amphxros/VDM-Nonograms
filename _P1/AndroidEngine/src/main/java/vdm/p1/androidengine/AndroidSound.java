@@ -6,7 +6,7 @@ import vdm.p1.engine.ISound;
 
 public final class AndroidSound implements ISound {
 	private final MediaPlayer player;
-	
+
 	public AndroidSound(MediaPlayer player) {
 		this.player = player;
 	}
