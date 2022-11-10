@@ -58,9 +58,10 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 			// Frames Per Second
 			double elapsedTime = (double) nanoElapsedTime / 1.0E9;
+
+			handleEvents();
 			update(elapsedTime);
 			render();
-			handleInput();
 		}
 
 	}
@@ -80,7 +81,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		getLogic().update(delta);
 	}
 
-	private void handleInput() {
+	private void handleEvents() {
 		getLogic().handleEvents();
 	}
 

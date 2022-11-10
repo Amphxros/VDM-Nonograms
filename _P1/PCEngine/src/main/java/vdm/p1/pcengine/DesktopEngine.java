@@ -8,10 +8,8 @@ import vdm.p1.engine.Engine;
 public final class DesktopEngine extends Engine implements Runnable {
 	private final JFrame renderView;
 	public boolean running;
-	public int FPS = 60;
 
 	public DesktopEngine() {
-
 		renderView = new JFrame("Nonogramas");
 
 		renderView.setSize(1000, 1000);
@@ -27,6 +25,7 @@ public final class DesktopEngine extends Engine implements Runnable {
 		running = true;
 
 		renderView.addMouseListener(input);
+		renderView.addKeyListener(input);
 	}
 
 	@Override
@@ -41,27 +40,23 @@ public final class DesktopEngine extends Engine implements Runnable {
 
 	@Override
 	public void run() {
+		getLogic().initLogic();
 
-		this.getLogic().initLogic();
-
-		long nanoStartT = System.nanoTime();
-		long nanoFPST = 1000000000 / FPS;    // Desired time per frame
-		long nanoCurrentT = 0, nanoElapsedT = 0, nanoLastT = 0;
-
+		long lastFrameTime = System.nanoTime();
 		while (running) {
-			// Doesnt update unlees it has to (We dont have enough resources to waste)
-			nanoElapsedT = System.nanoTime() - nanoLastT;
+			long currentTime = System.nanoTime();
+			long nanoElapsedTime = currentTime - lastFrameTime;
+			lastFrameTime = currentTime;
 
-			if (nanoElapsedT > nanoFPST) {
-				nanoLastT = System.nanoTime();
+			// Frames Per Second
+			double elapsedTime = (double) nanoElapsedTime / 1.0E9;
 
-				this.getGraphics().clear(Color.WHITE);
-				double delta = 0;
-				this.getLogic().handleEvents();
-				this.getLogic().update(delta);
-				this.getLogic().render();
-				this.getGraphics().present();
-			}
+			getLogic().handleEvents();
+			getLogic().update(elapsedTime);
+
+			getGraphics().clear(Color.WHITE);
+			getLogic().render();
+			getGraphics().present();
 		}
 	}
 }
