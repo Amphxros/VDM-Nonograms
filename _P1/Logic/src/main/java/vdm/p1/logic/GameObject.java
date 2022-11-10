@@ -8,24 +8,24 @@ import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.VerticalAlignment;
 
-public abstract class GameObject implements IGameObject {
-	Vector2D position;
-	int width;
-	int height;
-	HorizontalAlignment horizontalAlignment = HorizontalAlignment.NONE;
-	VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
-	Color strokeColor = null;
-	GameObject parent = null;
-	Vector<GameObject> children = new Vector<>();
+public abstract class GameObject {
+	private final Vector2D position;
+	private int width;
+	private int height;
+	private HorizontalAlignment horizontalAlignment = HorizontalAlignment.NONE;
+	private VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
+	private Color strokeColor = null;
+	private GameObject parent = null;
+	private final Vector<GameObject> children = new Vector<>();
 
 	public GameObject() {
 		this(0, 0, 0, 0);
 	}
 
-	public GameObject(int x, int y, int w, int h) {
+	public GameObject(int x, int y, int width, int height) {
 		this.position = new Vector2D(x, y);
-		this.width = w;
-		this.height = h;
+		this.width = width;
+		this.height = height;
 	}
 
 	public HorizontalAlignment getHorizontalAlignment() {
@@ -69,7 +69,6 @@ public abstract class GameObject implements IGameObject {
 		return this;
 	}
 
-	@Override
 	public Vector2D getPosition() {
 		return position;
 	}
@@ -78,12 +77,10 @@ public abstract class GameObject implements IGameObject {
 		this.position.set(position);
 	}
 
-	@Override
 	public void setPosition(int x, int y) {
 		position.set(x, y);
 	}
 
-	@Override
 	public int getWidth() {
 		return width;
 	}
@@ -92,7 +89,6 @@ public abstract class GameObject implements IGameObject {
 		this.width = width;
 	}
 
-	@Override
 	public int getHeight() {
 		return height;
 	}
@@ -126,7 +122,6 @@ public abstract class GameObject implements IGameObject {
 		return this;
 	}
 
-	@Override
 	public void render(IGraphics graphics) {
 		if (strokeColor != null) {
 			graphics.setColor(strokeColor);
@@ -138,14 +133,12 @@ public abstract class GameObject implements IGameObject {
 		}
 	}
 
-	@Override
 	public void update(double delta) {
 		for (GameObject child : getChildren()) {
 			child.update(delta);
 		}
 	}
 
-	@Override
 	public boolean handleInput(TouchEvent event) {
 		for (GameObject child : getChildren()) {
 			if (child.handleInput(event)) {

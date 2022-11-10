@@ -7,7 +7,6 @@ import vdm.p1.logic.Logic;
 import vdm.p1.pcengine.DesktopEngine;
 
 public class Program {
-
 	public static void main(String[] args) {
 		JFrame renderView = new JFrame("Nonogramas");
 

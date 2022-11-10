@@ -1,8 +1,8 @@
 package vdm.p1.engine;
 
 public final class Dimension<T> {
-	public T width;
-	public T height;
+	private T width;
+	private T height;
 
 	public Dimension(T width, T height) {
 		this.width = width;

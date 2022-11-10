@@ -6,7 +6,7 @@ import android.view.SurfaceView;
 import vdm.p1.engine.Engine;
 
 public final class AndroidEngine extends Engine implements Runnable {
-	private Thread mThread;
+	private Thread thread;
 	private boolean running;
 
 	public AndroidEngine(SurfaceView surfaceView, Context context) {
@@ -38,7 +38,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 	@Override
 	public void run() {
-		if (mThread != Thread.currentThread()) {
+		if (thread != Thread.currentThread()) {
 			// (Defensive Programming)
 			// Makes it so runnable can only be called from this class
 			throw new RuntimeException("run() should not be called directly");
@@ -90,8 +90,8 @@ public final class AndroidEngine extends Engine implements Runnable {
 			// (Defensive programming at its best)
 			running = true;
 			// run() is "running" in a new thread
-			mThread = new Thread(this);
-			mThread.start();
+			thread = new Thread(this);
+			thread.start();
 		}
 	}
 
@@ -100,8 +100,8 @@ public final class AndroidEngine extends Engine implements Runnable {
 			running = false;
 			while (true) {
 				try {
-					mThread.join();
-					mThread = null;
+					thread.join();
+					thread = null;
 					break;
 				} catch (InterruptedException ie) {
 					// Something went REALLY wrong
