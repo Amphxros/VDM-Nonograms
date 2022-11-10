@@ -1,10 +1,10 @@
 package vdm.p1.engine;
 
 public abstract class Engine implements IEngine {
-	private IGraphics graphics;
-	private IAudio audio;
-	private Input input;
-	private ILogic logic;
+	private IGraphics graphics; //instance of the logic
+	private IAudio audio; //instance of audio
+	private Input input; // instance of input
+	private ILogic logic; //instance of logic
 
 	/**
 	 * @return instance of the logic
@@ -17,7 +17,6 @@ public abstract class Engine implements IEngine {
 	@Override
 	public void setLogic(ILogic logic) {
 		this.logic = logic;
-
 	}
 
 	/**
