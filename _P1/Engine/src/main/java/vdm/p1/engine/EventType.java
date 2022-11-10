@@ -1,6 +1,9 @@
 package vdm.p1.engine;
 
-public enum EventType { //type of event
+/**
+ * The type of event from {@link vdm.p1.engine.TouchEvent}.
+ */
+public enum EventType {
 	PRIMARY,
 	SECONDARY
 }

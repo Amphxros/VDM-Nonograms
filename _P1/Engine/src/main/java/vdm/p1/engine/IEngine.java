@@ -2,50 +2,60 @@ package vdm.p1.engine;
 
 public interface IEngine {
 	/**
-	 * @return the instance of graphics
+	 * @return An {@link IGraphics} instance.
 	 */
 	IGraphics getGraphics();
 
 	/**
-	 * sets the instance of graphics
+	 * Sets the {@link IGraphics} engine.
+	 *
+	 * @param graphics An {@link IGraphics} instance.
 	 */
-	void setGraphics(IGraphics g);
+	void setGraphics(IGraphics graphics);
 
 	/**
-	 * @return the instance of input
+	 * @return An {@link Input} instance.
 	 */
 	Input getInput();
 
 	/**
-	 * set the instance of input
+	 * Sets the {@link Input} engine.
+	 *
+	 * @param input An {@link Input} instance.
 	 */
 	void setInput(Input input);
 
 	/**
-	 * @return the instance of logic
+	 * @return An {@link ILogic} instance.
 	 */
 	ILogic getLogic();
 
 	/**
-	 * set the instance of logic
+	 * Sets the {@link ILogic} engine.
+	 *
+	 * @param logic An {@link ILogic} instance.
 	 */
 	void setLogic(ILogic logic);
 
 	/**
-	 * @return the instance of audio
+	 * @return An {@link IAudio} instance.
 	 */
 	IAudio getAudio();
 
 	/**
-	 * set the instance of audio
+	 * Sets the {@link IAudio} engine.
+	 *
+	 * @param audio An {@link IAudio} instance.
 	 */
 	void setAudio(IAudio audio);
+
 	/**
-	 * @return the width of the window
+	 * @return The application's window width.
 	 */
 	int getWidth();
+
 	/**
-	 * @return the height of the window
+	 * @return The application's window height.
 	 */
 	int getHeight();
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IInput {
 	/**
-	 * @return the list of the touch events
+	 * @return A list of the received {@link TouchEvent}s.
 	 */
 	List<TouchEvent> getTouchEvents();
 }

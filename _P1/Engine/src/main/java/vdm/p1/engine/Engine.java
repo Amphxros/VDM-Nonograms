@@ -1,13 +1,13 @@
 package vdm.p1.engine;
 
 public abstract class Engine implements IEngine {
-	private IGraphics graphics; //instance of the logic
-	private IAudio audio; //instance of audio
-	private Input input; // instance of input
-	private ILogic logic; //instance of logic
+	private IGraphics graphics;
+	private IAudio audio;
+	private Input input;
+	private ILogic logic;
 
 	/**
-	 * @return instance of the logic
+	 * @return An {@link ILogic} instance.
 	 */
 	@Override
 	public ILogic getLogic() {
@@ -20,7 +20,7 @@ public abstract class Engine implements IEngine {
 	}
 
 	/**
-	 * @return instance of graphics
+	 * @return An {@link IGraphics} instance.
 	 */
 	@Override
 	public IGraphics getGraphics() {
@@ -33,7 +33,7 @@ public abstract class Engine implements IEngine {
 	}
 
 	/**
-	 * @return instance of inputhandler
+	 * @return An {@link Input} instance.
 	 */
 	@Override
 	public Input getInput() {
@@ -46,7 +46,7 @@ public abstract class Engine implements IEngine {
 	}
 
 	/**
-	 * @return instance of audiomanager
+	 * @return An {@link IAudio} instance.
 	 */
 	@Override
 	public IAudio getAudio() {
