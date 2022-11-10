@@ -32,6 +32,7 @@ public final class Table extends GameObject {
 	private static final double CHECK_RESET_DURATION = 5.0;
 
 	private final Cell[][] cells;
+	private final boolean[][] solutions;
 	private final IFont font;
 	private final int rows;
 	private final int columns;
@@ -44,7 +45,7 @@ public final class Table extends GameObject {
 		this.columns = columns;
 
 		cells = new Cell[rows][columns];
-		boolean[][] solutions = new boolean[rows][columns];
+		solutions = new boolean[rows][columns];
 
 		Random rng = new Random();
 		Grid grid = new Grid(rows, FlowDirection.VERTICAL);
@@ -141,8 +142,17 @@ public final class Table extends GameObject {
 		return cells;
 	}
 
-	public void performSolutionShow() {
-		if (elapsed != CHECK_NULL_TIME) return;
+	/**
+	 * Gets the solutions.
+	 *
+	 * @return A 2D array of solutions.
+	 */
+	public boolean[][] getSolutions() {
+		return solutions;
+	}
+
+	public boolean performSolutionShow() {
+		if (elapsed != CHECK_NULL_TIME) return false;
 		elapsed = CHECK_START_TIME;
 
 		int missing = 0;
@@ -160,23 +170,24 @@ public final class Table extends GameObject {
 		}
 
 		if (missing == 0 && wrong == 0) {
-			System.out.println("You did it!");
-		} else {
-			String text = missing > 0 ? "Faltan: " + missing : "";
-			if (wrong > 0) text += (text.isEmpty() ? "" : " ") + "Incorrectos: " + wrong;
-
-			Text headerText = (Text) new Text(text, font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.TOP);
-			headerText.setColor(new Color(255, 0, 0));
-
-			GameObject p = getParent().getChildren().get(0);
-			for (GameObject child : p.getChildren()) {
-				child.setEnabled(false);
-			}
-			p.addChild(headerText);
-			headerText.handleParentScreenChange();
+			return true;
 		}
+
+		String text = missing > 0 ? "Faltan: " + missing : "";
+		if (wrong > 0) text += (text.isEmpty() ? "" : " ") + "Incorrectos: " + wrong;
+
+		Text headerText = (Text) new Text(text, font)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.TOP);
+		headerText.setColor(new Color(255, 0, 0));
+
+		GameObject p = getParent().getChildren().get(0);
+		for (GameObject child : p.getChildren()) {
+			child.setEnabled(false);
+		}
+		p.addChild(headerText);
+		headerText.handleParentScreenChange();
+		return false;
 	}
 
 	public void performSolutionHide() {

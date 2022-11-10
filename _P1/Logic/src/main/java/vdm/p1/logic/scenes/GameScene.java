@@ -51,7 +51,7 @@ public final class GameScene extends Scene {
 		GameObject checkText = new Text("Comprobar", font)
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
-		GameObject checkButton = new CheckSolutionButton(table)
+		GameObject checkButton = new CheckSolutionButton(engine, table)
 				.addChild(checkText)
 				.addChild(checkImage)
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
