@@ -17,6 +17,7 @@ public abstract class Engine implements IEngine {
 	@Override
 	public void setLogic(ILogic logic) {
 		this.logic = logic;
+
 	}
 
 	/**
