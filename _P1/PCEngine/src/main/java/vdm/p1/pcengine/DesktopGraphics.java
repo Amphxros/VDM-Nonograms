@@ -66,9 +66,9 @@ public final class DesktopGraphics implements IGraphics {
 		return new DesktopFont(this, font);
 	}
 
-	public Dimension<Integer> getTextDimensions(IFont font, String string) {
+	public Dimension getTextDimensions(IFont font, String string) {
 		FontMetrics metrics = canvas.getFontMetrics(((DesktopFont) font).getUnderlyingFont());
-		return new Dimension<>(metrics.stringWidth(string), metrics.getHeight());
+		return new Dimension(metrics.stringWidth(string), metrics.getHeight());
 	}
 
 	@Override

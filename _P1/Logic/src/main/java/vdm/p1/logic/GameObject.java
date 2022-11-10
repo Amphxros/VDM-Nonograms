@@ -10,13 +10,14 @@ import vdm.p1.logic.layout.VerticalAlignment;
 
 public abstract class GameObject {
 	private final Vector2D position;
+	private final Vector<GameObject> children = new Vector<>();
 	private int width;
 	private int height;
+	private boolean enabled = true;
 	private HorizontalAlignment horizontalAlignment = HorizontalAlignment.NONE;
 	private VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
 	private Color strokeColor = null;
 	private GameObject parent = null;
-	private final Vector<GameObject> children = new Vector<>();
 
 	public GameObject() {
 		this(0, 0, 0, 0);
@@ -97,6 +98,14 @@ public abstract class GameObject {
 		this.height = height;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public GameObject getParent() {
 		return parent;
 	}
@@ -123,6 +132,10 @@ public abstract class GameObject {
 	}
 
 	public void render(IGraphics graphics) {
+		if (!isEnabled()) {
+			return;
+		}
+
 		if (strokeColor != null) {
 			graphics.setColor(strokeColor);
 			graphics.drawRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
@@ -133,13 +146,26 @@ public abstract class GameObject {
 		}
 	}
 
+	/**
+	 * An event method that's called on each frame.
+	 *
+	 * @param delta The number of seconds since the last frame.
+	 */
 	public void update(double delta) {
+		if (!isEnabled()) {
+			return;
+		}
+
 		for (GameObject child : getChildren()) {
 			child.update(delta);
 		}
 	}
 
 	public boolean handleInput(TouchEvent event) {
+		if (!isEnabled()) {
+			return false;
+		}
+
 		for (GameObject child : getChildren()) {
 			if (child.handleInput(event)) {
 				return true;

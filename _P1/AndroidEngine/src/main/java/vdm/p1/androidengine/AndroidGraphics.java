@@ -96,7 +96,7 @@ public final class AndroidGraphics implements IGraphics {
 	}
 
 	@Override
-	public Dimension<Integer> getTextDimensions(IFont font, String string) {
+	public Dimension getTextDimensions(IFont font, String string) {
 		Typeface tf = ((AndroidFont) font).getUnderlyingFont();
 		Paint paint = new Paint();
 		paint.setTextSize(font.getSize());
@@ -104,7 +104,7 @@ public final class AndroidGraphics implements IGraphics {
 
 		Rect result = new Rect();
 		paint.getTextBounds(string, 0, string.length(), result);
-		return new Dimension<>(result.width(), result.height());
+		return new Dimension(result.width(), result.height());
 	}
 
 	@Override

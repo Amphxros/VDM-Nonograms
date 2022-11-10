@@ -9,22 +9,31 @@ import vdm.p1.logic.GameObject;
 public final class Text extends GameObject {
 	private final String text;
 	private final IFont font;
+	private Color color = Color.BLACK;
 
 	public Text(String text, IFont font) {
 		super();
 		this.text = text;
 		this.font = font;
 
-		Dimension<Integer> dimension = font.getGraphics().getTextDimensions(font, text);
+		Dimension dimension = font.getGraphics().getTextDimensions(font, text);
 		setWidth(dimension.getWidth());
 		setHeight(dimension.getHeight());
 	}
 
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	@Override
 	public void render(IGraphics graphics) {
+		if (!isEnabled()) {
+			return;
+		}
+
 		super.render(graphics);
 
-		graphics.setColor(Color.BLACK);
+		graphics.setColor(color);
 		graphics.setFont(font);
 		graphics.drawText(text, getPosition().getX(), getPosition().getY() + getHeight());
 	}

@@ -13,7 +13,7 @@ public final class CheckSolutionButton extends Button {
 
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
-		System.out.println("Checking solutions. Found: " + table.checkSolutions() + " error(s)!");
+		table.performSolutionShow();
 		return true;
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IFont;
+import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.FlowDirection;
 import vdm.p1.logic.layout.Grid;
@@ -15,11 +16,26 @@ import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
 
 public final class Table extends GameObject {
+	/**
+	 * An invalid ("null") time to distinguish between a stopped and a running timer.
+	 */
+	private static final double CHECK_NULL_TIME = -1.0;
+
+	/**
+	 * The time at which the timer starts at.
+	 */
+	private static final double CHECK_START_TIME = 0.0;
+
+	/**
+	 * The maximum duration at which the timer ends.
+	 */
+	private static final double CHECK_RESET_DURATION = 5.0;
+
 	private final Cell[][] cells;
 	private final IFont font;
 	private final int rows;
 	private final int columns;
-	private boolean checked = false;
+	private double elapsed = CHECK_NULL_TIME;
 
 	public Table(IFont font, int rows, int columns) {
 		super();
@@ -91,6 +107,24 @@ public final class Table extends GameObject {
 	}
 
 	@Override
+	public void update(double delta) {
+		if (elapsed != CHECK_NULL_TIME) {
+			elapsed += delta;
+			if (elapsed < CHECK_RESET_DURATION) return;
+
+			elapsed = CHECK_NULL_TIME;
+			performSolutionHide();
+		}
+
+		super.update(delta);
+	}
+
+	@Override
+	public boolean handleInput(TouchEvent event) {
+		return elapsed == CHECK_NULL_TIME && super.handleInput(event);
+	}
+
+	@Override
 	public void handleParentScreenChange() {
 		setWidth(getParent().getWidth());
 		setHeight(getParent().getWidth());
@@ -107,21 +141,56 @@ public final class Table extends GameObject {
 		return cells;
 	}
 
-	public int checkSolutions() {
-		if (checked) return -1;
+	public void performSolutionShow() {
+		if (elapsed != CHECK_NULL_TIME) return;
+		elapsed = CHECK_START_TIME;
 
-		checked = true;
-		int errors = 0;
+		int missing = 0;
+		int wrong = 0;
 
 		for (Cell[] cells : getCells()) {
 			for (Cell cell : cells) {
-				if (!cell.checkSolution()) {
-					++errors;
+				if (cell.isWrong()) {
+					cell.setWrong(true);
+					++wrong;
+				} else if (cell.isMissing()) {
+					++missing;
 				}
 			}
 		}
 
-		return errors;
+		if (missing == 0 && wrong == 0) {
+			System.out.println("You did it!");
+		} else {
+			String text = missing > 0 ? "Faltan: " + missing : "";
+			if (wrong > 0) text += (text.isEmpty() ? "" : " ") + "Incorrectos: " + wrong;
+
+			Text headerText = (Text) new Text(text, font)
+					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+					.setVerticalAlignment(VerticalAlignment.TOP);
+			headerText.setColor(new Color(255, 0, 0));
+
+			GameObject p = getParent().getChildren().get(0);
+			for (GameObject child : p.getChildren()) {
+				child.setEnabled(false);
+			}
+			p.addChild(headerText);
+			headerText.handleParentScreenChange();
+		}
+	}
+
+	public void performSolutionHide() {
+		for (Cell[] cells : getCells()) {
+			for (Cell cell : cells) {
+				cell.setWrong(false);
+			}
+		}
+
+		Vector<GameObject> children = getParent().getChildren().get(0).getChildren();
+		children.removeElementAt(children.size() - 1);
+		for (GameObject child : children) {
+			child.setEnabled(true);
+		}
 	}
 
 	private void setHints(Grid grid, List<List<Integer>> lines) {
