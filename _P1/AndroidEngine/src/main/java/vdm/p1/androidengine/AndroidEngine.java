@@ -36,6 +36,9 @@ public final class AndroidEngine extends Engine implements Runnable {
 		return getGraphics().getHeight();
 	}
 
+	/**
+	 * Main loop of the program
+	 */
 	@Override
 	public void run() {
 		if (thread != Thread.currentThread()) {
@@ -85,6 +88,9 @@ public final class AndroidEngine extends Engine implements Runnable {
 		getLogic().handleEvents();
 	}
 
+	/**
+	 * Resumes the API, creating the execution thread
+	 */
 	public void resume() {
 		if (!running) {
 			// Only if we weren't doing anything yet
@@ -96,6 +102,9 @@ public final class AndroidEngine extends Engine implements Runnable {
 		}
 	}
 
+	/**
+	 * Pause the API, deletes the execution thread
+	 */
 	public void pause() {
 		if (running) {
 			running = false;

@@ -17,25 +17,45 @@ public final class AndroidFont implements IFont {
 		font = Typeface.create(Typeface.createFromAsset(assetManager, route), size, isBold);
 	}
 
+	/**
+	 *
+	 * @return the typeface of the font
+	 */
 	public Typeface getFont() {
 		return font;
 	}
 
+	/**
+	 *
+	 * @return the size of the font
+	 */
 	@Override
 	public int getSize() {
 		return size;
 	}
 
+	/**
+	 *
+	 * @return Whether or not the font is bold.
+	 */
 	@Override
 	public boolean isBold() {
 		return font.isBold();
 	}
 
+	/**
+	 *
+	 * An {@link IGraphics} instance.
+	 */
 	@Override
 	public IGraphics getGraphics() {
 		return graphics;
 	}
 
+	/**
+	 *
+	 * @return the typeface of the font
+	 */
 	public Typeface getUnderlyingFont() {
 		return font;
 	}

@@ -10,10 +10,16 @@ import vdm.p1.engine.ISound;
 public final class AndroidAudio implements IAudio {
 	private final Context context;
 
+
 	public AndroidAudio(Context context) {
 		this.context = context;
 	}
 
+	/**
+	 * Creates a new Android Sound
+	 * @param filename route of the file
+	 * @return An instance of {@link AndroidSound}
+	 */
 	@Override
 	public AndroidSound createSound(String filename) {
 		MediaPlayer player = new MediaPlayer();

@@ -26,6 +26,12 @@ public final class AndroidInput extends Input implements View.OnTouchListener {
 		};
 	}
 
+	/**
+
+	 * @param view view where the input is listening
+	 * @param event current input event
+	 * @return Whether an action is listened or not
+	 */
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {

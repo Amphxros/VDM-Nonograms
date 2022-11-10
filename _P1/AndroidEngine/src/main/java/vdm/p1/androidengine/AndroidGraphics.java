@@ -37,41 +37,82 @@ public final class AndroidGraphics implements IGraphics {
 		setColor(Color.WHITE);
 	}
 
+	/**
+	 *
+	 * @return an instance of the surface view
+	 */
 	public SurfaceView getView() {
 		return surfaceView;
 	}
 
+
+	/**
+	 *
+	 * @return an instance of the canvas
+	 */
 	public Canvas getCanvas() {
 		return canvas;
 	}
 
+
+	/**
+	 *
+	 * set the canvas
+	 */
 	public void setCanvas(Canvas canvas) {
 		this.canvas = canvas;
 	}
 
+
+	/**
+	 *
+	 * @return an instance of the surface holder
+	 */
 	public SurfaceHolder getSurfaceHolder() {
 		return surfaceHolder;
 	}
 
+
+	/**
+	 *
+	 * clears the render and sets the background color
+	 */
 	@Override
 	public void clear(Color color) {
 		clear(color.getARGB());
 	}
 
+	/**
+	 *
+	 * clears the render and sets the background color
+	 */
 	@Override
 	public void clear(int color) {
 		canvas = surfaceHolder.lockCanvas();
 		canvas.drawColor(color); // ARGB
 	}
 
+	/**
+	 *
+	 * presents the render
+	 */
 	public void present() {
 		surfaceHolder.unlockCanvasAndPost(canvas);
 	}
 
+	/**
+	 *
+	 * @return Whether or not the surface is valid.
+	 */
 	public boolean surfaceValid() {
 		return surfaceHolder.getSurface().isValid();
 	}
 
+	/**
+	 *
+	 * @param name route of the image
+	 * @return an instance of an {@link AndroidImage}
+	 */
 	@Override
 	public AndroidImage newImage(String name) {
 		Bitmap image;
@@ -88,6 +129,11 @@ public final class AndroidGraphics implements IGraphics {
 		return aImage;
 	}
 
+	/**
+	 *
+	 * @param name route of the image
+	 * @return an instance of an {@link AndroidFont}
+	 */
 	@Override
 	public AndroidFont newFont(String name, int size, boolean isBold) {
 		AndroidFont aFont = new AndroidFont(this, name, assetManager, size, isBold);
@@ -95,6 +141,12 @@ public final class AndroidGraphics implements IGraphics {
 		return aFont;
 	}
 
+	/**
+	 *
+	 * @param font Font to write with
+	 * @param string Message to write
+	 * @return the size of that text
+	 */
 	@Override
 	public Dimension getTextDimensions(IFont font, String string) {
 		Typeface tf = ((AndroidFont) font).getUnderlyingFont();
@@ -107,11 +159,25 @@ public final class AndroidGraphics implements IGraphics {
 		return new Dimension(result.width(), result.height());
 	}
 
+	/**
+	 *
+	 * @param image The image to draw.
+	 * @param x     The x-axis coordinate in the destination canvas at which to place the top left corner of the source `image`.
+	 * @param y     The y-axis coordinate in the destination canvas at which to place the top left corner of the source `image`.
+	 */
 	@Override
 	public void drawImage(IImage image, int x, int y) {
 		canvas.drawBitmap(((AndroidImage) image).getUnderlyingImage(), x, y, paint);
 	}
 
+	/**
+	 *
+	 * @param image  The image to draw.
+	 * @param x      The x-axis coordinate in the destination canvas at which to place the top left corner of the source `image`.
+	 * @param y      The y-axis coordinate in the destination canvas at which to place the top left corner of the source `image`.
+	 * @param width  The width to raw the `image` in the destination canvas. This allows scaling of the drawn image.
+	 * @param height The height to raw the `image` in the destination canvas. This allows scaling of the drawn image.
+	 */
 	@Override
 	public void drawImage(IImage image, int x, int y, int width, int height) {
 		Rect src = new Rect(0, 0, image.getWidth(), image.getHeight());
@@ -119,26 +185,58 @@ public final class AndroidGraphics implements IGraphics {
 		canvas.drawBitmap(((AndroidImage) image).getUnderlyingImage(), src, dst, paint);
 	}
 
+	/**
+	 *
+	 * @param text The text to draw in the destination canvas.
+	 * @param x    The x-axis coordinates from where to draw the text.
+	 * @param y    The y-axis coordinates from where to draw the text.
+	 */
 	@Override
 	public void drawText(String text, int x, int y) {
 		canvas.drawText(text, x, y, paint);
 	}
 
+	/**
+	 *
+	 * @param x    The x-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param y    The y-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param side The size of the rectangle to draw.
+	 */
 	@Override
 	public void fillRectangle(int x, int y, int side) {
 		fillRectangle(x, y, side, side);
 	}
 
+	/**
+	 *
+	 * @param x      The x-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param y      The y-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param width  The width of the rectangle to draw.
+	 * @param height The height of the rectangle to draw.
+	 */
 	@Override
 	public void fillRectangle(int x, int y, int width, int height) {
 		canvas.drawRect(x, y, x + width, y + height, paint);
 	}
 
+	/**
+	 *
+	 * @param x    The x-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param y    The y-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param side The size of the rectangle to draw.
+	 */
 	@Override
 	public void drawRectangle(int x, int y, int side) {
 		drawRectangle(x, y, side, side);
 	}
 
+	/**
+	 *
+	 * @param x      The x-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param y      The y-axis coordinate of the top left corner of the rectangle to draw into the destination canvas.
+	 * @param width  The width of the rectangle to draw.
+	 * @param height The height of the rectangle to draw.
+	 */
 	@Override
 	public void drawRectangle(int x, int y, int width, int height) {
 		paint.setStyle(Paint.Style.STROKE);
@@ -146,26 +244,49 @@ public final class AndroidGraphics implements IGraphics {
 		paint.setStyle(Paint.Style.FILL);
 	}
 
+	/**
+	 *
+	 * @param initX The x-axis coordinate of the starting point of the line.
+	 * @param initY The y-axis coordinate of the starting point of the line.
+	 * @param endX  The x-axis coordinate of the ending point of the line.
+	 * @param endY  The y-axis coordinate of the ending point of the line.
+	 */
 	@Override
 	public void drawLine(int initX, int initY, int endX, int endY) {
 		canvas.drawLine(initX, initY, endX, endY, paint);
 	}
 
+	/**
+	 *
+	 * @param width
+	 * @param height
+	 */
 	@Override
 	public void setResolution(int width, int height) {
-
 	}
 
+	/**
+	 *
+	 * @param color Sets the current color with a raw RGBA integer.
+	 */
 	@Override
 	public void setColor(int color) {
 		paint.setColor(Color.rgbaToARGB(color));
 	}
 
+	/**
+	 *
+	 * @param color Sets the current color with a {@link Color} instance.
+	 */
 	@Override
 	public void setColor(Color color) {
 		paint.setColor(color.getARGB());
 	}
 
+	/**
+	 * sets the writing font
+	 * @param font {@link AndroidFont}
+	 */
 	@Override
 	public void setFont(IFont font) {
 		AndroidFont aFont = (AndroidFont) font;
@@ -194,133 +315,21 @@ public final class AndroidGraphics implements IGraphics {
 		canvas.restore();
 	}
 
+	/**
+	 *
+	 * @return the width of the surface
+	 */
 	@Override
 	public int getWidth() {
 		return surfaceView.getWidth();
 	}
 
+	/**
+	 *
+	 * @return the height of the surface
+	 */
 	@Override
 	public int getHeight() {
 		return surfaceView.getHeight();
 	}
 }
-
-
-/**
- * //Clase interna encargada de obtener el SurfaceHolder y pintar con el canvas
- * class MyRenderClass implements Runnable, IGraphics {
- * <p>
- * private SurfaceView myView;
- * private SurfaceHolder holder;
- * private Canvas canvas;
- * <p>
- * private Thread renderThread;
- * <p>
- * private boolean running;
- * <p>
- * private Paint paint;
- * <p>
- * private Scene scene;
- * <p>
- * public MyRenderClass(SurfaceView myView){
- * this.myView = myView;
- * this.holder = this.myView.getHolder();
- * this.paint = new Paint();
- * this.paint.setColor(0xFFFFFFFF);
- * }
- * <p>
- * public int getWidth(){
- * return this.myView.getWidth();
- * }
- *
- * @Override public void run() {
- * if (renderThread != Thread.currentThread()) {
- * // Evita que cualquiera que no sea esta clase llame a este Runnable en un Thread
- * // Programación defensiva
- * throw new RuntimeException("run() should not be called directly");
- * }
- * <p>
- * // Si el Thread se pone en marcha
- * // muy rápido, la vista podría todavía no estar inicializada.
- * while(this.running && this.myView.getWidth() == 0);
- * // Espera activa. Sería más elegante al menos dormir un poco.
- * <p>
- * long lastFrameTime = System.nanoTime();
- * <p>
- * long informePrevio = lastFrameTime; // Informes de FPS
- * int frames = 0;
- * <p>
- * // Bucle de juego principal.
- * while(running) {
- * long currentTime = System.nanoTime();
- * long nanoElapsedTime = currentTime - lastFrameTime;
- * lastFrameTime = currentTime;
- * <p>
- * // Informe de FPS
- * double elapsedTime = (double) nanoElapsedTime / 1.0E9;
- * this.update(elapsedTime);
- * if (currentTime - informePrevio > 1000000000l) {
- * long fps = frames * 1000000000l / (currentTime - informePrevio);
- * System.out.println("" + fps + " fps");
- * frames = 0;
- * informePrevio = currentTime;
- * }
- * ++frames;
- * <p>
- * // Pintamos el frame
- * while (!this.holder.getSurface().isValid());
- * this.canvas = this.holder.lockCanvas();
- * this.render();
- * this.holder.unlockCanvasAndPost(canvas);
- * <p>
- * /*
- * // Posibilidad: cedemos algo de tiempo. Es una medida conflictiva...
- * try { Thread.sleep(1); } catch(Exception e) {}
- * <p>
- * }
- * }
- * <p>
- * protected void update(double deltaTime) {
- * scene.update(deltaTime);
- * }
- * <p>
- * public void setScene(Scene scene) {
- * this.scene = scene;
- * }
- * <p>
- * protected void renderCircle(float x, float y, float r){
- * canvas.drawCircle(x, y, r, this.paint);
- * }
- * <p>
- * protected void render() {
- * // "Borramos" el fondo.
- * this.canvas.drawColor(0xFFBBAABB); // ARGB
- * scene.render();
- * }
- * <p>
- * public void resume() {
- * if (!this.running) {
- * // Solo hacemos algo si no nos estábamos ejecutando ya
- * // (programación defensiva)
- * this.running = true;
- * // Lanzamos la ejecución de nuestro método run() en un nuevo Thread.
- * this.renderThread = new Thread(this);
- * this.renderThread.start();
- * }
- * }
- * <p>
- * public void pause() {
- * if (this.running) {
- * this.running = false;
- * while (true) {
- * try {
- * this.renderThread.join();
- * this.renderThread = null;
- * break;
- * } catch (InterruptedException ie) {
- * // Esto no debería ocurrir nunca...
- * }
- * }
- * }
- * }
- */
