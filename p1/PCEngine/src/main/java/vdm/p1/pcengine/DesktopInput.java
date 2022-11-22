@@ -29,10 +29,6 @@ public final class DesktopInput extends Input implements MouseInputListener, Key
 	public void mousePressed(MouseEvent mouseEvent) {
 	}
 
-	/**
-	 * Mouse released event
-	 * @param mouseEvent current event
-	 */
 	@Override
 	public void mouseReleased(MouseEvent mouseEvent) {
 		if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
