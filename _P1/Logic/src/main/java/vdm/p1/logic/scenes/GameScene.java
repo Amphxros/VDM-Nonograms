@@ -12,7 +12,7 @@ import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.CheckSolutionButton;
 import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
-import vdm.p1.logic.objects.Table;
+import vdm.p1.logic.objects.RandomTable;
 import vdm.p1.logic.objects.Text;
 
 public final class GameScene extends Scene {
@@ -22,7 +22,7 @@ public final class GameScene extends Scene {
 		super(engine);
 
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		Table table = (Table) new Table(font, rows, columns)
+		RandomTable table = (RandomTable) new RandomTable(font, rows, columns)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 

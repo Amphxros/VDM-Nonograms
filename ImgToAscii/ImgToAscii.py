@@ -105,7 +105,7 @@ def main():
     # parse args
     #args = parser.parse_args()
    
-    folder = Path("C:\Users\Amph\Documents\GitHub\Universidad\Moviles\VDM\_P1\Assets\levelimages") 
+    folder = Path("") 
  
     # if args.outFile:
     #     outFile = args.outFile
@@ -122,8 +122,9 @@ def main():
 
     for size in tqdm(os.listdir(folder)):    
         sizePath = folder / size
-        cols = int(size.split("x")[0])
-        rows = int(size.split("x")[1])
+        string [] split= size.split("x")
+        cols = int(split[0])
+        rows = int(split[1])
 
         for f in tqdm(os.listdir(sizePath)): 
             filePath = sizePath / Path(f)
