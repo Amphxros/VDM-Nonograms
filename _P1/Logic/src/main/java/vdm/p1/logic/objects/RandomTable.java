@@ -14,14 +14,11 @@ import vdm.p1.logic.layout.Grid;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.Cell;
-import vdm.p1.logic.objects.Table;
-import vdm.p1.logic.objects.Text;
 
 /**
  * Table with random solutions
  */
-public class RandomTable extends Table{
+public class RandomTable extends GameObject{
 	/**
 	 * An invalid ("null") time to distinguish between a stopped and a running timer.
 	 */
