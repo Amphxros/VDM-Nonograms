@@ -20,7 +20,7 @@ public class ThemeScene extends Scene{
 	public ThemeScene(IEngine engine, String theme) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		IImage image = engine.getGraphics().newImage("image/glassPanel.png");
+		IImage image = engine.getGraphics().newImage("assets/image/"+theme+"_theme.png");
 
 		GameObject goBackText = new Text("Volver", font)
 				.setHorizontalAlignment(HorizontalAlignment.LEFT)
