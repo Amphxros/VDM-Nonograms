@@ -8,9 +8,9 @@ import vdm.p1.logic.scenes.WinScene;
 
 public final class CheckSolutionButton extends Button {
 	private final IEngine engine;
-	private final RandomTable table;
+	private final Table table;
 
-	public CheckSolutionButton(IEngine engine, RandomTable table) {
+	public CheckSolutionButton(IEngine engine, Table table) {
 		super();
 		this.engine = engine;
 		this.table = table;
