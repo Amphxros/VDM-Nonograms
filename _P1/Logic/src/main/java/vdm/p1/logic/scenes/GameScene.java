@@ -13,10 +13,37 @@ import vdm.p1.logic.objects.CheckSolutionButton;
 import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.RandomTable;
+import vdm.p1.logic.objects.ReadingTable;
 import vdm.p1.logic.objects.Text;
 
 public final class GameScene extends Scene {
 	private final ISound sound;
+
+	public GameScene(IEngine engine, String filename){
+		super(engine);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		sound = engine.getAudio().createSound("audio/meadow_thoughts");
+
+		ReadingTable table= (ReadingTable) new ReadingTable(font,filename)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.BOTTOM);
+
+		GameObject header = new Padding(0, 0, 0.8, 0);
+
+
+		GameObject padding = new Padding(0.04, 0.1)
+				.addChild(header)
+				.addChild(table);
+
+		GameObject container = new Container(400, 600)
+				.addChild(padding);
+
+		GameObject body = new Body(engine)
+				.addChild(container);
+
+		addGameObject(body);
+	}
+
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);

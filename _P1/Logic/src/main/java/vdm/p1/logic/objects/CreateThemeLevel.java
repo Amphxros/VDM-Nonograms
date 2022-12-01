@@ -13,16 +13,19 @@ import vdm.p1.logic.scenes.GameScene;
 
 public class CreateThemeLevel extends Button {
 	private final IEngine engine;
+	private final String filename;
 	public CreateThemeLevel(int index, IEngine engine, IFont font, String filename){
 		super();
 		this.engine = engine;
+		this.filename=filename;
 
-		//addChild(new Text((String) index, font).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.MIDDLE));
+		addChild(new Text(Integer.toString(index), font).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.MIDDLE));
 	}
 
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
 		Logic logic = (Logic) engine.getLogic();
+		logic.changeScene(new GameScene(engine,filename));
 		return true;
 	}
 
