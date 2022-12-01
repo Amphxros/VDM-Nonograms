@@ -42,6 +42,27 @@ public class ThemeScene extends Scene{
 						.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 						.setVerticalAlignment(VerticalAlignment.TOP));
 
+		//grid con niveles aqui
+
+
+
+
+
+
+
+
+
+
+		GameObject padding = new Padding(0.04, 0.1)
+				.addChild(header)
+				.addChild(description)
+				;
+		GameObject container = new Container(400, 600)
+				.addChild(padding);
+		GameObject body = new Body(engine).addChild(container);
+
+		addGameObject(body);
+
 
 	}
 }
