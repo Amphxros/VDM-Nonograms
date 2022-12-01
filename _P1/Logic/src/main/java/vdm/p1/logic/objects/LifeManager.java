@@ -1,6 +1,8 @@
 package vdm.p1.logic.objects;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.HorizontalAlignment;
@@ -20,7 +22,7 @@ public class LifeManager extends GameObject {
 		heartFill = engine.getGraphics().newImage("image/heartfill.png");
 		heartEmpty = engine.getGraphics().newImage("image/heartempty.png");
 
-		Padding padding = new Padding(0.04, 0.01);
+		Padding padding = new Padding(0.35, 0.01);
 		for (int i = 0; i < life_number; i++) {
 			GameObject g = new Image(heartFill)
 					//casts the int (i+1) cause its NONE, LEFT, CENTRE, RIGHT
@@ -53,4 +55,18 @@ public class LifeManager extends GameObject {
 			life_number++;
 
 		}
+
+	@Override
+	public void render(IGraphics graphics) {
+		graphics.setColor(Color.BLACK);
+		GameObject pad = getChildren().get(0);
+		graphics.drawRectangle(pad.getPosition().getX(), pad.getPosition().getY(), pad.getWidth(), pad.getHeight());
 	}
+
+	@Override
+	public void handleParentScreenChange() {
+		inheritParentArea();
+
+		super.handleParentScreenChange();
+	}
+}

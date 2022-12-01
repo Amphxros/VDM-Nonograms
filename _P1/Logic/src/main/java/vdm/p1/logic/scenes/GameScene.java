@@ -12,6 +12,7 @@ import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.CheckSolutionButton;
 import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
+import vdm.p1.logic.objects.LifeManager;
 import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.Text;
 
@@ -27,7 +28,9 @@ public final class GameScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
-		GameObject header = new Padding(0, 0, 0.8, 0);
+		GameObject lifeMngr= new LifeManager(engine);
+		GameObject header = new Padding(0, 0, 0.8, 0)
+				.addChild(lifeMngr);
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
@@ -85,10 +88,14 @@ public final class GameScene extends Scene {
 		checkImage.setHeight(checkText.getHeight());
 		checkButton.setWidth(checkImage.getWidth() + 5 + checkText.getWidth());
 		checkButton.setHeight(checkText.getHeight());
+		GameObject lifeMngr= new LifeManager(engine)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
 		GameObject header = new Padding(0, 0, 0.8, 0)
 				.addChild(giveUpButton)
-				.addChild(checkButton);
+				.addChild(checkButton)
+				.addChild(lifeMngr);
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
