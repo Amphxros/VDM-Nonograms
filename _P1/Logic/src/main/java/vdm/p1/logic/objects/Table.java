@@ -141,7 +141,7 @@ public class Table extends GameObject {
 
 		int rows = read.nextInt();
 		int columns = read.nextInt();
-		String name = read.next();
+		String name = read.nextLine();
 		boolean[][] solutions = new boolean[rows][columns];
 
 		for (int i = 0; i < rows; ++i) {
