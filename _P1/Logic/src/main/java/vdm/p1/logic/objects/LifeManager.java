@@ -2,6 +2,7 @@ package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
@@ -15,7 +16,7 @@ public class LifeManager extends GameObject {
 	IImage heartFill;
 	IImage heartEmpty;
 
-	public LifeManager(IEngine engine) {
+	public LifeManager(IEngine engine, IFont font) {
 		this.engine = engine;
 		this.life_number = 3;
 
@@ -23,6 +24,9 @@ public class LifeManager extends GameObject {
 		heartEmpty = engine.getGraphics().newImage("image/heartempty.png");
 
 		Padding padding = new Padding(0.35, 0.01);
+		GameObject text= new Text(Integer.toString(this.life_number),font)
+				.setVerticalAlignment(VerticalAlignment.TOP)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE);
 		for (int i = 0; i < life_number; i++) {
 			GameObject g = new Image(heartFill)
 					//casts the int (i+1) cause its NONE, LEFT, CENTRE, RIGHT
@@ -30,6 +34,7 @@ public class LifeManager extends GameObject {
 					.setVerticalAlignment(VerticalAlignment.MIDDLE);
 			padding.addChild(g);
 			}
+			padding.addChild(text);
 			addChild(padding);
 		}
 
@@ -58,6 +63,7 @@ public class LifeManager extends GameObject {
 
 	@Override
 	public void render(IGraphics graphics) {
+		super.render(graphics);
 		graphics.setColor(Color.BLACK);
 		GameObject pad = getChildren().get(0);
 		graphics.drawRectangle(pad.getPosition().getX(), pad.getPosition().getY(), pad.getWidth(), pad.getHeight());
