@@ -28,7 +28,7 @@ public final class GameScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
-		GameObject lifeMngr= new LifeManager(engine,font);
+		GameObject lifeMngr= new LifeManager(engine,font,table);
 		GameObject header = new Padding(0, 0, 0.8, 0)
 				.addChild(lifeMngr);
 
@@ -88,7 +88,8 @@ public final class GameScene extends Scene {
 		checkImage.setHeight(checkText.getHeight());
 		checkButton.setWidth(checkImage.getWidth() + 5 + checkText.getWidth());
 		checkButton.setHeight(checkText.getHeight());
-		GameObject lifeMngr= new LifeManager(engine,font)
+
+		GameObject lifeMngr= new LifeManager(engine,font,table)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 

@@ -15,10 +15,12 @@ public class LifeManager extends GameObject {
 	int life_number;
 	IImage heartFill;
 	IImage heartEmpty;
+	Table table;
 
-	public LifeManager(IEngine engine, IFont font) {
+	public LifeManager(IEngine engine, IFont font, Table table) {
 		this.engine = engine;
 		this.life_number = 3;
+		this.table=table;
 
 		heartFill = engine.getGraphics().newImage("image/heartfill.png");
 		heartEmpty = engine.getGraphics().newImage("image/heartempty.png");
@@ -67,6 +69,24 @@ public class LifeManager extends GameObject {
 		graphics.setColor(Color.BLACK);
 		GameObject pad = getChildren().get(0);
 		graphics.drawRectangle(pad.getPosition().getX(), pad.getPosition().getY(), pad.getWidth(), pad.getHeight());
+	}
+
+	@Override
+	public void update(double delta) {
+		super.update(delta);
+
+		//checks if any cell is wrong to remove a heart
+		for (Cell[] cells : table.getCells()) {
+			for (Cell cell : cells) {
+				if (cell.isWrong()) {
+					cell.setWrong(true);
+					removeHeart();
+				}
+			}
+		}
+
+
+
 	}
 
 	@Override
