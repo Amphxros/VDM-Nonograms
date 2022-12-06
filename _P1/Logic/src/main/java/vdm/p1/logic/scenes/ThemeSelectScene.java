@@ -26,6 +26,9 @@ public class ThemeSelectScene extends Scene{
 		GameObject forestImage = new Image(engine.getGraphics().newImage("image/forest_theme.png"))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		forestImage.setWidth(200);
+		forestImage.setHeight(200);
+
 		GameObject forest = new Text("Bosque", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
@@ -40,6 +43,9 @@ public class ThemeSelectScene extends Scene{
 		GameObject jungleImage = new Image(engine.getGraphics().newImage("image/jungle_theme.png"))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		jungleImage.setWidth(200);
+		jungleImage.setHeight(200);
+
 		GameObject jungle = new Text("Jungla", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
@@ -55,6 +61,9 @@ public class ThemeSelectScene extends Scene{
 		GameObject asiaImage = new Image(engine.getGraphics().newImage("image/japan_theme.png"))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		asiaImage.setWidth(200);
+		asiaImage.setHeight(200);
+
 		GameObject asia = new Text("Asia", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
@@ -71,6 +80,8 @@ public class ThemeSelectScene extends Scene{
 		GameObject seaImage = new Image(engine.getGraphics().newImage("image/sea_theme.png"))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		seaImage.setWidth(200);
+		seaImage.setHeight(200);
 		GameObject sea = new Text("Mar", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
@@ -84,6 +95,8 @@ public class ThemeSelectScene extends Scene{
 		GameObject gameImage = new Image(engine.getGraphics().newImage("image/game_theme.png"))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		gameImage.setWidth(200);
+		gameImage.setHeight(200);
 		GameObject games = new Text("Juegos", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
@@ -99,6 +112,8 @@ public class ThemeSelectScene extends Scene{
 		GameObject cityImage = new Image(engine.getGraphics().newImage("image/city_theme.png"))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		cityImage.setWidth(200);
+		cityImage.setHeight(200);
 		GameObject city = new Text("Urbano", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);

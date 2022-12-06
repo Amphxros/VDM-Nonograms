@@ -116,4 +116,16 @@ public final class GameScene extends Scene {
 		super.dispose();
 		getEngine().getAudio().stopSound(sound);
 	}
+
+	@Override
+	public void update(double delta) {
+		super.update(delta);
+		/**
+		 * si el nº de vidas es 0 -->popup
+		 */
+
+		/**
+		 * si el tablero esta resuelto -->otro popup
+		 */
+	}
 }

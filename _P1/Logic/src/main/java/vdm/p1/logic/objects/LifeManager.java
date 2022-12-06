@@ -1,9 +1,7 @@
 package vdm.p1.logic.objects;
 
-import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
-import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.layout.HorizontalAlignment;
@@ -48,8 +46,6 @@ public class LifeManager extends GameObject {
 			if(life_number>=0) {
 				GameObject heart = new Image(heartEmpty);
 
-
-
 				GameObject pad = getChildren().get(0); //gets the padding
 				Text text= (Text)pad.getChildren().get(life_number+1);
 				text.setText(Integer.toString(life_number));
@@ -79,14 +75,6 @@ public class LifeManager extends GameObject {
 			life_number++;
 
 		}
-
-	@Override
-	public void render(IGraphics graphics) {
-		super.render(graphics);
-		graphics.setColor(Color.BLACK);
-		GameObject pad = getChildren().get(0);
-		graphics.drawRectangle(pad.getPosition().getX(), pad.getPosition().getY(), pad.getWidth(), pad.getHeight());
-	}
 
 	@Override
 	public void update(double delta) {
