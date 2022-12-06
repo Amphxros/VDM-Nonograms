@@ -7,7 +7,7 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.logic.GameObject;
 
 public final class Text extends GameObject {
-	private final String text;
+	private String text;
 	private final IFont font;
 	private Color color = Color.BLACK;
 
@@ -24,7 +24,7 @@ public final class Text extends GameObject {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
+	public void setText(String text){this.text=text;}
 	@Override
 	public void render(IGraphics graphics) {
 		if (!isEnabled()) {

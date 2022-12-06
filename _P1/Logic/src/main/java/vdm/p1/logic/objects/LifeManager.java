@@ -34,6 +34,8 @@ public class LifeManager extends GameObject {
 					//casts the int (i+1) cause its NONE, LEFT, CENTRE, RIGHT
 					.setHorizontalAlignment(HorizontalAlignment.values()[i + 1])
 					.setVerticalAlignment(VerticalAlignment.MIDDLE);
+			g.setWidth(2*text.getWidth());
+			g.setHeight(2*text.getHeight());
 			padding.addChild(g);
 			}
 			padding.addChild(text);
@@ -41,12 +43,27 @@ public class LifeManager extends GameObject {
 		}
 
 		public boolean removeHeart () {
-			life_number--;
-			GameObject heart = new Image(heartEmpty);
 
-			GameObject pad = getChildren().get(0); //gets the padding
-			pad.getChildren().remove(life_number); //removes the last filled heart
-			pad.addChild(heart); //adds an empty one
+			life_number--;
+			if(life_number>=0) {
+				GameObject heart = new Image(heartEmpty);
+
+
+
+				GameObject pad = getChildren().get(0); //gets the padding
+				Text text= (Text)pad.getChildren().get(life_number+1);
+				text.setText(Integer.toString(life_number));
+
+				heart.setWidth(2*text.getWidth());
+				heart.setWidth(2*text.getHeight());
+
+				pad.getChildren().remove(life_number); //removes the last filled heart
+				pad.addChild(heart); //adds an empty one
+
+
+
+
+			}
 			return life_number > 0;
 		}
 
@@ -81,12 +98,10 @@ public class LifeManager extends GameObject {
 				if (cell.isWrong()) {
 					cell.setWrong(true);
 					removeHeart();
+
 				}
 			}
 		}
-
-
-
 	}
 
 	@Override
