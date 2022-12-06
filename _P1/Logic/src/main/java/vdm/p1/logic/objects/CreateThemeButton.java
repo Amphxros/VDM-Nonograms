@@ -28,8 +28,6 @@ public class CreateThemeButton extends Button {
 	@Override
 	public void render(IGraphics graphics) {
 		super.render(graphics);
-		graphics.setColor(Color.BLACK);
-		graphics.drawRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
 	}
 
 	@Override

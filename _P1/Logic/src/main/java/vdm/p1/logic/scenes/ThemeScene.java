@@ -1,5 +1,6 @@
 package vdm.p1.logic.scenes;
 
+
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
@@ -16,11 +17,23 @@ import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Map;
+
 public class ThemeScene extends Scene{
+	private int numLevels;
+
+	Map <String, Boolean> levels;
 	public ThemeScene(IEngine engine, String theme) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		IImage image = engine.getGraphics().newImage("assets/image/"+theme+"_theme.png");
+		IImage image = engine.getGraphics().newImage("image/"+theme+"_theme.png");
+
 
 		GameObject goBackText = new Text("Volver", font)
 				.setHorizontalAlignment(HorizontalAlignment.LEFT)
@@ -43,15 +56,18 @@ public class ThemeScene extends Scene{
 						.setVerticalAlignment(VerticalAlignment.TOP));
 
 		//grid con niveles aqui
+		readDataTheme(theme);
 
-
-
-
-
-
-
-
-
+		Grid row0 = new Grid(numLevels, FlowDirection.HORIZONTAL);
+		for(int i=0; i<numLevels;i++) {
+			row0.setElement(i, new Padding(0.2)
+					.addChild(new CreateLevelButton(getEngine(), font, 4, 4)
+							.addChild(new Image(image)
+									.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+									.setVerticalAlignment(VerticalAlignment.MIDDLE))
+					)
+			);
+		}
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
@@ -62,6 +78,32 @@ public class ThemeScene extends Scene{
 		GameObject body = new Body(engine).addChild(container);
 
 		addGameObject(body);
+
+
+	}
+
+	/**
+	 * reads the deencripted file
+	 * @param theme
+	 */
+	private void readDataTheme(String theme){
+		File data= new File("levels/" + theme +"/data" );
+		Scanner read;
+		try{
+			read= new Scanner(data);
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+			return;
+		}
+		this.numLevels= Integer.parseInt(read.nextLine());
+		levels= new HashMap<>();
+		for(int i=0;i<numLevels;++i){
+			String s= read.nextLine();
+			String [] spl= s.split(" ");
+			System.out.println(s);
+			levels.put(spl[0],spl[1]=="true");
+		}
 
 
 	}
