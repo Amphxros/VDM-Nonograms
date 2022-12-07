@@ -1,6 +1,17 @@
 package vdm.p1.engine;
 
 public interface IEngine {
+
+	/**
+	 * @return An {@link IFileMngr} instance.
+	 */
+	IFileMngr getFileMngr();
+
+	/**
+	 * sets the {@link IFileMngr} engine.
+	 */
+	void setFileMngr(IFileMngr mngr);
+
 	/**
 	 * @return An {@link IGraphics} instance.
 	 */

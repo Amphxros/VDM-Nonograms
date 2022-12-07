@@ -20,6 +20,8 @@ import vdm.p1.logic.objects.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -87,24 +89,8 @@ public class ThemeScene extends Scene{
 	 * @param theme
 	 */
 	private void readDataTheme(String theme){
-		File data= new File("levels/" + theme +"/data" );
-		Scanner read;
-		try{
-			read= new Scanner(data);
-		}
-		catch (FileNotFoundException e){
-			e.printStackTrace();
-			return;
-		}
-		this.numLevels= Integer.parseInt(read.nextLine());
-		levels= new HashMap<>();
-		for(int i=0;i<numLevels;++i){
-			String s= read.nextLine();
-			String [] spl= s.split(" ");
-			System.out.println(s);
-			levels.put(spl[0],spl[1]=="true");
-		}
 
-
+		FileOutputStream file= getEngine().getFileMngr().openOutputFile("levels/forest/data");
+		
 	}
 }

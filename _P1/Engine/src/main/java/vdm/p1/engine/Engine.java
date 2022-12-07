@@ -5,6 +5,7 @@ public abstract class Engine implements IEngine {
 	private IAudio audio;
 	private Input input;
 	private ILogic logic;
+	private IFileMngr fileMngr;
 
 	/**
 	 * @return An {@link ILogic} instance.
@@ -17,6 +18,20 @@ public abstract class Engine implements IEngine {
 	@Override
 	public void setLogic(ILogic logic) {
 		this.logic = logic;
+	}
+
+	/**
+	 *
+	 * @return an instance of {@link IFileMngr} instance
+	 */
+	@Override
+	public IFileMngr getFileMngr() {
+		return fileMngr;
+	}
+
+	@Override
+	public void setFileMngr(IFileMngr mngr) {
+		this.fileMngr= mngr;
 	}
 
 	/**
@@ -57,4 +72,5 @@ public abstract class Engine implements IEngine {
 	public void setAudio(IAudio audio) {
 		this.audio = audio;
 	}
+
 }
