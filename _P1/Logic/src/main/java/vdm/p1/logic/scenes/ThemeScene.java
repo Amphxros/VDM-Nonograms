@@ -19,6 +19,7 @@ import vdm.p1.logic.objects.Text;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -90,7 +91,7 @@ public class ThemeScene extends Scene{
 	 */
 	private void readDataTheme(String theme){
 
-		FileOutputStream file= getEngine().getFileMngr().openOutputFile("levels/forest/data");
-		
+		FileInputStream file= getEngine().getFileMngr().openInputFile("levels/forest/data");
+
 	}
 }
