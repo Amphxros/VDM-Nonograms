@@ -130,24 +130,20 @@ public class Table extends GameObject {
 		return new Table(font, solutions);
 	}
 
-	public static Table fromFile(IFont font, String filename) {
-		File file = new File(filename);
-		Scanner read;
-		try {
-			read = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public static Table fromFile(IFont font, String content) {
 
-		int rows = read.nextInt();
-		int columns = read.nextInt();
-		String name = read.nextLine();
+		String [] lines= content.split("\n");
+		String [] line= lines[0].split(" ");
+
+		int rows = Integer.parseInt(line[0]);
+		int columns = Integer.parseInt(line[1]);
+		String name = line[2];
+
 		boolean[][] solutions = new boolean[rows][columns];
-
-		for (int i = 0; i < rows; ++i) {
+		for(int i=0;i<rows;i++){
+			line=lines[i +1].split(" ");
 			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = read.next().equals("0");
+				solutions[i][j] = line[j]=="0";
 			}
 		}
 

@@ -30,7 +30,6 @@ import java.util.Map;
 
 public class ThemeScene extends Scene{
 	private int numLevels;
-
 	Map <String, Boolean> levels;
 	public ThemeScene(IEngine engine, String theme) {
 		super(engine);
@@ -91,7 +90,13 @@ public class ThemeScene extends Scene{
 	 */
 	private void readDataTheme(String theme){
 
-		FileInputStream file= getEngine().getFileMngr().openInputFile("levels/forest/data");
+		String content= getEngine().getFileMngr().readFile("Assets/","levels/forest/data");
+
+		String[] lines= content.split("/n");
+		numLevels= Integer.parseInt(lines[0]);
+		for(int i=0; i<numLevels;i++){
+
+		}
 
 	}
 }

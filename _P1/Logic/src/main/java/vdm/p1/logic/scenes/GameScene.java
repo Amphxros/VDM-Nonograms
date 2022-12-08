@@ -24,7 +24,8 @@ public final class GameScene extends Scene {
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 
-		Table table = (Table) Table.fromFile(font, filename)
+		String content= engine.getFileMngr().readFile("Assets/", filename);
+		Table table = (Table) Table.fromFile(font,content)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
