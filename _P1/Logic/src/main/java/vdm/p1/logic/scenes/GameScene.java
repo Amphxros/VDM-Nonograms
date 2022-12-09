@@ -19,12 +19,12 @@ import vdm.p1.logic.objects.Text;
 public final class GameScene extends Scene {
 	private final ISound sound;
 
-	public GameScene(IEngine engine, String filename) {
+	public GameScene(IEngine engine, String content) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 
-		String content= engine.getFileMngr().readFile("Assets/", filename);
+
 		Table table = (Table) Table.fromFile(font,content)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);

@@ -128,6 +128,10 @@ public class Table extends GameObject {
 	}
 
 	public static Table fromFile(IFont font, String content) {
+		/**
+		 * PARSEAR ESTO BIEN
+		 */
+
 		String[] lines = content.split("\n");
 		String[] line = lines[0].split(" ");
 
