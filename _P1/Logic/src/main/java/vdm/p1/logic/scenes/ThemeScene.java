@@ -1,6 +1,8 @@
 package vdm.p1.logic.scenes;
 
 
+import java.util.Map;
+
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
@@ -17,24 +19,14 @@ import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Map;
-
-public class ThemeScene extends Scene{
+public class ThemeScene extends Scene {
+	Map<String, Boolean> levels;
 	private int numLevels;
-	Map <String, Boolean> levels;
+
 	public ThemeScene(IEngine engine, String theme) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		IImage image = engine.getGraphics().newImage("image/"+theme+"_theme.png");
+		IImage image = engine.getGraphics().newImage("image/" + theme + "_theme.png");
 
 
 		GameObject goBackText = new Text("Volver", font)
@@ -61,7 +53,7 @@ public class ThemeScene extends Scene{
 		readDataTheme(theme);
 
 		Grid row0 = new Grid(numLevels, FlowDirection.HORIZONTAL);
-		for(int i=0; i<numLevels;i++) {
+		for (int i = 0; i < numLevels; i++) {
 			row0.setElement(i, new Padding(0.2)
 					.addChild(new CreateLevelButton(getEngine(), font, 4, 4)
 							.addChild(new Image(image)
@@ -73,8 +65,7 @@ public class ThemeScene extends Scene{
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
-				.addChild(description)
-				;
+				.addChild(description);
 		GameObject container = new Container(400, 600)
 				.addChild(padding);
 		GameObject body = new Body(engine).addChild(container);
@@ -86,17 +77,17 @@ public class ThemeScene extends Scene{
 
 	/**
 	 * reads the deencripted file
+	 *
 	 * @param theme
 	 */
-	private void readDataTheme(String theme){
+	private void readDataTheme(String theme) {
+		String content = getEngine().getFileMngr().readFile("Assets/", "levels/forest/data");
 
-		String content= getEngine().getFileMngr().readFile("Assets/","levels/forest/data");
+		String[] lines = content.split("\n");
+		numLevels = Integer.parseInt(lines[0]);
 
-		String[] lines= content.split("/n");
-		numLevels= Integer.parseInt(lines[0]);
-		for(int i=0; i<numLevels;i++){
-
+		for (int i = 1; i < lines.length; i++) {
+			System.out.println(lines[i]);
 		}
-
 	}
 }

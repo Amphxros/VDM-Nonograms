@@ -1,11 +1,8 @@
 package vdm.p1.logic.objects;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
@@ -131,19 +128,18 @@ public class Table extends GameObject {
 	}
 
 	public static Table fromFile(IFont font, String content) {
-
-		String [] lines= content.split("\n");
-		String [] line= lines[0].split(" ");
+		String[] lines = content.split("\n");
+		String[] line = lines[0].split(" ");
 
 		int rows = Integer.parseInt(line[0]);
 		int columns = Integer.parseInt(line[1]);
 		String name = line[2];
 
 		boolean[][] solutions = new boolean[rows][columns];
-		for(int i=0;i<rows;i++){
-			line=lines[i +1].split(" ");
+		for (int i = 0; i < rows; i++) {
+			line = lines[i + 1].split(" ");
 			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = line[j]=="0";
+				solutions[i][j] = line[j].equals("0");
 			}
 		}
 
@@ -160,7 +156,6 @@ public class Table extends GameObject {
 			elapsed = CHECK_NULL_TIME;
 			performSolutionHide();
 		}
-
 
 
 		super.update(delta);
