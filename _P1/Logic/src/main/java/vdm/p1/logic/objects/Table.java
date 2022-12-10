@@ -16,9 +16,6 @@ import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
 
-/**
- * Table with random solutions
- */
 public final class Table extends GameObject {
 	/**
 	 * An invalid ("null") time to distinguish between a stopped and a running timer.
@@ -42,7 +39,6 @@ public final class Table extends GameObject {
 	private final int rows;
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
-
 
 	private Table(IFont font, boolean[][] solutions) {
 		this(font, solutions, null);
@@ -143,7 +139,6 @@ public final class Table extends GameObject {
 
 		return new Table(font, solutions, name);
 	}
-
 
 	@Override
 	public void update(double delta) {

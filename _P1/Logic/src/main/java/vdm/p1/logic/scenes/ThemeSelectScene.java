@@ -67,7 +67,6 @@ public final class ThemeSelectScene extends Scene {
 		GameObject body = new Body(engine).addChild(container);
 
 		addGameObject(body);
-
 	}
 
 	private GameObject createLevelButton(IFont font, String name, String file) {
