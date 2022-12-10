@@ -30,8 +30,7 @@ public final class Cell extends Button {
 	public void setWrong(boolean wrong) {
 		if (wrong) {
 			current = State.WRONG;
-		}
-		else if (current == State.WRONG) {
+		} else if (current == State.WRONG) {
 			current = State.MARKED;
 		}
 	}

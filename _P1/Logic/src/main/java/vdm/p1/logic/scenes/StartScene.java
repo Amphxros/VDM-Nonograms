@@ -21,40 +21,32 @@ public final class StartScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.TOP);
 
-		//partida rapida
-		GameObject playText = new Text("Partida Rapida", font)
+		// Quick Match
+		GameObject quickMatchText = new Text("Partida Rapida", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-
-		GameObject playButton = new GoToLevelSelectSceneButton(getEngine())
-				.addChild(playText)
+		GameObject quickMatchButton = new GoToLevelSelectSceneButton(getEngine())
+				.addChild(quickMatchText)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		quickMatchButton.setWidth(quickMatchText.getWidth());
+		quickMatchButton.setHeight(quickMatchText.getHeight());
 
-
-		//modo historia
-		GameObject histText = new Text("Modo Historia", font)
+		// Story Mode
+		GameObject storyModeText = new Text("Modo Historia", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-
-
-		GameObject histButton = new GoToHistoryButton(getEngine())
-				.addChild(histText)
+		GameObject storyModeButton = new GoToHistoryButton(getEngine())
+				.addChild(storyModeText)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
-
-		playButton.setWidth(playText.getWidth());
-		playButton.setHeight(playText.getHeight());
-
-		histButton.setWidth(playText.getWidth());
-		histButton.setHeight(playText.getHeight());
-
-
+		storyModeButton.setWidth(storyModeText.getWidth());
+		storyModeButton.setHeight(storyModeText.getHeight());
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(title)
-				.addChild(playButton)
-				.addChild(histButton);
+				.addChild(quickMatchButton)
+				.addChild(storyModeButton);
 
 		GameObject container = new Container(400, 600)
 				.addChild(padding);

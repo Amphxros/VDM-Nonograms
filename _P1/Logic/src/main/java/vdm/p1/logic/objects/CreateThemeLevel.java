@@ -11,13 +11,14 @@ import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.base.Button;
 import vdm.p1.logic.scenes.GameScene;
 
-public class CreateThemeLevel extends Button {
+public final class CreateThemeLevel extends Button {
 	private final IEngine engine;
 	private final String content;
-	public CreateThemeLevel(int index, IEngine engine, IFont font, String content){
+
+	public CreateThemeLevel(int index, IEngine engine, IFont font, String content) {
 		super();
 		this.engine = engine;
-		this.content=content;
+		this.content = content;
 
 		addChild(new Text(Integer.toString(index), font).setHorizontalAlignment(HorizontalAlignment.CENTRE).setVerticalAlignment(VerticalAlignment.MIDDLE));
 	}
@@ -25,7 +26,7 @@ public class CreateThemeLevel extends Button {
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
 		Logic logic = (Logic) engine.getLogic();
-		logic.changeScene(new GameScene(engine,content));
+		logic.changeScene(new GameScene(engine, content));
 		return true;
 	}
 

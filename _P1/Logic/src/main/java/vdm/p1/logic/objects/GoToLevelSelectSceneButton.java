@@ -1,8 +1,6 @@
 package vdm.p1.logic.objects;
 
-import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
-import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.objects.base.Button;
@@ -14,11 +12,6 @@ public final class GoToLevelSelectSceneButton extends Button {
 	public GoToLevelSelectSceneButton(IEngine engine) {
 		super();
 		this.engine = engine;
-	}
-
-	@Override
-	public void render(IGraphics graphics) {
-		super.render(graphics);
 	}
 
 	@Override

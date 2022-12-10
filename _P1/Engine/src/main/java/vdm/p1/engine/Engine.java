@@ -5,7 +5,7 @@ public abstract class Engine implements IEngine {
 	private IAudio audio;
 	private Input input;
 	private ILogic logic;
-	private IFileMngr fileMngr;
+	private IFileManager fileManager;
 
 	/**
 	 * @return An {@link ILogic} instance.
@@ -21,17 +21,16 @@ public abstract class Engine implements IEngine {
 	}
 
 	/**
-	 *
-	 * @return an instance of {@link IFileMngr} instance
+	 * @return an instance of {@link IFileManager} instance
 	 */
 	@Override
-	public IFileMngr getFileMngr() {
-		return fileMngr;
+	public IFileManager getFileManager() {
+		return fileManager;
 	}
 
 	@Override
-	public void setFileMngr(IFileMngr mngr) {
-		this.fileMngr= mngr;
+	public void setFileManager(IFileManager manager) {
+		this.fileManager = manager;
 	}
 
 	/**

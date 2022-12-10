@@ -7,24 +7,29 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.logic.GameObject;
 
 public final class Text extends GameObject {
-	private String text;
 	private final IFont font;
+	private String text;
 	private Color color = Color.BLACK;
 
 	public Text(String text, IFont font) {
 		super();
-		this.text = text;
 		this.font = font;
+
+		setText(text);
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 
 		Dimension dimension = font.getGraphics().getTextDimensions(font, text);
 		setWidth(dimension.getWidth());
 		setHeight(dimension.getHeight());
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
-	public void setText(String text){this.text=text;}
 	@Override
 	public void render(IGraphics graphics) {
 		if (!isEnabled()) {

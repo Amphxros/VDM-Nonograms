@@ -3,6 +3,7 @@ package vdm.p1.logic.objects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
@@ -18,7 +19,7 @@ import vdm.p1.logic.layout.VerticalAlignment;
 /**
  * Table with random solutions
  */
-public class Table extends GameObject {
+public final class Table extends GameObject {
 	/**
 	 * An invalid ("null") time to distinguish between a stopped and a running timer.
 	 */
@@ -128,22 +129,15 @@ public class Table extends GameObject {
 	}
 
 	public static Table fromFile(IFont font, String content) {
-		/**
-		 * PARSEAR ESTO BIEN
-		 */
-
-		String[] lines = content.split("\n");
-		String[] line = lines[0].split(" ");
-		System.out.println(lines[0]);
-		int rows = Integer.parseInt(line[0]);
-		int columns = Integer.parseInt(line[1]);
-		String name = lines[0];
-
+		Scanner read = new Scanner(content);
+		int rows = read.nextInt();
+		int columns = read.nextInt();
+		String name = read.next();
 		boolean[][] solutions = new boolean[rows][columns];
-		for (int i = 0; i < rows; i++) {
-			line = lines[i + 1].split(" ");
+
+		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = line[j].equals("O");
+				solutions[i][j] = read.next().equals("O");
 			}
 		}
 
@@ -160,7 +154,6 @@ public class Table extends GameObject {
 			elapsed = CHECK_NULL_TIME;
 			performSolutionHide();
 		}
-
 
 		super.update(delta);
 	}
