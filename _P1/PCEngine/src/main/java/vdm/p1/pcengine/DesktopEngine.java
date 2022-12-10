@@ -19,6 +19,7 @@ public final class DesktopEngine extends Engine implements Runnable {
 
 		setAudio(new DesktopAudio());
 		setGraphics(new DesktopGraphics(renderView));
+		setFileManager(new DesktopFileManager());
 
 		DesktopInput input = new DesktopInput(renderView);
 		setInput(input);

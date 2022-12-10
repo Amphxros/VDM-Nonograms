@@ -1,21 +1,14 @@
-package vdm.p1.androidengine;
+package vdm.p1.pcengine;
 
-import android.content.Context;
-
-import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import vdm.p1.engine.IFileManager;
 
-public final class AndroidFileManager implements IFileManager {
-	private final Context context;
-
-	public AndroidFileManager(Context context) {
-		this.context = context;
-	}
-
+public final class DesktopFileManager implements IFileManager {
 	/**
 	 * Creates an input file stream.
 	 *
@@ -25,7 +18,7 @@ public final class AndroidFileManager implements IFileManager {
 	@Override
 	public InputStream openInputFile(String path) {
 		try {
-			return context.openFileInput(path);
+			return Files.newInputStream(Paths.get("Assets", path));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -41,7 +34,7 @@ public final class AndroidFileManager implements IFileManager {
 	@Override
 	public OutputStream openOutputFile(String path) {
 		try {
-			return context.openFileOutput(path, Context.MODE_PRIVATE);
+			return Files.newOutputStream(Paths.get("Assets", path));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -56,21 +49,11 @@ public final class AndroidFileManager implements IFileManager {
 	 */
 	@Override
 	public String readFile(String path) {
-		StringBuilder result = new StringBuilder();
-
-		try (InputStreamReader is = new InputStreamReader(context.getAssets().open(path))) {
-			BufferedReader buffer = new BufferedReader(is);
-			do {
-				result.append(buffer.readLine());
-				result.append('\n');
-			} while (buffer.ready());
-
-			is.close();
-			return result.toString();
+		try {
+			return new String(Files.readAllBytes(Paths.get("Assets", path)));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-
-		return result.toString();
 	}
 }
