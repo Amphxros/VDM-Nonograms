@@ -1,5 +1,6 @@
 package vdm.p1.nonograms;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.SurfaceView;
 
@@ -10,6 +11,8 @@ import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
 	private AndroidEngine engine;
+	private String sharedPrefFile = "MySharedPreferences";	// TEMPORAL
+	SharedPreferences mPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +31,35 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+		//if (savedInstanceState != null) {
+			//mColor = mPreferences.getInt("lastColor", 0);
+			//soundFX = mPreferences.getBoolean("lastColor", True);
+			//soundMUSIC = mPreferences.getBoolean("lastColor", True);
+
+			// METHODS TO SET THE PREFERENCES ON THE LOGIC SHOULD BE HERE
+
+		//} else {}
+
 		engine.resume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		// Editor object is mandatory for the changes on the SharedPreferences object
+		SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+		SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+
+		// PREFERENCES SAVING
+		//preferencesEditor.putInt("lastColor", mColor);
+		//preferencesEditor.putBoolean("soundFX", logic.getSoundFX());
+		//preferencesEditor.putBoolean("soundMusic", logic.getSoundMusic());
+
+		preferencesEditor.apply(); // APPLIES ALL CHANGED PREFERENCES
+
 		engine.pause();
 	}
 
