@@ -134,16 +134,16 @@ public class Table extends GameObject {
 
 		String[] lines = content.split("\n");
 		String[] line = lines[0].split(" ");
-
+		System.out.println(lines[0]);
 		int rows = Integer.parseInt(line[0]);
 		int columns = Integer.parseInt(line[1]);
-		String name = line[2];
+		String name = lines[0];
 
 		boolean[][] solutions = new boolean[rows][columns];
 		for (int i = 0; i < rows; i++) {
 			line = lines[i + 1].split(" ");
 			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = line[j].equals("0");
+				solutions[i][j] = line[j].equals("O");
 			}
 		}
 

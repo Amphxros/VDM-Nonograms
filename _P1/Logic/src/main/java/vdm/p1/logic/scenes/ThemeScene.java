@@ -3,6 +3,7 @@ package vdm.p1.logic.scenes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
@@ -30,7 +31,7 @@ public class ThemeScene extends Scene {
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		IImage image = engine.getGraphics().newImage("image/" + theme + "_theme.png");
 
-		levels= new HashMap<>();
+		levels= new TreeMap<>();
 
 		GameObject goBackText = new Text("Volver", font)
 				.setHorizontalAlignment(HorizontalAlignment.LEFT)
