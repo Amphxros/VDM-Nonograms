@@ -19,7 +19,6 @@ public final class DesktopFileManager implements IFileManager {
 	public InputStream openInputFile(String path) {
 		try {
 			return Files.newInputStream(Paths.get("Assets", path));
-			// return new FileInputStream("Assets/" + path);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -36,7 +35,6 @@ public final class DesktopFileManager implements IFileManager {
 	public OutputStream openOutputFile(String path) {
 		try {
 			return Files.newOutputStream(Paths.get("Assets", path));
-			// return new FileOutputStream("Assets/" + path);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
