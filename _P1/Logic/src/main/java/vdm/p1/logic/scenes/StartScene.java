@@ -8,6 +8,7 @@ import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
+import vdm.p1.logic.objects.GoToHistoryButton;
 import vdm.p1.logic.objects.GoToLevelSelectSceneButton;
 import vdm.p1.logic.objects.Text;
 
@@ -20,21 +21,33 @@ public final class StartScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.TOP);
 
-		GameObject playText = new Text("Jugar", font)
+		// Quick Match
+		GameObject quickMatchText = new Text("Partida Rapida", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-
-		GameObject playButton = new GoToLevelSelectSceneButton(getEngine())
-				.addChild(playText)
+		GameObject quickMatchButton = new GoToLevelSelectSceneButton(getEngine())
+				.addChild(quickMatchText)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		quickMatchButton.setWidth(quickMatchText.getWidth());
+		quickMatchButton.setHeight(quickMatchText.getHeight());
 
-		playButton.setWidth(playText.getWidth());
-		playButton.setHeight(playText.getHeight());
+		// Story Mode
+		GameObject storyModeText = new Text("Modo Historia", font)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		GameObject storyModeButton = new GoToHistoryButton(getEngine())
+				.addChild(storyModeText)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.BOTTOM);
+		storyModeButton.setWidth(storyModeText.getWidth());
+		storyModeButton.setHeight(storyModeText.getHeight());
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(title)
-				.addChild(playButton);
+				.addChild(quickMatchButton)
+				.addChild(storyModeButton);
+
 		GameObject container = new Container(400, 600)
 				.addChild(padding);
 		GameObject body = new Body(engine).addChild(container);

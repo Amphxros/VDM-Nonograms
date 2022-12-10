@@ -92,9 +92,13 @@ public final class LevelSelectScene extends Scene {
 		rows.setElement(0, row0);
 		rows.setElement(1, row1);
 
-		GameObject table = new Padding(0.4, 0, 0.1, 0).addChild(rows);
+		GameObject table = new Padding(0.4, 0, 0.1, 0)
+				.addChild(rows);
 
-		GameObject padding = new Padding(0.04, 0.1).addChild(header).addChild(description).addChild(table);
+		GameObject padding = new Padding(0.04, 0.1)
+				.addChild(header)
+				.addChild(description)
+				.addChild(table);
 		GameObject container = new Container(400, 600).addChild(padding);
 		GameObject body = new Body(engine).addChild(container);
 

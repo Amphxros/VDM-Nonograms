@@ -3,6 +3,7 @@ package vdm.p1.logic.objects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
@@ -31,6 +32,7 @@ public final class Table extends GameObject {
 	 */
 	private static final double CHECK_RESET_DURATION = 5.0;
 
+	private final String name;
 	private final Cell[][] cells;
 	private final boolean[][] solutions;
 	private final IFont font;
@@ -38,26 +40,27 @@ public final class Table extends GameObject {
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
 
-	public Table(IFont font, int rows, int columns) {
+	private Table(IFont font, boolean[][] solutions) {
+		this(font, solutions, null);
+	}
+
+	private Table(IFont font, boolean[][] solutions, String name) {
 		super();
 		this.font = font;
-		this.rows = rows;
-		this.columns = columns;
+		this.rows = solutions.length;
+		this.columns = solutions[0].length;
+		this.solutions = solutions;
+		this.name = name;
 
 		cells = new Cell[rows][columns];
-		solutions = new boolean[rows][columns];
-
-		Random rng = new Random();
 		Grid grid = new Grid(rows, FlowDirection.VERTICAL);
 		for (int i = 0; i < rows; ++i) {
 			Grid row = new Grid(columns, FlowDirection.HORIZONTAL);
 			for (int j = 0; j < columns; ++j) {
 
-				boolean solution = rng.nextBoolean();
-				Cell cell = new Cell(solution);
+				Cell cell = new Cell(solutions[i][j]);
 				row.setElement(j, cell);
 				cells[i][j] = cell;
-				solutions[i][j] = solution;
 			}
 
 			grid.setElement(i, row);
@@ -105,6 +108,36 @@ public final class Table extends GameObject {
 		addChild(new Padding(0.8 - gridHeight, 0, gridHeight, 0.2)
 				.addChild(hintTopGrid)
 				.setStrokeColor(Color.BLACK));
+	}
+
+	public static Table fromRandom(IFont font, int rows, int columns) {
+		boolean[][] solutions = new boolean[rows][columns];
+
+		Random rng = new Random();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				boolean solution = rng.nextBoolean();
+				solutions[i][j] = solution;
+			}
+		}
+
+		return new Table(font, solutions);
+	}
+
+	public static Table fromFile(IFont font, String content) {
+		Scanner read = new Scanner(content);
+		int rows = read.nextInt();
+		int columns = read.nextInt();
+		String name = read.next();
+		boolean[][] solutions = new boolean[rows][columns];
+
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				solutions[i][j] = read.next().equals("O");
+			}
+		}
+
+		return new Table(font, solutions, name);
 	}
 
 	@Override

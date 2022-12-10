@@ -2,6 +2,18 @@ package vdm.p1.engine;
 
 public interface IEngine {
 	/**
+	 * @return An {@link IFileManager} instance.
+	 */
+	IFileManager getFileManager();
+
+	/**
+	 * Sets the {@link IFileManager} engine.
+	 *
+	 * @param manager An {@link IFileManager} instance.
+	 */
+	void setFileManager(IFileManager manager);
+
+	/**
 	 * @return An {@link IGraphics} instance.
 	 */
 	IGraphics getGraphics();
