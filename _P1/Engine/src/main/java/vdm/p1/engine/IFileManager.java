@@ -1,24 +1,24 @@
 package vdm.p1.engine;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public interface IFileManager {
 	/**
 	 * Creates an input file stream.
 	 *
 	 * @param path The path to create the input stream for.
-	 * @return A {@link FileInputStream} to write to.
+	 * @return A {@link InputStream} to write to.
 	 */
-	FileInputStream openInputFile(String path);
+	InputStream openInputFile(String path);
 
 	/**
 	 * Creates an output file stream.
 	 *
 	 * @param path The path to create the output stream for.
-	 * @return A {@link FileInputStream} to read from.
+	 * @return A {@link OutputStream} to read from.
 	 */
-	FileOutputStream openOutputFile(String path);
+	OutputStream openOutputFile(String path);
 
 	/**
 	 * Reads all the contents of a file given the path.
