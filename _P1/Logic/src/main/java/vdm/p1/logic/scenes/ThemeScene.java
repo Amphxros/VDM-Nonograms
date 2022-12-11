@@ -1,6 +1,7 @@
 package vdm.p1.logic.scenes;
 
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,6 +9,7 @@ import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
+import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.FlowDirection;
@@ -20,16 +22,11 @@ import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Text;
 
 public final class ThemeScene extends Scene {
-	Map<String, Boolean> levels;
-	private int numLevels;
-
-	public ThemeScene(IEngine engine, String theme) {
+	public ThemeScene(IEngine engine, GameTheme theme) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		// TODO: Use this?
 		// IImage image = engine.getGraphics().newImage("image/" + theme + "_theme.png");
-
-		levels = new TreeMap<>();
 
 		GameObject goBackText = new Text("Volver", font)
 				.setHorizontalAlignment(HorizontalAlignment.LEFT)
@@ -47,28 +44,32 @@ public final class ThemeScene extends Scene {
 				.addChild(goBackButton);
 
 		GameObject description = new Padding(0.3, 0, 0, 0)
-				.addChild(new Text(theme, font)
+				.addChild(new Text(theme.getName(), font)
 						.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 						.setVerticalAlignment(VerticalAlignment.TOP));
 
 		// Load level grid:
-		loadDataTheme(theme);
+		if (!theme.loaded()) theme.load(engine);
 
-		Grid row0 = new Grid(numLevels, FlowDirection.HORIZONTAL);
-		int i = 0;
-		for (Map.Entry<String, Boolean> pair : levels.entrySet()) {
-			String contentlevel = getEngine().getFileManager().readFile("levels/forest/" + pair.getKey());
-			row0.setElement(i, new Padding(0.2)
-					.addChild(new CreateThemeLevel(i + 1, getEngine(), font, contentlevel)
-							.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-							.setVerticalAlignment(VerticalAlignment.MIDDLE))
-			);
+		String[] levels = theme.getLevels();
+		Grid rows = new Grid(3, FlowDirection.VERTICAL);
+		for (int i = 0, r = 0; i < levels.length; i += 3, r++) {
+			String[] span = Arrays.copyOfRange(levels, i, Math.min(levels.length, i + 3));
+			Grid row = new Grid(3, FlowDirection.HORIZONTAL);
+			for (int j = 0; j < span.length; j++) {
+				String content = getEngine().getFileManager().readFile(theme.getDataPath(span[j]));
+				row.setElement(j, new Padding(0.2)
+						.addChild(new CreateThemeLevel(i + j, getEngine(), font, content)
+								.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+								.setVerticalAlignment(VerticalAlignment.MIDDLE))
+				);
+			}
 
-			++i;
+			rows.setElement(r, row);
 		}
 
-		GameObject pad = new Padding(0.04, 0.4)
-				.addChild(row0);
+		GameObject pad = new Padding(0.4, 0.04, 0.0, 0.04)
+				.addChild(rows);
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
@@ -79,20 +80,5 @@ public final class ThemeScene extends Scene {
 		GameObject body = new Body(engine).addChild(container);
 
 		addGameObject(body);
-	}
-
-	/**
-	 * Loads the data from a data file.
-	 *
-	 * @param theme The theme to load.
-	 */
-	private void loadDataTheme(String theme) {
-		String content = getEngine().getFileManager().readFile("levels/forest/data");
-		String[] lines = content.split("\n");
-		numLevels = lines.length - 1;
-
-		for (int i = 1; i < lines.length; i++) {
-			levels.put(lines[i], false);
-		}
 	}
 }

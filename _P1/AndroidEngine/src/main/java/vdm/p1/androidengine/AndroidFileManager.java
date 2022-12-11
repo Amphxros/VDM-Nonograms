@@ -3,6 +3,7 @@ package vdm.p1.androidengine;
 import android.content.Context;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -23,13 +24,8 @@ public final class AndroidFileManager implements IFileManager {
 	 * @return A {@link InputStream} to write to.
 	 */
 	@Override
-	public InputStream openInputFile(String path) {
-		try {
-			return context.openFileInput(path);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public InputStream openInputFile(String path) throws FileNotFoundException {
+		return context.openFileInput(path);
 	}
 
 	/**

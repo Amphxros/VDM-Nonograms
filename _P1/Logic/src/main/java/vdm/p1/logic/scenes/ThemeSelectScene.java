@@ -2,7 +2,10 @@ package vdm.p1.logic.scenes;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
+import vdm.p1.logic.GameManager;
 import vdm.p1.logic.GameObject;
+import vdm.p1.logic.GameTheme;
+import vdm.p1.logic.Logic;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.FlowDirection;
@@ -23,15 +26,18 @@ public final class ThemeSelectScene extends Scene {
 		super(engine);
 
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		GameManager gameManager = ((Logic) engine.getLogic()).getGameManager();
+		if (!gameManager.loaded()) gameManager.loadThemes(engine);
 
+		GameTheme[] themes = gameManager.getThemes();
 		Grid row0 = new Grid(3, FlowDirection.HORIZONTAL);
-		row0.setElement(0, createLevelButton(font, "Bosque", "forest_theme"));
-		row0.setElement(1, createLevelButton(font, "Jungla", "jungle_theme"));
-		row0.setElement(2, createLevelButton(font, "Asia", "japan_theme"));
+		row0.setElement(0, createLevelButton(font, themes[0]));
+		row0.setElement(1, createLevelButton(font, themes[1]));
+		row0.setElement(2, createLevelButton(font, themes[2]));
 		Grid row1 = new Grid(3, FlowDirection.HORIZONTAL);
-		row1.setElement(0, createLevelButton(font, "Mar", "sea_theme"));
-		row1.setElement(1, createLevelButton(font, "Juegos", "game_theme"));
-		row1.setElement(2, createLevelButton(font, "Urbano", "city_theme"));
+		row1.setElement(0, createLevelButton(font, themes[3]));
+		row1.setElement(1, createLevelButton(font, themes[4]));
+		row1.setElement(2, createLevelButton(font, themes[5]));
 
 		Grid rows = new Grid(2, FlowDirection.VERTICAL);
 		rows.setElement(0, row0);
@@ -69,18 +75,18 @@ public final class ThemeSelectScene extends Scene {
 		addGameObject(body);
 	}
 
-	private GameObject createLevelButton(IFont font, String name, String file) {
-		GameObject image = new Image(getEngine().getGraphics().newImage("image/" + file + ".png"))
+	private GameObject createLevelButton(IFont font, GameTheme theme) {
+		GameObject image = new Image(getEngine().getGraphics().newImage(theme.getImagePath()))
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		image.setWidth(IMAGE_WIDTH);
 		image.setHeight(IMAGE_HEIGHT);
 
-		GameObject text = new Text(name, font)
+		GameObject text = new Text(theme.getName(), font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
-		GameObject button = new CreateThemeButton(getEngine(), name)
+		GameObject button = new CreateThemeButton(getEngine(), theme)
 				.addChild(image)
 				.addChild(text);
 		button.setWidth(image.getWidth());

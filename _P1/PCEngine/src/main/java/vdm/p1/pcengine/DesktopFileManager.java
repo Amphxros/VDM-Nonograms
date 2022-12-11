@@ -1,6 +1,8 @@
 package vdm.p1.pcengine;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -16,13 +18,8 @@ public final class DesktopFileManager implements IFileManager {
 	 * @return A {@link InputStream} to write to.
 	 */
 	@Override
-	public InputStream openInputFile(String path) {
-		try {
-			return Files.newInputStream(Paths.get("Assets", path));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public InputStream openInputFile(String path) throws IOException {
+		return Files.newInputStream(Paths.get("Assets", path));
 	}
 
 	/**

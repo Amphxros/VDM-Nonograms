@@ -1,5 +1,7 @@
 package vdm.p1.engine;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -10,7 +12,7 @@ public interface IFileManager {
 	 * @param path The path to create the input stream for.
 	 * @return A {@link InputStream} to write to.
 	 */
-	InputStream openInputFile(String path);
+	InputStream openInputFile(String path) throws FileNotFoundException, IOException;
 
 	/**
 	 * Creates an output file stream.
