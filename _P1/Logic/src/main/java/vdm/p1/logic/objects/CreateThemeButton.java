@@ -6,7 +6,7 @@ import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.objects.base.Button;
-import vdm.p1.logic.scenes.ThemeScene;
+import vdm.p1.logic.scenes.ThemeLevelSelectScene;
 
 public final class CreateThemeButton extends Button {
 	private final IEngine engine;
@@ -20,7 +20,7 @@ public final class CreateThemeButton extends Button {
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
 		Logic logic = (Logic) engine.getLogic();
-		logic.changeScene(new ThemeScene(engine, theme));
+		logic.changeScene(new ThemeLevelSelectScene(engine, theme));
 		return true;
 	}
 

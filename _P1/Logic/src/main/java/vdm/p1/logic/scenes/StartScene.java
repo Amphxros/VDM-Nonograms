@@ -3,6 +3,8 @@ package vdm.p1.logic.scenes;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.logic.GameObject;
+import vdm.p1.logic.components.InheritParentPosition;
+import vdm.p1.logic.components.InheritParentSize;
 import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
@@ -22,36 +24,29 @@ public final class StartScene extends Scene {
 				.setVerticalAlignment(VerticalAlignment.TOP);
 
 		// Quick Match
-		GameObject quickMatchText = new Text("Partida Rapida", font)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		GameObject quickMatchButton = new GoToLevelSelectSceneButton(getEngine())
-				.addChild(quickMatchText)
+				.addComponent(new InheritParentSize())
+				.addComponent(new InheritParentPosition());
+		GameObject quickMatchText = new Text("Partida Rapida", font)
+				.addChild(quickMatchButton)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-		quickMatchButton.setWidth(quickMatchText.getWidth());
-		quickMatchButton.setHeight(quickMatchText.getHeight());
 
 		// Story Mode
-		GameObject storyModeText = new Text("Modo Historia", font)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		GameObject storyModeButton = new GoToHistoryButton(getEngine())
-				.addChild(storyModeText)
+				.addComponent(new InheritParentSize())
+				.addComponent(new InheritParentPosition());
+		GameObject storyModeText = new Text("Modo Historia", font)
+				.addChild(storyModeButton)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
-		storyModeButton.setWidth(storyModeText.getWidth());
-		storyModeButton.setHeight(storyModeText.getHeight());
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(title)
-				.addChild(quickMatchButton)
-				.addChild(storyModeButton);
+				.addChild(quickMatchText)
+				.addChild(storyModeText);
 
-		GameObject container = new Container(400, 600)
-				.addChild(padding);
-		GameObject body = new Body(engine).addChild(container);
-
-		addGameObject(body);
+		GameObject container = new Container(400, 600).addChild(padding);
+		getBody().addChild(container);
 	}
 }

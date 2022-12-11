@@ -5,17 +5,19 @@ import java.util.Vector;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
+import vdm.p1.logic.components.Component;
+import vdm.p1.logic.components.HandleHorizontalAlignment;
+import vdm.p1.logic.components.HandleVerticalAlignment;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.VerticalAlignment;
 
 public abstract class GameObject {
 	private final Vector2D position;
 	private final Vector<GameObject> children = new Vector<>();
+	private final Vector<Component> components = new Vector<>();
 	private int width;
 	private int height;
 	private boolean enabled = true;
-	private HorizontalAlignment horizontalAlignment = HorizontalAlignment.NONE;
-	private VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
 	private Color strokeColor = null;
 	private GameObject parent = null;
 
@@ -29,35 +31,31 @@ public abstract class GameObject {
 		this.height = height;
 	}
 
-	public HorizontalAlignment getHorizontalAlignment() {
-		return horizontalAlignment;
-	}
-
 	/**
 	 * Sets the horizontal alignment, applies when {@link #handleParentScreenChange()} is called,
 	 * unless {@link HorizontalAlignment#NONE} is passed, which resets to a NOP behaviour.
 	 *
-	 * @param horizontalAlignment The alignment to use.
+	 * @param alignment The alignment to use.
 	 * @return The updated {@link GameObject} instance.
 	 */
-	public GameObject setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
-		this.horizontalAlignment = horizontalAlignment;
+	public GameObject setHorizontalAlignment(HorizontalAlignment alignment) {
+		HandleHorizontalAlignment existing = getComponent(HandleHorizontalAlignment.class);
+		if (existing == null) this.addComponent(new HandleHorizontalAlignment(alignment));
+		else existing.setAlignment(alignment);
 		return this;
-	}
-
-	public VerticalAlignment getVerticalAlignment() {
-		return verticalAlignment;
 	}
 
 	/**
 	 * Sets the vertical alignment, applies when {@link #handleParentScreenChange()} is called,
 	 * unless {@link VerticalAlignment#NONE} is passed, which resets to a NOP behaviour.
 	 *
-	 * @param verticalAlignment The alignment to use.
+	 * @param alignment The alignment to use.
 	 * @return The updated {@link GameObject} instance.
 	 */
-	public GameObject setVerticalAlignment(VerticalAlignment verticalAlignment) {
-		this.verticalAlignment = verticalAlignment;
+	public GameObject setVerticalAlignment(VerticalAlignment alignment) {
+		HandleVerticalAlignment existing = getComponent(HandleVerticalAlignment.class);
+		if (existing == null) this.addComponent(new HandleVerticalAlignment(alignment));
+		else existing.setAlignment(alignment);
 		return this;
 	}
 
@@ -114,6 +112,21 @@ public abstract class GameObject {
 		return children;
 	}
 
+	public Vector<Component> getComponents() {
+		return components;
+	}
+
+	public <T extends Component> T getComponent(Class<T> classRef) {
+		for (Component component : getComponents()) {
+			if (classRef.isInstance(component)) {
+				//noinspection unchecked
+				return (T) component;
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Adds a child to the GameObject.
 	 *
@@ -128,6 +141,23 @@ public abstract class GameObject {
 
 		gameObject.parent = this;
 		children.add(gameObject);
+		return this;
+	}
+
+	/**
+	 * Adds a component to the GameObject.
+	 *
+	 * @param component The object to add as a component.
+	 * @return The updated {@link GameObject} instance.
+	 * @throws RuntimeException When the given object already has a parent.
+	 */
+	public GameObject addComponent(Component component) {
+		if (component.getGameObject() != null) {
+			throw new RuntimeException("The given Component already has an assigned GameObject");
+		}
+
+		component.setGameObject(this);
+		components.add(component);
 		return this;
 	}
 
@@ -161,6 +191,12 @@ public abstract class GameObject {
 		}
 	}
 
+	/**
+	 * An event method that's called when the device receives an event.
+	 *
+	 * @param event The received event from the device.
+	 * @return Whether or not the input has been processed.
+	 */
 	public boolean handleInput(TouchEvent event) {
 		if (!isEnabled()) {
 			return false;
@@ -180,8 +216,9 @@ public abstract class GameObject {
 	 * and should be called manually based on whether or not the size has changed.
 	 */
 	public void handleParentScreenChange() {
-		handleHorizontalAlignment();
-		handleVerticalAlignment();
+		for (Component component : getComponents()) {
+			component.handleParentScreenChange();
+		}
 
 		for (GameObject child : getChildren()) {
 			child.handleParentScreenChange();
@@ -216,37 +253,5 @@ public abstract class GameObject {
 	public void inheritParentSize() {
 		setWidth(getParent().getWidth());
 		setHeight(getParent().getHeight());
-	}
-
-	private void handleHorizontalAlignment() {
-		switch (getHorizontalAlignment()) {
-			case NONE:
-				break;
-			case LEFT:
-				getPosition().setX(getParent().getPosition().getX());
-				break;
-			case CENTRE:
-				getPosition().setX(getParent().getPosition().getX() + (int) ((getParent().getWidth() - getWidth()) / 2.0));
-				break;
-			case RIGHT:
-				getPosition().setX(getParent().getPosition().getX() + getParent().getWidth() - getWidth());
-				break;
-		}
-	}
-
-	private void handleVerticalAlignment() {
-		switch (getVerticalAlignment()) {
-			case NONE:
-				break;
-			case TOP:
-				getPosition().setY(getParent().getPosition().getY());
-				break;
-			case MIDDLE:
-				getPosition().setY(getParent().getPosition().getY() + (int) ((getParent().getHeight() - getHeight()) / 2.0));
-				break;
-			case BOTTOM:
-				getPosition().setY(getParent().getPosition().getY() + getParent().getHeight() - getHeight());
-				break;
-		}
 	}
 }
