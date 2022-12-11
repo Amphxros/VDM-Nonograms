@@ -32,10 +32,6 @@ public final class Text extends GameObject {
 
 	@Override
 	public void render(IGraphics graphics) {
-		if (!isEnabled()) {
-			return;
-		}
-
 		super.render(graphics);
 
 		graphics.setColor(color);

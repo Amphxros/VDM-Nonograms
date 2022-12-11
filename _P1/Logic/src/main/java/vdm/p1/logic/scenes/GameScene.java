@@ -4,7 +4,6 @@ import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.ISound;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
@@ -40,10 +39,7 @@ public final class GameScene extends Scene {
 		GameObject container = new Container(400, 600)
 				.addChild(padding);
 
-		GameObject body = new Body(engine)
-				.addChild(container);
-
-		addGameObject(body);
+		getBody().addChild(container);
 	}
 
 
@@ -90,26 +86,21 @@ public final class GameScene extends Scene {
 		checkButton.setWidth(checkImage.getWidth() + 5 + checkText.getWidth());
 		checkButton.setHeight(checkText.getHeight());
 
-		GameObject lifeMngr = new LifeManager(engine, font, table)
+		GameObject lifeManager = new LifeManager(engine, font, table)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
 		GameObject header = new Padding(0, 0, 0.8, 0)
 				.addChild(giveUpButton)
 				.addChild(checkButton)
-				.addChild(lifeMngr);
+				.addChild(lifeManager);
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
 				.addChild(table);
 
-		GameObject container = new Container(400, 600)
-				.addChild(padding);
-
-		GameObject body = new Body(engine)
-				.addChild(container);
-
-		addGameObject(body);
+		GameObject container = new Container(400, 600).addChild(padding);
+		getBody().addChild(container);
 	}
 
 	@Override

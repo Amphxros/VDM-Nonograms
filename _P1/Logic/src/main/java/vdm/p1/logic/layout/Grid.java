@@ -48,7 +48,9 @@ public class Grid extends GameObject {
 		if (index >= elements.length)
 			throw new RuntimeException("index cannot be superior to elements.length");
 
+		elements[index].getChildren().clear();
 		elements[index].addChild(gameObject);
+		gameObject.handleParentScreenChange();
 	}
 
 	@Override

@@ -6,7 +6,9 @@ import vdm.p1.logic.GameManager;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
-import vdm.p1.logic.layout.Body;
+import vdm.p1.logic.components.HandleParentResize;
+import vdm.p1.logic.components.InheritParentPosition;
+import vdm.p1.logic.components.InheritParentSize;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.FlowDirection;
 import vdm.p1.logic.layout.Grid;
@@ -19,9 +21,6 @@ import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
 public final class ThemeSelectScene extends Scene {
-	private static final int IMAGE_WIDTH = 200;
-	private static final int IMAGE_HEIGHT = 200;
-
 	public ThemeSelectScene(IEngine engine) {
 		super(engine);
 
@@ -46,18 +45,15 @@ public final class ThemeSelectScene extends Scene {
 		GameObject table = new Padding(0.4, 0, 0.1, 0)
 				.addChild(rows);
 
-		GameObject goBackText = new Text("Volver", font)
-				.setHorizontalAlignment(HorizontalAlignment.LEFT)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		GameObject goBackButton = new GoToStartSceneButton(getEngine())
-				.addChild(goBackText)
-				.setHorizontalAlignment(HorizontalAlignment.LEFT)
-				.setVerticalAlignment(VerticalAlignment.TOP);
-		goBackButton.setWidth(goBackText.getWidth());
-		goBackButton.setHeight(goBackText.getHeight());
+				.addComponent(new InheritParentSize())
+				.addComponent(new InheritParentPosition());
+		GameObject goBackText = new Text("Volver", font)
+				.addChild(goBackButton)
+				.addComponent(new InheritParentPosition());
 
 		GameObject header = new Padding(0, 0, 0.8, 0)
-				.addChild(goBackButton);
+				.addChild(goBackText);
 
 		GameObject description = new Padding(0.1, 0, 0, 0)
 				.addChild(new Text("Seleccione categoria a jugar", font)
@@ -68,32 +64,29 @@ public final class ThemeSelectScene extends Scene {
 				.addChild(header)
 				.addChild(description)
 				.addChild(table);
-		GameObject container = new Container(400, 600)
-				.addChild(padding);
-		GameObject body = new Body(engine).addChild(container);
 
-		addGameObject(body);
+		GameObject container = new Container(400, 600).addChild(padding);
+		getBody().addChild(container);
 	}
 
 	private GameObject createLevelButton(IFont font, GameTheme theme) {
-		GameObject image = new Image(getEngine().getGraphics().newImage(theme.getImagePath()))
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-		image.setWidth(IMAGE_WIDTH);
-		image.setHeight(IMAGE_HEIGHT);
-
 		GameObject text = new Text(theme.getName(), font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
-		GameObject button = new CreateThemeButton(getEngine(), theme)
-				.addChild(image)
-				.addChild(text);
-		button.setWidth(image.getWidth());
-		button.setWidth(image.getHeight());
+		GameObject image = new Image(getEngine().getGraphics().newImage(theme.getImagePath()))
+				.addComponent(new InheritParentSize())
+				.addComponent(new InheritParentPosition());
 
-		return new Padding(0.2)
-				.addChild(button)
+		GameObject button = new CreateThemeButton(getEngine(), theme)
+				.addComponent(new HandleParentResize(1, 1))
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.TOP)
+				.addChild(image);
+
+		return new Padding(0.05)
+				.addChild(new Padding(0, 0, 0.2, 0).addChild(button))
+				.addChild(text)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 	}

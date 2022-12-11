@@ -4,6 +4,8 @@ import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.State;
+import vdm.p1.logic.components.InheritParentPosition;
+import vdm.p1.logic.components.InheritParentSize;
 import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
@@ -17,6 +19,8 @@ public final class Cell extends Button {
 	public Cell(boolean isSolution) {
 		super();
 		this.isSolution = isSolution;
+		this.addComponent(new InheritParentSize());
+		this.addComponent(new InheritParentPosition());
 	}
 
 	public boolean isMissing() {
@@ -81,14 +85,9 @@ public final class Cell extends Button {
 
 	@Override
 	public boolean onSecondaryAction(TouchEvent event) {
-		current = current == State.FLAGGED ? State.EMPTY : State.FLAGGED;
+		if (current != State.WRONG) {
+			current = current == State.FLAGGED ? State.EMPTY : State.FLAGGED;
+		}
 		return true;
-	}
-
-	@Override
-	public void handleParentScreenChange() {
-		inheritParentArea();
-
-		super.handleParentScreenChange();
 	}
 }

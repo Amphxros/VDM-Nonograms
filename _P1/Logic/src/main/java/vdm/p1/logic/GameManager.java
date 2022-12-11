@@ -159,7 +159,7 @@ public final class GameManager implements Serializable {
 		themes = new GameTheme[read.nextInt()];
 		for (int i = 0; i < themes.length; i++) {
 			String id = read.next();
-			String name = read.nextLine();
+			String name = read.nextLine().trim();
 			themes[i] = new GameTheme(id, name, i);
 		}
 	}

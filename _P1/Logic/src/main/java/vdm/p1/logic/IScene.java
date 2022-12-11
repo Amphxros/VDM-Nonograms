@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.Input;
+import vdm.p1.logic.layout.Body;
 
 public interface IScene {
 	/**
-	 * Retrieves a list of the scene's {@link GameObject} instances.
+	 * Retrieves the {@link Body} object which all of a scene's {@link GameObject} are child of.
 	 *
-	 * @return The list of the scene's {@link GameObject} instances.
+	 * @return The {@link Body} object.
 	 */
-	ArrayList<GameObject> getGameObjects();
+	Body getBody();
 
 	/**
 	 * Signal the scene's {@link GameObject}s to render given a {@link IGraphics} engine.
