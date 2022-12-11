@@ -12,6 +12,7 @@ import vdm.p1.logic.Logic;
 public class MainActivity extends AppCompatActivity {
 	private AndroidEngine engine;
 	private String sharedPrefFile = "MySharedPreferences";	// TEMPORAL
+
 	SharedPreferences mPreferences;
 
 	@Override
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 		// Creamos el SurfaceView que "contendrá" nuestra escena
 		SurfaceView renderView = new SurfaceView(this);
 		setContentView(renderView);
+
 
 		engine = new AndroidEngine(renderView, this);
 		Logic logic = new Logic(engine);
