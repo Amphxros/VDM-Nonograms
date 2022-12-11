@@ -6,20 +6,21 @@ import vdm.p1.logic.scenes.Scene;
 import vdm.p1.logic.scenes.StartScene;
 
 public final class Logic implements ILogic {
-	private Engine engine;
+	private final Engine engine;
+	private final GameManager gameManager;
 	private IScene currentScene;
 
-	public Logic(Engine eng) {
-		this.engine = eng;
+	public Logic(Engine engine) {
+		this.engine = engine;
+		this.gameManager = GameManager.load(engine);
 	}
 
 	public Engine getEngine() {
 		return engine;
 	}
 
-	@Override
-	public void setEngine(Engine eng) {
-		this.engine = eng;
+	public GameManager getGameManager() {
+		return gameManager;
 	}
 
 	@Override

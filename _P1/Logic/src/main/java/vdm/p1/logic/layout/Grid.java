@@ -20,6 +20,15 @@ public class Grid extends GameObject {
 	}
 
 	/**
+	 * Gets the amount of items the {@link Grid} holds.
+	 *
+	 * @return The amount of items the {@link Grid} holds.
+	 */
+	public int getLength() {
+		return elements.length;
+	}
+
+	/**
 	 * Gets the {@link GridElement}s that compose this {@link Grid} instance.
 	 *
 	 * @return The {@link GridElement}s managed by this {@link Grid} instance.
