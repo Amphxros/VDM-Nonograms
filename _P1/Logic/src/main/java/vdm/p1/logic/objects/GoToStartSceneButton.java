@@ -1,23 +1,17 @@
 package vdm.p1.logic.objects;
 
 import vdm.p1.engine.IEngine;
-import vdm.p1.engine.TouchEvent;
-import vdm.p1.logic.Logic;
-import vdm.p1.logic.objects.base.Button;
+import vdm.p1.logic.objects.base.GoToSceneButton;
+import vdm.p1.logic.scenes.Scene;
 import vdm.p1.logic.scenes.StartScene;
 
-public final class GoToStartSceneButton extends Button {
-	private final IEngine engine;
-
+public final class GoToStartSceneButton extends GoToSceneButton {
 	public GoToStartSceneButton(IEngine engine) {
-		super();
-		this.engine = engine;
+		super(engine);
 	}
 
 	@Override
-	public boolean onPrimaryAction(TouchEvent event) {
-		Logic logic = (Logic) engine.getLogic();
-		logic.changeScene(new StartScene(engine));
-		return true;
+	protected Scene createScene() {
+		return new StartScene(getEngine());
 	}
 }

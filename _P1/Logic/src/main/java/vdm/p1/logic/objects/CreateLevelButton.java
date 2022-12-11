@@ -7,31 +7,22 @@ import vdm.p1.logic.Logic;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.base.Button;
+import vdm.p1.logic.objects.base.GoToSceneButton;
 import vdm.p1.logic.scenes.GameScene;
+import vdm.p1.logic.scenes.Scene;
 
-public final class CreateLevelButton extends Button {
-	private final IEngine engine;
+public final class CreateLevelButton extends GoToSceneButton {
 	private final int rows;
 	private final int columns;
 
 	public CreateLevelButton(IEngine engine, int rows, int columns) {
-		super();
-		this.engine = engine;
+		super(engine);
 		this.rows = rows;
 		this.columns = columns;
 	}
 
 	@Override
-	public boolean onPrimaryAction(TouchEvent event) {
-		Logic logic = (Logic) engine.getLogic();
-		logic.changeScene(new GameScene(engine, rows, columns));
-		return true;
-	}
-
-	@Override
-	public void handleParentScreenChange() {
-		inheritParentArea();
-
-		super.handleParentScreenChange();
+	protected Scene createScene() {
+		return new GameScene(getEngine(), rows, columns);
 	}
 }

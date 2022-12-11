@@ -162,17 +162,15 @@ public abstract class GameObject {
 	}
 
 	public void render(IGraphics graphics) {
-		if (!isEnabled()) {
-			return;
-		}
-
 		if (strokeColor != null) {
 			graphics.setColor(strokeColor);
 			graphics.drawRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
 		}
 
 		for (GameObject child : getChildren()) {
-			child.render(graphics);
+			if (child.isEnabled()) {
+				child.render(graphics);
+			}
 		}
 	}
 
@@ -182,12 +180,10 @@ public abstract class GameObject {
 	 * @param delta The number of seconds since the last frame.
 	 */
 	public void update(double delta) {
-		if (!isEnabled()) {
-			return;
-		}
-
 		for (GameObject child : getChildren()) {
-			child.update(delta);
+			if (child.isEnabled()) {
+				child.update(delta);
+			}
 		}
 	}
 
@@ -198,12 +194,8 @@ public abstract class GameObject {
 	 * @return Whether or not the input has been processed.
 	 */
 	public boolean handleInput(TouchEvent event) {
-		if (!isEnabled()) {
-			return false;
-		}
-
 		for (GameObject child : getChildren()) {
-			if (child.handleInput(event)) {
+			if (child.isEnabled() && child.handleInput(event)) {
 				return true;
 			}
 		}
