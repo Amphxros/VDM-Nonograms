@@ -85,7 +85,9 @@ public final class Cell extends Button {
 
 	@Override
 	public boolean onSecondaryAction(TouchEvent event) {
-		current = current == State.FLAGGED ? State.EMPTY : State.FLAGGED;
+		if (current != State.WRONG) {
+			current = current == State.FLAGGED ? State.EMPTY : State.FLAGGED;
+		}
 		return true;
 	}
 }
