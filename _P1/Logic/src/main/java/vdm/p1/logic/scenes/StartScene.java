@@ -5,13 +5,12 @@ import vdm.p1.engine.IFont;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.components.InheritParentPosition;
 import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.GoToHistoryButton;
 import vdm.p1.logic.objects.GoToLevelSelectSceneButton;
+import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
 import vdm.p1.logic.objects.Text;
 
 public final class StartScene extends Scene {
@@ -33,7 +32,7 @@ public final class StartScene extends Scene {
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
 		// Story Mode
-		GameObject storyModeButton = new GoToHistoryButton(getEngine())
+		GameObject storyModeButton = new GoToThemeSelectSceneButton(getEngine())
 				.addComponent(new InheritParentSize())
 				.addComponent(new InheritParentPosition());
 		GameObject storyModeText = new Text("Modo Historia", font)

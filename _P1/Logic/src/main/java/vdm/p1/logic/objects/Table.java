@@ -7,14 +7,21 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
+import vdm.p1.logic.GameTheme;
+import vdm.p1.logic.Logic;
+import vdm.p1.logic.State;
+import vdm.p1.logic.components.HandleParentResize;
 import vdm.p1.logic.layout.FlowDirection;
 import vdm.p1.logic.layout.Grid;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
+import vdm.p1.logic.scenes.StartScene;
+import vdm.p1.logic.scenes.WinScene;
 
 public final class Table extends GameObject {
 	/**
@@ -32,24 +39,31 @@ public final class Table extends GameObject {
 	 */
 	private static final double CHECK_RESET_DURATION = 5.0;
 
+	private final GameTheme theme;
+	private final String level;
 	private final String name;
 	private final Cell[][] cells;
 	private final boolean[][] solutions;
 	private final IFont font;
+	private final LifeManager lifeManager;
 	private final int rows;
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
+	private int remaining = 0;
 
-	private Table(IFont font, boolean[][] solutions) {
-		this(font, solutions, null);
+	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions) {
+		this(font, lifeManager, solutions, null, null, null);
 	}
 
-	private Table(IFont font, boolean[][] solutions, String name) {
+	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions, GameTheme theme, String level, String name) {
 		super();
 		this.font = font;
+		this.lifeManager = lifeManager;
 		this.rows = solutions.length;
 		this.columns = solutions[0].length;
 		this.solutions = solutions;
+		this.theme = theme;
+		this.level = level;
 		this.name = name;
 
 		cells = new Cell[rows][columns];
@@ -57,10 +71,11 @@ public final class Table extends GameObject {
 		for (int i = 0; i < rows; ++i) {
 			Grid row = new Grid(columns, FlowDirection.HORIZONTAL);
 			for (int j = 0; j < columns; ++j) {
-
-				Cell cell = new Cell(solutions[i][j]);
+				boolean solution = solutions[i][j];
+				Cell cell = new Cell(this, solution);
 				row.setElement(j, cell);
 				cells[i][j] = cell;
+				if (solution) remaining++;
 			}
 
 			grid.setElement(i, row);
@@ -108,9 +123,11 @@ public final class Table extends GameObject {
 		addChild(new Padding(0.8 - gridHeight, 0, gridHeight, 0.2)
 				.addChild(hintTopGrid)
 				.setStrokeColor(Color.BLACK));
+
+		addComponent(new HandleParentResize(1));
 	}
 
-	public static Table fromRandom(IFont font, int rows, int columns) {
+	public static Table fromRandom(IFont font, LifeManager lifeManager, int rows, int columns) {
 		boolean[][] solutions = new boolean[rows][columns];
 
 		Random rng = new Random();
@@ -121,10 +138,11 @@ public final class Table extends GameObject {
 			}
 		}
 
-		return new Table(font, solutions);
+		return new Table(font, lifeManager, solutions);
 	}
 
-	public static Table fromFile(IFont font, String content) {
+	public static Table fromFile(IFont font, LifeManager lifeManager, GameTheme theme, String level) {
+		String content = lifeManager.getEngine().getFileManager().readFile(theme.getDataPath(level));
 		Scanner read = new Scanner(content);
 		int rows = read.nextInt();
 		int columns = read.nextInt();
@@ -137,7 +155,7 @@ public final class Table extends GameObject {
 			}
 		}
 
-		return new Table(font, solutions, name);
+		return new Table(font, lifeManager, solutions, theme, level, name);
 	}
 
 	@Override
@@ -156,14 +174,6 @@ public final class Table extends GameObject {
 	@Override
 	public boolean handleInput(TouchEvent event) {
 		return elapsed == CHECK_NULL_TIME && super.handleInput(event);
-	}
-
-	@Override
-	public void handleParentScreenChange() {
-		setWidth(getParent().getWidth());
-		setHeight(getParent().getWidth());
-
-		super.handleParentScreenChange();
 	}
 
 	/**
@@ -234,6 +244,32 @@ public final class Table extends GameObject {
 		children.removeElementAt(children.size() - 1);
 		for (GameObject child : children) {
 			child.setEnabled(true);
+		}
+	}
+
+	public void onCellUpdate(Cell cell, State previous) {
+		if (cell.getState() == State.MARKED) {
+			if (cell.isSolution()) {
+				remaining--;
+				if (remaining > 0) return;
+
+				IEngine engine = lifeManager.getEngine();
+				Logic logic = (Logic) engine.getLogic();
+				if (theme != null && level != null) {
+					if (logic.getGameManager().setCompleted(theme, level)) {
+						logic.getGameManager().save(engine);
+					}
+				}
+				logic.changeScene(new WinScene(engine, getSolutions()));
+			} else {
+				cell.setWrong(true);
+				if (!lifeManager.removeHeart()) {
+					Logic logic = (Logic) lifeManager.getEngine().getLogic();
+					logic.changeScene(new StartScene(lifeManager.getEngine()));
+				}
+			}
+		} else if (previous == State.MARKED && cell.isSolution()) {
+			remaining++;
 		}
 	}
 

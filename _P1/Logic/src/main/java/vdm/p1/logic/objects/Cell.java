@@ -13,14 +13,24 @@ public final class Cell extends Button {
 	private static final Color MARKED_COLOR = new Color(0, 0, 255);
 	private static final Color FLAGGED_COLOR = Color.BLACK;
 	private static final Color WRONG_COLOR = new Color(255, 0, 0);
+	private final Table table;
 	private final boolean isSolution;
 	private State current = State.EMPTY;
 
-	public Cell(boolean isSolution) {
+	public Cell(Table table, boolean isSolution) {
 		super();
+		this.table = table;
 		this.isSolution = isSolution;
 		this.addComponent(new InheritParentSize());
 		this.addComponent(new InheritParentPosition());
+	}
+
+	public boolean isSolution() {
+		return isSolution;
+	}
+
+	public State getState() {
+		return current;
 	}
 
 	public boolean isMissing() {
@@ -68,7 +78,8 @@ public final class Cell extends Button {
 
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
-		switch (current) {
+		State previous = current;
+		switch (previous) {
 			case EMPTY:
 				current = State.MARKED;
 				break;
@@ -80,13 +91,16 @@ public final class Cell extends Button {
 				break;
 		}
 
+		table.onCellUpdate(this, previous);
 		return true;
 	}
 
 	@Override
 	public boolean onSecondaryAction(TouchEvent event) {
 		if (current != State.WRONG) {
-			current = current == State.FLAGGED ? State.EMPTY : State.FLAGGED;
+			State previous = current;
+			current = previous == State.FLAGGED ? State.EMPTY : State.FLAGGED;
+			table.onCellUpdate(this, previous);
 		}
 		return true;
 	}

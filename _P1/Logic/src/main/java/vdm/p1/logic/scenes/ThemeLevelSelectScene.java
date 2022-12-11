@@ -17,7 +17,7 @@ import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.CreateThemeLevelButton;
-import vdm.p1.logic.objects.GoToStartSceneButton;
+import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
@@ -29,7 +29,7 @@ public final class ThemeLevelSelectScene extends Scene {
 		// TODO: Use this?
 		// IImage image = engine.getGraphics().newImage("image/" + theme + "_theme.png");
 
-		GameObject goBackButton = new GoToStartSceneButton(getEngine())
+		GameObject goBackButton = new GoToThemeSelectSceneButton(getEngine())
 				.addComponent(new InheritParentSize())
 				.addComponent(new InheritParentPosition());
 		GameObject goBackText = new Text("Volver", font)
@@ -53,8 +53,7 @@ public final class ThemeLevelSelectScene extends Scene {
 			String[] span = Arrays.copyOfRange(levels, i, Math.min(levels.length, i + 3));
 			Grid row = new Grid(3, FlowDirection.HORIZONTAL);
 			for (int j = 0; j < span.length; j++) {
-				String content = getEngine().getFileManager().readFile(theme.getDataPath(span[j]));
-				row.setElement(j, createLevelButton(font, glass, i + j, content));
+				row.setElement(j, createLevelButton(font, glass, i + j, theme, span[j]));
 			}
 
 			rows.setElement(r, row);
@@ -73,7 +72,7 @@ public final class ThemeLevelSelectScene extends Scene {
 		getBody().addChild(container);
 	}
 
-	private GameObject createLevelButton(IFont font, IImage glass, int index, String content) {
+	private GameObject createLevelButton(IFont font, IImage glass, int index, GameTheme theme, String level) {
 		GameObject image = new Image(glass)
 				.addComponent(new InheritParentPosition())
 				.addComponent(new InheritParentSize());
@@ -82,7 +81,7 @@ public final class ThemeLevelSelectScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
-		GameObject button = new CreateThemeLevelButton(getEngine(), content)
+		GameObject button = new CreateThemeLevelButton(getEngine(), theme, level)
 				.addChild(image)
 				.addChild(text)
 				.addComponent(new InheritParentPosition())

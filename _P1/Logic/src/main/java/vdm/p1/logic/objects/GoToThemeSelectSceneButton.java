@@ -5,8 +5,8 @@ import vdm.p1.logic.objects.base.GoToSceneButton;
 import vdm.p1.logic.scenes.Scene;
 import vdm.p1.logic.scenes.ThemeSelectScene;
 
-public final class GoToHistoryButton extends GoToSceneButton {
-	public GoToHistoryButton(IEngine engine) {
+public final class GoToThemeSelectSceneButton extends GoToSceneButton {
+	public GoToThemeSelectSceneButton(IEngine engine) {
 		super(engine);
 	}
 

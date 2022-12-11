@@ -4,6 +4,7 @@ import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.ISound;
 import vdm.p1.logic.GameObject;
+import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
@@ -17,42 +18,45 @@ import vdm.p1.logic.objects.Text;
 
 public final class GameScene extends Scene {
 	private final ISound sound;
+	private final LifeManager lifeManager;
 
-	public GameScene(IEngine engine, String content) {
+	public GameScene(IEngine engine, GameTheme theme, String level) {
 		super(engine);
+
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
+		engine.getAudio().playSound(sound);
 
+		lifeManager = new LifeManager(engine, font);
 
-		Table table = (Table) Table.fromFile(font, content)
+		Table table = (Table) Table.fromFile(font, lifeManager, theme, level)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
-		GameObject lifeMngr = new LifeManager(engine, font, table);
-		GameObject header = new Padding(0, 0, 0.8, 0)
-				.addChild(lifeMngr);
+		GameObject header = new Padding(0, 0, 0.8, 0).addChild(lifeManager);
 
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
 				.addChild(table);
 
-		GameObject container = new Container(400, 600)
-				.addChild(padding);
-
+		GameObject container = new Container(400, 600).addChild(padding);
 		getBody().addChild(container);
 	}
-
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);
 
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		Table table = (Table) Table.fromRandom(font, rows, columns)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.BOTTOM);
-
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
+
+		lifeManager = (LifeManager) new LifeManager(engine, font)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+
+		Table table = (Table) Table.fromRandom(font, lifeManager, rows, columns)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
 		GameObject giveUpImage = new Image(engine.getGraphics().newImage("image/grey_boxCross.png"))
 				.setHorizontalAlignment(HorizontalAlignment.LEFT)
@@ -86,10 +90,6 @@ public final class GameScene extends Scene {
 		checkButton.setWidth(checkImage.getWidth() + 5 + checkText.getWidth());
 		checkButton.setHeight(checkText.getHeight());
 
-		GameObject lifeManager = new LifeManager(engine, font, table)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-
 		GameObject header = new Padding(0, 0, 0.8, 0)
 				.addChild(giveUpButton)
 				.addChild(checkButton)
@@ -101,6 +101,10 @@ public final class GameScene extends Scene {
 
 		GameObject container = new Container(400, 600).addChild(padding);
 		getBody().addChild(container);
+	}
+
+	public LifeManager getLifeManager() {
+		return lifeManager;
 	}
 
 	@Override
