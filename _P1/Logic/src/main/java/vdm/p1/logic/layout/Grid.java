@@ -50,6 +50,7 @@ public class Grid extends GameObject {
 
 		elements[index].getChildren().clear();
 		elements[index].addChild(gameObject);
+		gameObject.handleParentScreenChange();
 	}
 
 	@Override
