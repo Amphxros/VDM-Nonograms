@@ -1,10 +1,13 @@
 package vdm.p1.logic;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 import vdm.p1.engine.IEngine;
@@ -18,11 +21,31 @@ public final class GameManager implements Serializable {
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
+		InputStream checksum;
+
+		// Tries to open the file, creates a new one if failed
 		try {
 			stream = engine.getFileManager().openInputFile("save");
 		} catch (Exception e) {
 			return new GameManager();
 		}
+
+		////// FILE SUS
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+			// Generates the checksum of the save and compares it to the previous one
+			try{
+				engine.getFileManager().openInputFile("save");
+				String hashing = getFileChecksum(md, stream);
+			} catch (Exception e){	// Exception should come of getFileChecksum
+				return new GameManager();
+			}
+
+		} catch(NoSuchAlgorithmException e){
+			e.printStackTrace();
+		}
+		///// FILE VALIDATION: NON-SUS
 
 		GameManager object = null;
 		try {
@@ -184,5 +207,29 @@ public final class GameManager implements Serializable {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private static String getFileChecksum(MessageDigest digest, InputStream file) throws IOException{
+
+		// Temporary chunk of data to feed the digest
+		byte[] byteArray = new byte[1024];
+		int bytesCount = 0;
+
+		// Updates the digest with the chache
+		while ((bytesCount = file.read(byteArray)) != -1) {
+			digest.update(byteArray, 0, bytesCount);
+		};
+
+		// Bytes on the digest
+		byte[] bytes = digest.digest();
+
+		// Passes the digest to hexadecimal
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i< bytes.length ;i++)
+		{
+			sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+		}
+
+		return sb.toString();	// Final checksum of the file
 	}
 }
