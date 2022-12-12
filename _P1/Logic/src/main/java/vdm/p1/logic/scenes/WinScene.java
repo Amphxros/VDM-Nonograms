@@ -42,4 +42,14 @@ public final class WinScene extends Scene {
 		GameObject container = new Container(400, 600).addChild(padding);
 		getBody().addChild(container);
 	}
+
+	@Override
+	public void handleClosingNotifications() {
+
+	}
+
+	@Override
+	public void handleOpeningNotifications() {
+
+	}
 }

@@ -39,4 +39,14 @@ public interface IScene {
 	 * Called when the scene is destroyed.
 	 */
 	void dispose();
+
+	/**
+	 *
+	 */
+	void handleClosingNotifications();
+
+	/**
+	 *
+	 */
+	void handleOpeningNotifications();
 }

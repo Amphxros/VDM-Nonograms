@@ -110,4 +110,14 @@ public final class ThemeSelectScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 	}
+
+	@Override
+	public void handleClosingNotifications() {
+
+	}
+
+	@Override
+	public void handleOpeningNotifications() {
+
+	}
 }

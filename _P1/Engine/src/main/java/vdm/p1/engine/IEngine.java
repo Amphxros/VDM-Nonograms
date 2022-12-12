@@ -68,6 +68,10 @@ public interface IEngine {
 
 	void setShareIntent(IShareIntent shareIntent);
 
+
+	INotificationManager getNotificationMngr();
+	void setNotificationManager(INotificationManager notificationManager);
+
 	/**
 	 * @return The application's window width.
 	 */

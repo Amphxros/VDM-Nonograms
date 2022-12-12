@@ -79,4 +79,14 @@ public final class StartScene extends Scene {
 
 		return new Padding(0.02).addChild(button);
 	}
+
+	@Override
+	public void handleClosingNotifications() {
+
+	}
+
+	@Override
+	public void handleOpeningNotifications() {
+
+	}
 }
