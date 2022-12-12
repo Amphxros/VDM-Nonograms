@@ -62,6 +62,13 @@ public interface IEngine {
 	void setAudio(IAudio audio);
 
 	/**
+	 * @return An {@link IShareIntent} instance.
+	 */
+	IShareIntent getShareIntent();
+
+	void setShareIntent(IShareIntent shareIntent);
+
+	/**
 	 * @return The application's window width.
 	 */
 	int getWidth();

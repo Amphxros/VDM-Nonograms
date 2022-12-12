@@ -7,6 +7,8 @@ public abstract class Engine implements IEngine {
 	private ILogic logic;
 	private IFileManager fileManager;
 
+	private IShareIntent shareIntent;
+
 	/**
 	 * @return An {@link ILogic} instance.
 	 */
@@ -72,4 +74,17 @@ public abstract class Engine implements IEngine {
 		this.audio = audio;
 	}
 
+	/**
+	 *
+	 * @return An {@link IShareIntent} instance
+	 */
+	@Override
+	public IShareIntent getShareIntent() {
+		return shareIntent;
+	}
+
+	@Override
+	public void setShareIntent(IShareIntent shareIntent) {
+		this.shareIntent = shareIntent;
+	}
 }
