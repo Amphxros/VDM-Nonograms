@@ -48,4 +48,9 @@ public final class Logic implements ILogic {
 	public void handleEvents() {
 		currentScene.handleInput(engine.getInput());
 	}
+
+	@Override
+	public void handleOpeningNotifications() {
+		currentScene.handleOpeningNotifications();
+	}
 }

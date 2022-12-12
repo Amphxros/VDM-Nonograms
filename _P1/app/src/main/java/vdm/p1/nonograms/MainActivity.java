@@ -1,5 +1,6 @@
 package vdm.p1.nonograms;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -26,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
 		Logic logic = new Logic(engine);
 		engine.setLogic(logic);
 		logic.initLogic();
+
+		//if the user enters by a notification
+		Intent intent= getIntent();
+		if(intent.getExtras() !=null && intent.getExtras().containsKey("notification")){
+			logic.handleOpeningNotifications();
+		}
+		getSupportActionBar().hide();
 	}
 
 	@Override
