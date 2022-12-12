@@ -39,16 +39,14 @@ import vdm.p1.logic.layout.VerticalAlignment;
  *     <li>{@link InheritParentPosition}</li>
  * </ul>
  */
-public class LifeManager extends GameObject {
+public final class LifeManager extends GameObject {
 	private final IEngine engine;
 	private final IImage heartFill;
 	private final IImage heartEmpty;
-	private final Table table;
 	private int remainingLives = 3;
 
-	public LifeManager(IEngine engine, IFont font, Table table) {
+	public LifeManager(IEngine engine, IFont font) {
 		this.engine = engine;
-		this.table = table;
 
 		heartFill = engine.getGraphics().newImage("image/heartfill.png");
 		heartEmpty = engine.getGraphics().newImage("image/heartempty.png");
@@ -71,22 +69,8 @@ public class LifeManager extends GameObject {
 		addComponent(new InheritParentPosition());
 	}
 
-	public boolean removeHeart() {
-		if (remainingLives == 0) {
-			return false;
-		}
-
-		--remainingLives;
-
-		// Gets the padding object the components are at:
-		GameObject padding = getChildren().get(0);
-		Text text = (Text) padding.getChildren().get(0);
-		text.setText(Integer.toString(remainingLives));
-
-		Grid grid = (Grid) padding.getChildren().get(1);
-		grid.setElement(remainingLives, createHeart(heartEmpty));
-
-		return true;
+	public IEngine getEngine() {
+		return engine;
 	}
 
 	/**
@@ -109,19 +93,22 @@ public class LifeManager extends GameObject {
 		return true;
 	}
 
-	@Override
-	public void update(double delta) {
-		super.update(delta);
-
-		// Remove a heart for each wrong cell:
-		for (Cell[] cells : table.getCells()) {
-			for (Cell cell : cells) {
-				if (cell.isWrong()) {
-					cell.setWrong(true);
-					removeHeart();
-				}
-			}
+	public boolean removeHeart() {
+		if (remainingLives == 0) {
+			return false;
 		}
+
+		--remainingLives;
+
+		// Gets the padding object the components are at:
+		GameObject padding = getChildren().get(0);
+		Text text = (Text) padding.getChildren().get(0);
+		text.setText(Integer.toString(remainingLives));
+
+		Grid grid = (Grid) padding.getChildren().get(1);
+		grid.setElement(remainingLives, createHeart(heartEmpty));
+
+		return true;
 	}
 
 	private GameObject createHeart(IImage image) {
