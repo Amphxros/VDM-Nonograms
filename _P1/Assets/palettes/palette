@@ -1,0 +1,42 @@
+Tittle numOfCoins unlocked
+ {Background, select, marked, wrong, font}
+
+palette:{
+    Sunset on the beach,
+    100,
+    #607196,
+    #FFC759,
+    #FF9C5F,
+    #FF7B9C,
+    #E8E9ED
+}  
+
+palette:{
+    Screaming winter,
+    100,
+    #FAFAFA,
+    #686963,
+    #8CBFE4,
+    #DB5461,
+    #5FCBB9
+    
+} 
+palette: {
+    Valentine Rose,
+    #EF7674
+    #DA344D
+    #EC5766
+    #D91E36
+    #C42348
+} 
+
+palette: {
+    Dragon Fruit,
+    #14342B
+    #BAB700
+    #BBDFC5
+    #FF579F
+    #60935D
+} 
+
+

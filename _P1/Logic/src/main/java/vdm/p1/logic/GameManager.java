@@ -13,6 +13,7 @@ public final class GameManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int lastUnlockedTheme = 0;
 	private int lastUnlockedLevel = 0;
+
 	private int money = 0;
 	private transient GameTheme[] themes = null;
 
