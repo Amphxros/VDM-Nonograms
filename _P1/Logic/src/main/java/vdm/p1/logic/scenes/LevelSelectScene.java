@@ -6,7 +6,6 @@ import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.components.InheritParentPosition;
 import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.FlowDirection;
 import vdm.p1.logic.layout.Grid;
@@ -83,15 +82,5 @@ public final class LevelSelectScene extends Scene {
 				.addComponent(new InheritParentSize());
 
 		return new Padding(0.2).addChild(button);
-	}
-
-	@Override
-	public void handleClosingNotifications() {
-
-	}
-
-	@Override
-	public void handleOpeningNotifications() {
-
 	}
 }

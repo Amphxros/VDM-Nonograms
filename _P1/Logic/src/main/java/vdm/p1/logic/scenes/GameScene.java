@@ -114,16 +114,6 @@ public final class GameScene extends Scene {
 	}
 
 	@Override
-	public void handleClosingNotifications() {
-
-	}
-
-	@Override
-	public void handleOpeningNotifications() {
-
-	}
-
-	@Override
 	public void update(double delta) {
 		super.update(delta);
 		/**

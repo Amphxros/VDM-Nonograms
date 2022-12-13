@@ -5,7 +5,6 @@ import vdm.p1.engine.IFont;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.components.InheritParentPosition;
 import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
@@ -41,15 +40,5 @@ public final class WinScene extends Scene {
 
 		GameObject container = new Container(400, 600).addChild(padding);
 		getBody().addChild(container);
-	}
-
-	@Override
-	public void handleClosingNotifications() {
-
-	}
-
-	@Override
-	public void handleOpeningNotifications() {
-
 	}
 }

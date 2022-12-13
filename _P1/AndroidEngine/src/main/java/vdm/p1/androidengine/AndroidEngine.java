@@ -14,7 +14,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		AndroidInput input = new AndroidInput();
 		AndroidAudio audio = new AndroidAudio(context);
 		AndroidFileManager fileManager = new AndroidFileManager(context);
-		AndroidNotificationManager notificationManager= new AndroidNotificationManager(context);
+		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
 		surfaceView.setOnTouchListener(input);
 
 		setGraphics(graphics);

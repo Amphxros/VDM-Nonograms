@@ -107,14 +107,4 @@ public final class ThemeLevelSelectScene extends Scene {
 
 		return new Padding(0.2).addChild(button);
 	}
-
-	@Override
-	public void handleClosingNotifications() {
-
-	}
-
-	@Override
-	public void handleOpeningNotifications() {
-
-	}
 }

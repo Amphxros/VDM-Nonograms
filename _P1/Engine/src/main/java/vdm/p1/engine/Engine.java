@@ -78,7 +78,6 @@ public abstract class Engine implements IEngine {
 
 
 	/**
-	 *
 	 * @return An {@link IShareIntent} instance
 	 */
 	@Override
@@ -92,7 +91,7 @@ public abstract class Engine implements IEngine {
 	}
 
 	@Override
-	public INotificationManager getNotificationMngr() {
+	public INotificationManager getNotificationManager() {
 		return notificationManager;
 	}
 

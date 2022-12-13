@@ -66,10 +66,23 @@ public interface IEngine {
 	 */
 	IShareIntent getShareIntent();
 
+	/**
+	 * Sets the {@link IShareIntent} system.
+	 *
+	 * @param shareIntent An {@link IShareIntent} instance.
+	 */
 	void setShareIntent(IShareIntent shareIntent);
 
+	/**
+	 * @return An {@link INotificationManager} instance.
+	 */
+	INotificationManager getNotificationManager();
 
-	INotificationManager getNotificationMngr();
+	/**
+	 * Sets the {@link INotificationManager} system.
+	 *
+	 * @param notificationManager An {@link INotificationManager} instance.
+	 */
 	void setNotificationManager(INotificationManager notificationManager);
 
 	/**

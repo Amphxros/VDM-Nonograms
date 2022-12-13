@@ -5,15 +5,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.SurfaceView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import vdm.p1.androidengine.AndroidEngine;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
-	private AndroidEngine engine;
-	private String sharedPrefFile = "MySharedPreferences";	// TEMPORAL
 	SharedPreferences mPreferences;
+	private AndroidEngine engine;
+	private String sharedPrefFile = "MySharedPreferences";    // TEMPORAL
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,13 @@ public class MainActivity extends AppCompatActivity {
 		logic.initLogic();
 
 		//if the user enters by a notification
-		Intent intent= getIntent();
-		if(intent.getExtras() !=null && intent.getExtras().containsKey("notification")){
+		Intent intent = getIntent();
+		if (intent.getExtras() != null && intent.getExtras().containsKey("notification")) {
 			logic.handleOpeningNotifications();
 		}
-		getSupportActionBar().hide();
+
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) actionBar.hide();
 	}
 
 	@Override
@@ -42,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
 		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 		//if (savedInstanceState != null) {
-			//mColor = mPreferences.getInt("lastColor", 0);
-			//soundFX = mPreferences.getBoolean("lastColor", True);
-			//soundMUSIC = mPreferences.getBoolean("lastColor", True);
+		//mColor = mPreferences.getInt("lastColor", 0);
+		//soundFX = mPreferences.getBoolean("lastColor", True);
+		//soundMUSIC = mPreferences.getBoolean("lastColor", True);
 
-			// METHODS TO SET THE PREFERENCES ON THE LOGIC SHOULD BE HERE
+		// METHODS TO SET THE PREFERENCES ON THE LOGIC SHOULD BE HERE
 
 		//} else {}
 
