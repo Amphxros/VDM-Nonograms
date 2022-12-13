@@ -54,6 +54,7 @@ dependencies {
 	implementation "androidx.work:work-runtime:2.7.1"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
+   	implementation 'com.google.firebase:firebase-messaging:23.1.1'
     api project(path: ':Logic')
     api project(path: ':AndroidEngine')
     api project(path: ':Engine')

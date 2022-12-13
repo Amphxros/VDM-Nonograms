@@ -11,8 +11,15 @@ import vdm.p1.engine.Notification;
 
 public class AndroidNotificationManager implements INotificationManager {
 	private Context context;
+
 	public AndroidNotificationManager(Context context){
 		this.context=context;
+		configureNotificationManager();
+	}
+
+
+	@Override
+	public void configureNotificationManager() {
 		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
 			CharSequence name= "Notification";
 			String channel_tittle="My Notification";
@@ -24,16 +31,5 @@ public class AndroidNotificationManager implements INotificationManager {
 			NotificationManager notMngr= context.getSystemService(NotificationManager.class);
 			notMngr.createNotificationChannel(channel);
 		}
-
-	}
-
-	@Override
-	public IEngine getEngine() {
-		return null;
-	}
-
-	@Override
-	public void setEngine(IEngine engine) {
-
 	}
 }
