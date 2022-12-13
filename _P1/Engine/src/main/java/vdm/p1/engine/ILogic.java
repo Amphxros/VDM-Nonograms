@@ -8,4 +8,7 @@ public interface ILogic {
 	void render();
 
 	void handleEvents();
+
+	void handleOpeningNotifications();
+
 }

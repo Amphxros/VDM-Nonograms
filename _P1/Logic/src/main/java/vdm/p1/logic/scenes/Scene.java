@@ -64,4 +64,18 @@ public abstract class Scene implements IScene {
 	@Override
 	public void dispose() {
 	}
+
+	/**
+	 * Handles when a notification has been closed.
+	 */
+	@Override
+	public void handleClosingNotifications() {
+	}
+
+	/**
+	 * Handles when a notification has been opened.
+	 */
+	@Override
+	public void handleOpeningNotifications() {
+	}
 }

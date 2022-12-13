@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
+	id 'com.google.gms.google-services'
+
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 32
@@ -50,8 +54,16 @@ tasks.whenTaskAdded { task ->
 }
 dependencies {
 
+	implementation "androidx.work:work-runtime:2.7.1"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
+	// Import the BoM for the Firebase platform
+	implementation  platform('com.google.firebase:firebase-bom:29.0.1')
+	implementation 'com.google.firebase:firebase-bom:29.0.1'
+
+	implementation 'com.google.firebase:firebase-messaging:23.0.0'
+	implementation 'com.google.firebase:firebase-analytics'
+
     api project(path: ':Logic')
     api project(path: ':AndroidEngine')
     api project(path: ':Engine')

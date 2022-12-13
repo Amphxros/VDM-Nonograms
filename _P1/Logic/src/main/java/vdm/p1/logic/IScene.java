@@ -1,7 +1,5 @@
 package vdm.p1.logic;
 
-import java.util.ArrayList;
-
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.Input;
 import vdm.p1.logic.layout.Body;
@@ -39,4 +37,14 @@ public interface IScene {
 	 * Called when the scene is destroyed.
 	 */
 	void dispose();
+
+	/**
+	 * Handles when a notification has been closed.
+	 */
+	void handleClosingNotifications();
+
+	/**
+	 * Handles when a notification has been opened.
+	 */
+	void handleOpeningNotifications();
 }

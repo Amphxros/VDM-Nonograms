@@ -62,6 +62,30 @@ public interface IEngine {
 	void setAudio(IAudio audio);
 
 	/**
+	 * @return An {@link IShareIntent} instance.
+	 */
+	IShareIntent getShareIntent();
+
+	/**
+	 * Sets the {@link IShareIntent} system.
+	 *
+	 * @param shareIntent An {@link IShareIntent} instance.
+	 */
+	void setShareIntent(IShareIntent shareIntent);
+
+	/**
+	 * @return An {@link INotificationManager} instance.
+	 */
+	INotificationManager getNotificationManager();
+
+	/**
+	 * Sets the {@link INotificationManager} system.
+	 *
+	 * @param notificationManager An {@link INotificationManager} instance.
+	 */
+	void setNotificationManager(INotificationManager notificationManager);
+
+	/**
 	 * @return The application's window width.
 	 */
 	int getWidth();

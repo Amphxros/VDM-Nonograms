@@ -6,7 +6,6 @@ import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.components.InheritParentPosition;
 import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Body;
 import vdm.p1.logic.layout.Container;
 import vdm.p1.logic.layout.FlowDirection;
 import vdm.p1.logic.layout.Grid;

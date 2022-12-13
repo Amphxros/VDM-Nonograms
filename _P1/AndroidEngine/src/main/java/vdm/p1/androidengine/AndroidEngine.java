@@ -14,12 +14,14 @@ public final class AndroidEngine extends Engine implements Runnable {
 		AndroidInput input = new AndroidInput();
 		AndroidAudio audio = new AndroidAudio(context);
 		AndroidFileManager fileManager = new AndroidFileManager(context);
+		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
 		surfaceView.setOnTouchListener(input);
 
 		setGraphics(graphics);
 		setInput(input);
 		setAudio(audio);
 		setFileManager(fileManager);
+		setNotificationManager(notificationManager);
 	}
 
 	@Override
