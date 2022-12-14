@@ -16,10 +16,11 @@ public final class GameManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int lastUnlockedTheme = 0;
 	private int lastUnlockedLevel = 0;
-	private int getLastUnlockedPalette=0;
+	private int LastUnlockedPalette=0;
 	private int money = 0;
 	private transient GameTheme[] themes = null;
 	private transient PaletteObject[] palettes=null;
+	PaletteObject currentPalette;
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
@@ -152,6 +153,11 @@ public final class GameManager implements Serializable {
 		return themes != null;
 	}
 
+	public boolean loadedPalettes() {
+		return palettes != null;
+	}
+
+
 	/**
 	 * Load all the themes.
 	 *
@@ -167,6 +173,20 @@ public final class GameManager implements Serializable {
 			String name = read.nextLine().trim();
 			themes[i] = new GameTheme(id, name, i);
 		}
+	}
+
+	public PaletteObject[] getPalettes(){return palettes;}
+	public PaletteObject getPalette(int index){return palettes[index];}
+	public PaletteObject getCurrentPalette() {
+		return currentPalette;
+	}
+
+	public void setLastUnlockedPalette(int getLastUnlockedPalette) {
+		this.LastUnlockedPalette = getLastUnlockedPalette;
+	}
+
+	public int getLastUnlockedPalette() {
+		return LastUnlockedPalette;
 	}
 
 	public void loadPalettes(IEngine engine){
