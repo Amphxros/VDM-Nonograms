@@ -7,15 +7,19 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Scanner;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.Palette;
+import vdm.p1.logic.objects.PaletteObject;
 
 public final class GameManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int lastUnlockedTheme = 0;
 	private int lastUnlockedLevel = 0;
-
+	private int getLastUnlockedPalette=0;
 	private int money = 0;
 	private transient GameTheme[] themes = null;
+	private transient PaletteObject[] palettes=null;
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
@@ -163,6 +167,24 @@ public final class GameManager implements Serializable {
 			String name = read.nextLine().trim();
 			themes[i] = new GameTheme(id, name, i);
 		}
+	}
+
+	public void loadPalettes(IEngine engine){
+		String content= engine.getFileManager().readFile("palettes/palette");
+		Scanner read= new Scanner(content);
+		palettes= new PaletteObject[read.nextInt()];
+
+		for(int i=0; i<palettes.length; i++){
+			String id= read.next();
+			String[] lines= id.split(" ");
+			String tittle= lines[0] +" "+lines[1];
+			int price= Integer.parseInt(lines[2]);
+			palettes[i]= new PaletteObject(tittle,price);
+			for(int j=3;j< lines.length;j++){
+				palettes[i].getPalette().addColor(new Color(Integer.parseInt(lines[j])));
+			}
+		}
+
 	}
 
 	/**
