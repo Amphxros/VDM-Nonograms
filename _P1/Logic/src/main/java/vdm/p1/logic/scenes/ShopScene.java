@@ -50,7 +50,6 @@ public class ShopScene extends Scene{
 		}
 
 
-
 		GameObject header = new Padding(0, 0, 0.8, 0)
 				.addChild(goBackText);
 

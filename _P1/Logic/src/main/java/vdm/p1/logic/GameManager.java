@@ -20,7 +20,7 @@ public final class GameManager implements Serializable {
 	private int money = 0;
 	private transient GameTheme[] themes = null;
 	private transient PaletteObject[] palettes=null;
-	PaletteObject currentPalette;
+	PaletteObject currentPalette=palettes[0];
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
@@ -193,6 +193,14 @@ public final class GameManager implements Serializable {
 	 */
 	public PaletteObject getCurrentPalette() {
 		return currentPalette;
+	}
+
+	/**
+	 * sets the palettes
+	 * @param currentPalette Array of multiple colors to change your view
+	 */
+	public void setCurrentPalette(PaletteObject currentPalette) {
+		this.currentPalette = currentPalette;
 	}
 
 	public void setLastUnlockedPalette(int getLastUnlockedPalette) {
