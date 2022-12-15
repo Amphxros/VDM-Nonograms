@@ -35,7 +35,7 @@ public final class Text extends GameObject {
 		super.render(graphics);
 
 		/**
-		 * CHANGE THIS TO PALETTE TOO
+		 * TODO: CHANGE THIS TO PALETTE TOO
 		 */
 		graphics.setColor(color);
 		graphics.setFont(font);
