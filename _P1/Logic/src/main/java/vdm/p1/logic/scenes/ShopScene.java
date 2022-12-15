@@ -5,6 +5,7 @@ import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameManager;
 import vdm.p1.logic.GameObject;
+import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.components.HandleParentResize;
 import vdm.p1.logic.components.InheritParentPosition;
@@ -15,17 +16,19 @@ import vdm.p1.logic.layout.Grid;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
+import vdm.p1.logic.objects.CreateThemeLevelButton;
 import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
 public class ShopScene extends Scene{
-	private final GameManager gameManager;
-	private final IImage locked;
+
+
 	public ShopScene(IEngine engine) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		gameManager = ((Logic) engine.getLogic()).getGameManager();
+		IImage coin= engine.getGraphics().newImage("image/coin.png");
+
 
 
 		GameObject goBackButton = new GoToThemeSelectSceneButton(getEngine())
@@ -35,67 +38,47 @@ public class ShopScene extends Scene{
 				.addChild(goBackButton)
 				.addComponent(new InheritParentPosition());
 
+		GameObject coins= createLevelButton(font, coin,"0");
+
+
+
+
+
 		GameObject header = new Padding(0, 0, 0.8, 0)
 				.addChild(goBackText);
 
-		if(!gameManager.loadedPalettes()) gameManager.loadPalettes(engine);
+		GameObject coinhead = new Padding(0.15, 0.1, 0.8, 0.75)
+				.addChild(coins);
 
-		GameObject description = new Padding(0.1, 0, 0, 0)
-				.addChild(new Text("Tienda", font)
-						.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-						.setVerticalAlignment(VerticalAlignment.TOP));
-
-		locked = gameManager.getLastUnlockedLevel() >= gameManager.getPalettes().length ? null : engine.getGraphics().newImage("image/lock.png");
-		Grid row = new Grid(gameManager.getPalettes().length, FlowDirection.VERTICAL);
-		row.setElement(0,  createGridElem(font,0));
-
-		GameObject pad = new Container(1, 1)
-				.addChild(row)
-				.setVerticalAlignment(VerticalAlignment.BOTTOM);
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
-				.addChild(description)
-				.addChild(pad);
+				.addChild(coinhead)
+				;
 		GameObject container = new Container(400, 600)
 		.addChild(padding);
 		getBody().addChild(container);
 
 
 	}
-	private GameObject createGridElem(IFont font, int elem){
-		GameObject text;
-		if(gameManager.getLastUnlockedPalette() > elem){
-			text= new Text(gameManager.getPalette(elem).getName(),font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.BOTTOM);
 
-			return new Padding(0.05)
-					.addChild(new Padding(0, 0, 0.2, 0)
-					.addChild(text)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.MIDDLE));
+	private GameObject createLevelButton(IFont font, IImage glass, String tittle) {
 
 
-		}
-		else {
-			text = new Text("BLOQUEADO", font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.BOTTOM);
+		GameObject image = new Image(glass)
+				.addComponent(new InheritParentPosition())
+				.addComponent(new InheritParentSize());
 
-			GameObject icon= new Image(locked)
-					.addComponent(new HandleParentResize(1, 1))
-					.setHorizontalAlignment(HorizontalAlignment.LEFT)
-					.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		GameObject text = new Text(tittle, font)
+				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
-			return new Padding(0.05)
-					.addChild(new Padding(0, 0, 0.2, 0)
-					.addChild(text)
-					.addChild(icon)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.MIDDLE));
+		Grid grid= new Grid(2,FlowDirection.HORIZONTAL);
+		grid.setElement(0,image);
+		grid.setElement(1,text);
+
+		return new Padding(0.2).addChild(grid);
 
 
-		}
 	}
 
 
