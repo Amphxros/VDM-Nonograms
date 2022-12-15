@@ -1,7 +1,9 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
+import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.components.InheritParentPosition;
@@ -59,6 +61,26 @@ public final class StartScene extends Scene {
 				.addChild(padding)
 				.addChild(shopButton);
 		getBody().addChild(container);
+	}
+
+	// TODO: Revert this
+	@Override
+	public void render(IGraphics graphics) {
+		// super.render(graphics);
+
+		int s = 50;
+		graphics.setColor(new Color(200, 70, 0));
+		graphics.fillRectangle(0, 0, s);
+		graphics.fillRectangle(0, graphics.getHeight() - s,  s);
+		graphics.fillRectangle(graphics.getWidth() - s, 0,  s);
+		graphics.fillRectangle(graphics.getWidth() - s, graphics.getHeight() - s,  s);
+
+		s = 5;
+		graphics.setColor(Color.BLACK);
+		graphics.fillRectangle(0, 0, s);
+		graphics.fillRectangle(0, graphics.getHeight() - s,  s);
+		graphics.fillRectangle(graphics.getWidth() - s, 0,  s);
+		graphics.fillRectangle(graphics.getWidth() - s, graphics.getHeight() - s,  s);
 	}
 
 	private GameObject createButton(Button button, IImage img) {

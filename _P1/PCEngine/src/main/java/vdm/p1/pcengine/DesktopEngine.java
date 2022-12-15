@@ -12,6 +12,7 @@ public final class DesktopEngine extends Engine implements Runnable {
 	public DesktopEngine() {
 		renderView = new JFrame("Nonogramas");
 		renderView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		renderView.pack();
 		renderView.setIgnoreRepaint(true);
 		renderView.setVisible(true);
 

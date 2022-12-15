@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,6 +20,8 @@ import vdm.p1.engine.IImage;
 public final class DesktopGraphics implements IGraphics {
 	private final JFrame window;
 	private final BufferStrategy buffer;
+	private int width = 600;
+	private int height = 800;
 	private Graphics2D canvas;
 
 	public DesktopGraphics(JFrame window) {
@@ -114,6 +117,8 @@ public final class DesktopGraphics implements IGraphics {
 	@Override
 	public void setResolution(int width, int height) {
 		window.setSize(width, height);
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
@@ -137,6 +142,7 @@ public final class DesktopGraphics implements IGraphics {
 		buffer.show();
 		canvas.dispose();
 		canvas = (Graphics2D) buffer.getDrawGraphics();
+		updateTransformParameters();
 	}
 
 	@Override
@@ -172,11 +178,37 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public int getWidth() {
-		return window.getWidth();
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return window.getHeight();
+		return height;
+	}
+
+	/**
+	 * Updates the transform parameters, internally calls {@link #translate(int, int)} and
+	 * {@link #scale(double, double)} internally.
+	 */
+	private void updateTransformParameters() {
+		Insets insets = window.getInsets();
+		int contentW = window.getWidth() - insets.left - insets.right;
+		int contentH = window.getHeight() - insets.top - insets.bottom;
+
+		translate(insets.left, insets.top);
+
+		double ratio = width / (double) height;
+		double ratioP = contentW / (double) contentH;
+
+		double s;
+		if (ratio >= ratioP) {
+			s = contentW / (double) width;
+			translate(0, (int) ((contentH - height * s) / 2.0));
+		} else {
+			s = contentH / (double) height;
+			translate((int) ((contentW - width * s) / 2.0), 0);
+		}
+
+		scale(s, s);
 	}
 }
