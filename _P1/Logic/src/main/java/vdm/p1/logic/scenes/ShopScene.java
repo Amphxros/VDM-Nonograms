@@ -14,7 +14,7 @@ import vdm.p1.logic.layout.Grid;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
+import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
@@ -27,7 +27,7 @@ public final class ShopScene extends Scene {
 		IImage coin = engine.getGraphics().newImage("image/coin.png");
 		GameManager gameManager = ((Logic) engine.getLogic()).getGameManager();
 
-		GameObject goBackButton = new GoToThemeSelectSceneButton(getEngine())
+		GameObject goBackButton = new GoToStartSceneButton(getEngine())
 				.addComponent(new InheritParentSize())
 				.addComponent(new InheritParentPosition());
 		GameObject goBackText = new Text("Volver", font)
