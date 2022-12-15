@@ -27,6 +27,8 @@ public final class AndroidGraphics implements IGraphics {
 	private final HashMap<String, AndroidImage> loadedImages = new HashMap<>();
 	private final HashMap<String, IFont> loadedFonts = new HashMap<>();
 	private final AssetManager assetManager;
+	private int width = 400;
+	private int height = 600;
 	private Canvas canvas = null;
 
 	public AndroidGraphics(SurfaceView surfaceView, Context context) {
@@ -62,6 +64,7 @@ public final class AndroidGraphics implements IGraphics {
 	public void clear(int color) {
 		canvas = surfaceHolder.lockCanvas();
 		canvas.drawColor(color); // ARGB
+		updateTransformParameters();
 	}
 
 	public void present() {
@@ -153,7 +156,8 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void setResolution(int width, int height) {
-		// TODO: Write this
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
@@ -176,12 +180,12 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void translate(int x, int y) {
-
+		canvas.translate(x, y);
 	}
 
 	@Override
 	public void scale(double x, double y) {
-
+		canvas.scale((float) x, (float) y);
 	}
 
 	@Override
@@ -196,12 +200,35 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public int getWidth() {
-		return surfaceView.getWidth();
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return surfaceView.getHeight();
+		return height;
+	}
+
+	/**
+	 * Updates the transform parameters, internally calls {@link #translate(int, int)} and
+	 * {@link #scale(double, double)} internally.
+	 */
+	private void updateTransformParameters() {
+		int contentW = surfaceView.getWidth();
+		int contentH = surfaceView.getHeight();
+
+		double ratio = width / (double) height;
+		double ratioP = contentW / (double) contentH;
+
+		double s;
+		if (ratio >= ratioP) {
+			s = contentW / (double) width;
+			translate(0, (int) ((contentH - height * s) / 2.0));
+		} else {
+			s = contentH / (double) height;
+			translate((int) ((contentW - width * s) / 2.0), 0);
+		}
+
+		scale(s, s);
 	}
 }
 

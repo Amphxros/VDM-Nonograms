@@ -142,19 +142,19 @@ public final class DesktopGraphics implements IGraphics {
 		buffer.show();
 		canvas.dispose();
 		canvas = (Graphics2D) buffer.getDrawGraphics();
-		updateTransformParameters();
 	}
 
 	@Override
 	public void clear(vdm.p1.engine.Color color) {
 		setColor(color);
-		canvas.fillRect(0, 0, getWidth(), getHeight());
+		canvas.fillRect(0, 0, window.getWidth(), window.getHeight());
+		updateTransformParameters();
 	}
 
 	@Override
 	public void clear(int color) {
 		setColor(color);
-		canvas.fillRect(0, 0, getWidth(), getHeight());
+		canvas.fillRect(0, 0, window.getWidth(), window.getHeight());
 	}
 
 	@Override
