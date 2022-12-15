@@ -7,14 +7,20 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Scanner;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.logic.objects.PaletteItem;
 
 public final class GameManager implements Serializable {
 	private static final long serialVersionUID = 1L;
+	PaletteItem currentPalette;
 	private int lastUnlockedTheme = 0;
 	private int lastUnlockedLevel = 0;
+	private int LastUnlockedPalette = 0;
 	private int money = 0;
 	private transient GameTheme[] themes = null;
+	private transient PaletteItem[] palettes = null;
+
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
@@ -147,6 +153,10 @@ public final class GameManager implements Serializable {
 		return themes != null;
 	}
 
+	public boolean loadedPalettes() {
+		return palettes != null;
+	}
+
 	/**
 	 * Load all the themes.
 	 *
@@ -161,6 +171,46 @@ public final class GameManager implements Serializable {
 			String id = read.next();
 			String name = read.nextLine().trim();
 			themes[i] = new GameTheme(id, name, i);
+		}
+	}
+
+	/**
+	 * @return the palettes array of the app
+	 */
+	public PaletteItem[] getPalettes() {
+		return palettes;
+	}
+
+	/**
+	 * @param index position of the array
+	 * @return An instance of {@link PaletteItem} of the array
+	 */
+	public PaletteItem getPalette(int index) {
+		return palettes[index];
+	}
+
+	public PaletteItem getCurrentPalette() {
+		return currentPalette;
+	}
+
+	public void loadPalettes(IEngine engine) {
+		String content = engine.getFileManager().readFile("palettes/palette");
+		Scanner read = new Scanner(content);
+		palettes = new PaletteItem[read.nextInt()];
+
+		for (int i = 0; i < palettes.length; i++) {
+			StringBuilder stringBuilder = new StringBuilder(read.next());
+			while (!read.hasNextInt()) {
+				stringBuilder.append(' ');
+				stringBuilder.append(read.next());
+			}
+
+			PaletteItem paletteObject = new PaletteItem(stringBuilder.toString(), read.nextInt());
+			for (int c = 0; c < 5; ++c) {
+				paletteObject.getPalette().addColor(new Color(read.nextInt(16)));
+			}
+
+			palettes[i] = paletteObject;
 		}
 	}
 

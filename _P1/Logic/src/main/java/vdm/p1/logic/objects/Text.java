@@ -34,6 +34,9 @@ public final class Text extends GameObject {
 	public void render(IGraphics graphics) {
 		super.render(graphics);
 
+		/**
+		 * TODO: CHANGE THIS TO PALETTE TOO
+		 */
 		graphics.setColor(color);
 		graphics.setFont(font);
 		graphics.drawText(text, getPosition().getX(), getPosition().getY() + getHeight());

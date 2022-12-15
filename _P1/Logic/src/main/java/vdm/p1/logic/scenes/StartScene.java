@@ -11,6 +11,7 @@ import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.objects.GoToLevelSelectSceneButton;
+import vdm.p1.logic.objects.GoToShopScene;
 import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.ShareButton;
@@ -21,7 +22,7 @@ public final class StartScene extends Scene {
 	public StartScene(IEngine engine) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 48, false);
-		IImage share = engine.getGraphics().newImage("image/share2.png");
+		IImage share = engine.getGraphics().newImage("image/cart.png");
 		GameObject title = new Text("Nonogramas", font)
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.TOP);
@@ -35,8 +36,8 @@ public final class StartScene extends Scene {
 				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
-		GameObject shareButton = new Padding(0.8, 0.4, 0.1, 0.4)
-				.addChild(createButton(new ShareButton(getEngine()), share)
+		GameObject shopButton = new Padding(0.8, 0.4, 0.1, 0.4)
+				.addChild(createButton(new GoToShopScene(getEngine()), share)
 						.setVerticalAlignment(VerticalAlignment.TOP)
 						.setHorizontalAlignment(HorizontalAlignment.CENTRE));
 
@@ -56,7 +57,7 @@ public final class StartScene extends Scene {
 
 		GameObject container = new Container(400, 600)
 				.addChild(padding)
-				.addChild(shareButton);
+				.addChild(shopButton);
 		getBody().addChild(container);
 	}
 
