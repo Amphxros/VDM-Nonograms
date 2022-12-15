@@ -10,7 +10,7 @@ import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
 	/**
-	 * CHANGE THIS TO THE PALETTE
+	 * TODO: CHANGE THIS TO THE PALETTE
 	 */
 	private static final Color EMPTY_COLOR = new Color(170, 170, 170);
 	private static final Color MARKED_COLOR = new Color(0, 0, 255);

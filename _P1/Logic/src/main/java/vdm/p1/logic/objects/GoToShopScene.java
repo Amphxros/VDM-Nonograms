@@ -6,7 +6,6 @@ import vdm.p1.logic.scenes.Scene;
 import vdm.p1.logic.scenes.ShopScene;
 
 public final class GoToShopScene extends GoToSceneButton {
-
 	public GoToShopScene(IEngine engine) {
 		super(engine);
 	}

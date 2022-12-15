@@ -9,18 +9,18 @@ import java.util.Scanner;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
-import vdm.p1.engine.Palette;
-import vdm.p1.logic.objects.PaletteObject;
+import vdm.p1.logic.objects.PaletteItem;
 
 public final class GameManager implements Serializable {
 	private static final long serialVersionUID = 1L;
+	PaletteItem currentPalette;
 	private int lastUnlockedTheme = 0;
 	private int lastUnlockedLevel = 0;
-	private int LastUnlockedPalette=0;
+	private int LastUnlockedPalette = 0;
 	private int money = 0;
 	private transient GameTheme[] themes = null;
-	private transient PaletteObject[] palettes=null;
-	PaletteObject currentPalette=palettes[0];
+	private transient PaletteItem[] palettes = null;
+
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
@@ -157,7 +157,6 @@ public final class GameManager implements Serializable {
 		return palettes != null;
 	}
 
-
 	/**
 	 * Load all the themes.
 	 *
@@ -176,60 +175,43 @@ public final class GameManager implements Serializable {
 	}
 
 	/**
-	 *
 	 * @return the palettes array of the app
 	 */
-	public PaletteObject[] getPalettes(){return palettes;}
+	public PaletteItem[] getPalettes() {
+		return palettes;
+	}
 
 	/**
 	 * @param index position of the array
-	 * @return An instance of {@link PaletteObject} of the array
+	 * @return An instance of {@link PaletteItem} of the array
 	 */
-	public PaletteObject getPalette(int index){return palettes[index];}
+	public PaletteItem getPalette(int index) {
+		return palettes[index];
+	}
 
-	/**
-	 *
-	 * @return the current rendering palette
-	 */
-	public PaletteObject getCurrentPalette() {
+	public PaletteItem getCurrentPalette() {
 		return currentPalette;
 	}
 
-	/**
-	 * sets the palettes
-	 * @param currentPalette Array of multiple colors to change your view
-	 */
-	public void setCurrentPalette(PaletteObject currentPalette) {
-		this.currentPalette = currentPalette;
-	}
+	public void loadPalettes(IEngine engine) {
+		String content = engine.getFileManager().readFile("palettes/palette");
+		Scanner read = new Scanner(content);
+		palettes = new PaletteItem[read.nextInt()];
 
-	public void setLastUnlockedPalette(int getLastUnlockedPalette) {
-		this.LastUnlockedPalette = getLastUnlockedPalette;
-	}
-
-	public int getLastUnlockedPalette() {
-		return LastUnlockedPalette;
-	}
-
-	public void loadPalettes(IEngine engine){
-		String content= engine.getFileManager().readFile("palettes/palette");
-		Scanner read= new Scanner(content);
-		palettes= new PaletteObject[Integer.parseInt(read.nextLine())];
-
-		for(int i=0; i<palettes.length; i++){
-			String id= read.nextLine();
-			String [] line= id.split(" ");
-			PaletteObject paletteObject= new PaletteObject(line[0] + " "+ line[1],Integer.parseInt(line[2]));
-
-			for(int j=3; j<line.length;j++){
-				//Color c= new Color(Integer.parseInt(line[j]));
-				//paletteObject.getPalette().addColor(c);
+		for (int i = 0; i < palettes.length; i++) {
+			StringBuilder stringBuilder = new StringBuilder(read.next());
+			while (!read.hasNextInt()) {
+				stringBuilder.append(' ');
+				stringBuilder.append(read.next());
 			}
-			palettes[i]=paletteObject;
 
+			PaletteItem paletteObject = new PaletteItem(stringBuilder.toString(), read.nextInt());
+			for (int c = 0; c < 5; ++c) {
+				paletteObject.getPalette().addColor(new Color(read.nextInt(16)));
+			}
 
+			palettes[i] = paletteObject;
 		}
-
 	}
 
 	/**
