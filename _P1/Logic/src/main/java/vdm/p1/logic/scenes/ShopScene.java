@@ -5,9 +5,7 @@ import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameManager;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
-import vdm.p1.logic.components.HandleParentResize;
 import vdm.p1.logic.components.InheritParentPosition;
 import vdm.p1.logic.components.InheritParentSize;
 import vdm.p1.logic.layout.Container;
@@ -16,19 +14,20 @@ import vdm.p1.logic.layout.Grid;
 import vdm.p1.logic.layout.HorizontalAlignment;
 import vdm.p1.logic.layout.Padding;
 import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.CreateThemeLevelButton;
 import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
 public class ShopScene extends Scene{
 
-
+	private final GameManager gm;
 	public ShopScene(IEngine engine) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		IImage coin= engine.getGraphics().newImage("image/coin.png");
+		IImage palettepreview= engine.getGraphics().newImage("image/palettes_icons/Trans rights.png");
 
+		gm= ((Logic) engine.getLogic()).getGameManager();
 
 
 		GameObject goBackButton = new GoToThemeSelectSceneButton(getEngine())
@@ -38,9 +37,13 @@ public class ShopScene extends Scene{
 				.addChild(goBackButton)
 				.addComponent(new InheritParentPosition());
 
-		GameObject coins= createLevelButton(font, coin,"0");
+		GameObject coins= createCoinPrice(font, coin,"0");
 
+		Grid grid= new Grid(8,FlowDirection.VERTICAL);
+		for (int i=0; i<8;i++) {
 
+			grid.setElement(i, createPaletteButton(font,palettepreview,coin,"sunset on the beach", "100"));
+		}
 
 
 
@@ -50,9 +53,12 @@ public class ShopScene extends Scene{
 		GameObject coinhead = new Padding(0.15, 0.1, 0.8, 0.75)
 				.addChild(coins);
 
+		GameObject gridcont= new Padding(0.2,0.03,0.04,0.03)
+				.addChild(grid);
 		GameObject padding = new Padding(0.04, 0.1)
 				.addChild(header)
 				.addChild(coinhead)
+				.addChild(gridcont)
 				;
 		GameObject container = new Container(400, 600)
 		.addChild(padding);
@@ -61,22 +67,50 @@ public class ShopScene extends Scene{
 
 	}
 
-	private GameObject createLevelButton(IFont font, IImage glass, String tittle) {
+	private GameObject createCoinPrice(IFont font, IImage coin, String numCoins) {
 
+		GameObject image = new Image(coin)
+				.addComponent(new InheritParentPosition())
+				.addComponent(new InheritParentSize());
+
+		GameObject text = new Text(numCoins, font)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+
+
+
+		Grid grid= new Grid(2,FlowDirection.HORIZONTAL);
+		grid.setElement(0,image);
+		grid.setElement(1,text);
+
+		return new Padding(0).addChild(grid);
+
+
+	}
+
+	private GameObject createPaletteButton(IFont font, IImage glass,IImage coin, String tittle, String currency) {
 
 		GameObject image = new Image(glass)
 				.addComponent(new InheritParentPosition())
 				.addComponent(new InheritParentSize());
 
 		GameObject text = new Text(tittle, font)
-				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
+				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
 				.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
-		Grid grid= new Grid(2,FlowDirection.HORIZONTAL);
-		grid.setElement(0,image);
-		grid.setElement(1,text);
 
-		return new Padding(0.2).addChild(grid);
+		GameObject coinGrid= createCoinPrice(font,coin,currency)
+				.setHorizontalAlignment(HorizontalAlignment.LEFT)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+
+		Grid grid= new Grid(3,FlowDirection.HORIZONTAL);
+
+
+		grid.setElement(0,image);
+		grid.setElement(1, coinGrid);
+		grid.setElement(2,text);
+
+		return new Padding(0).addChild(grid);
 
 
 	}
