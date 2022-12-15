@@ -21,11 +21,12 @@ import vdm.p1.logic.objects.Text;
 public class ShopScene extends Scene{
 
 	private final GameManager gm;
+	private static final String palette_icon_route= "image/palettes_icons/";
 	public ShopScene(IEngine engine) {
 		super(engine);
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
 		IImage coin= engine.getGraphics().newImage("image/coin.png");
-		IImage palettepreview= engine.getGraphics().newImage("image/palettes_icons/Trans rights.png");
+
 
 		gm= ((Logic) engine.getLogic()).getGameManager();
 
@@ -37,12 +38,15 @@ public class ShopScene extends Scene{
 				.addChild(goBackButton)
 				.addComponent(new InheritParentPosition());
 
-		GameObject coins= createCoinPrice(font, coin,"0");
+		if(!gm.loadedPalettes()) gm.loadPalettes(engine);
+
+		GameObject coins= createCoinPrice(font, coin,Integer.toString(gm.getMoney()));
 
 		Grid grid= new Grid(8,FlowDirection.VERTICAL);
 		for (int i=0; i<8;i++) {
-
-			grid.setElement(i, createPaletteButton(font,palettepreview,coin,"sunset on the beach", "100"));
+			IImage palettepreview= engine.getGraphics().newImage(palette_icon_route +gm.getPalette(i).getName()+".png");
+			int p= gm.getPalette(i).getPrice();
+			grid.setElement(i, createPaletteButton(font,palettepreview,coin,gm.getPalette(i).getName(),Integer.toString(p)));
 		}
 
 

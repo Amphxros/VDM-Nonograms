@@ -9,10 +9,14 @@ import vdm.p1.logic.components.InheritParentSize;
 import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
+	/**
+	 * CHANGE THIS TO THE PALETTE
+	 */
 	private static final Color EMPTY_COLOR = new Color(170, 170, 170);
 	private static final Color MARKED_COLOR = new Color(0, 0, 255);
 	private static final Color FLAGGED_COLOR = Color.BLACK;
 	private static final Color WRONG_COLOR = new Color(255, 0, 0);
+
 	private final Table table;
 	private final boolean isSolution;
 	private State current = State.EMPTY;

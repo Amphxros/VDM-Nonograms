@@ -175,8 +175,22 @@ public final class GameManager implements Serializable {
 		}
 	}
 
+	/**
+	 *
+	 * @return the palettes array of the app
+	 */
 	public PaletteObject[] getPalettes(){return palettes;}
+
+	/**
+	 * @param index position of the array
+	 * @return An instance of {@link PaletteObject} of the array
+	 */
 	public PaletteObject getPalette(int index){return palettes[index];}
+
+	/**
+	 *
+	 * @return the current rendering palette
+	 */
 	public PaletteObject getCurrentPalette() {
 		return currentPalette;
 	}
@@ -192,17 +206,20 @@ public final class GameManager implements Serializable {
 	public void loadPalettes(IEngine engine){
 		String content= engine.getFileManager().readFile("palettes/palette");
 		Scanner read= new Scanner(content);
-		palettes= new PaletteObject[read.nextInt()];
+		palettes= new PaletteObject[Integer.parseInt(read.nextLine())];
 
 		for(int i=0; i<palettes.length; i++){
-			String id= read.next();
-			String[] lines= id.split(" ");
-			String tittle= lines[0] +" "+lines[1];
-			int price= Integer.parseInt(lines[2]);
-			palettes[i]= new PaletteObject(tittle,price);
-			for(int j=3;j< lines.length;j++){
-				palettes[i].getPalette().addColor(new Color(Integer.parseInt(lines[j])));
+			String id= read.nextLine();
+			String [] line= id.split(" ");
+			PaletteObject paletteObject= new PaletteObject(line[0] + " "+ line[1],Integer.parseInt(line[2]));
+
+			for(int j=3; j<line.length;j++){
+				//Color c= new Color(Integer.parseInt(line[j]));
+				//paletteObject.getPalette().addColor(c);
 			}
+			palettes[i]=paletteObject;
+
+
 		}
 
 	}
