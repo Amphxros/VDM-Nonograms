@@ -5,6 +5,7 @@ public interface IGraphics {
 
 	IFont newFont(String name, int size, boolean isBold);
 
+	// TODO: Remove this
 	Dimension getTextDimensions(IFont font, String string);
 
 	/**
@@ -116,5 +117,4 @@ public interface IGraphics {
 	int getWidth();
 
 	int getHeight();
-
 }

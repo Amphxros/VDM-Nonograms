@@ -1,22 +1,19 @@
 package vdm.p1.logic;
 
 import vdm.p1.engine.Engine;
+import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IInput;
 import vdm.p1.engine.ILogic;
-import vdm.p1.logic.scenes.Scene;
+import vdm.p1.engine.IScene;
 import vdm.p1.logic.scenes.StartScene;
 
 public final class Logic implements ILogic {
-	private final Engine engine;
 	private final GameManager gameManager;
 	private IScene currentScene;
 
 	public Logic(Engine engine) {
-		this.engine = engine;
 		this.gameManager = GameManager.load(engine);
-	}
-
-	public Engine getEngine() {
-		return engine;
+		this.currentScene = new StartScene(engine);
 	}
 
 	public GameManager getGameManager() {
@@ -24,12 +21,7 @@ public final class Logic implements ILogic {
 	}
 
 	@Override
-	public void initLogic() {
-		if (currentScene != null) currentScene.dispose();
-		currentScene = new StartScene(getEngine());
-	}
-
-	public void changeScene(Scene scene) {
+	public void setScene(IScene scene) {
 		if (currentScene != null) currentScene.dispose();
 		currentScene = scene;
 	}
@@ -40,13 +32,13 @@ public final class Logic implements ILogic {
 	}
 
 	@Override
-	public void render() {
-		currentScene.render(engine.getGraphics());
+	public void render(IGraphics graphics) {
+		currentScene.render(graphics);
 	}
 
 	@Override
-	public void handleEvents() {
-		currentScene.handleInput(engine.getInput());
+	public void handleEvents(IInput input) {
+		currentScene.handleInput(input);
 	}
 
 	@Override

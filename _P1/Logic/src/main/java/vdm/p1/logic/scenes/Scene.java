@@ -2,10 +2,11 @@ package vdm.p1.logic.scenes;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IInput;
+import vdm.p1.engine.IScene;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.IScene;
 import vdm.p1.logic.layout.Body;
 
 public abstract class Scene implements IScene {
@@ -21,7 +22,6 @@ public abstract class Scene implements IScene {
 		return engine;
 	}
 
-	@Override
 	public Body getBody() {
 		return body;
 	}
@@ -52,7 +52,7 @@ public abstract class Scene implements IScene {
 	 * @param input The assigned platform-specific {@link Input} engine.
 	 */
 	@Override
-	public void handleInput(Input input) {
+	public void handleInput(IInput input) {
 		for (TouchEvent event : input.getTouchEvents()) {
 			getBody().handleInput(event);
 		}

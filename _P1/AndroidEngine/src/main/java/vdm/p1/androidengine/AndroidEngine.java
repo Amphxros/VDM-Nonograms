@@ -50,7 +50,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 		// Waits for the view to be initialized (The thread could be faster than the initialization)
 		while (running && getGraphics().getWidth() == 0) ;
 
-		getLogic().initLogic();
 		long lastFrameTime = System.nanoTime();
 
 		// MAIN GAME LOOP
@@ -76,7 +75,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		while (!graphics.surfaceValid()) ;
 
 		graphics.clear(0xFFFFFFFF); // ARGB
-		getLogic().render();
+		getLogic().render(getGraphics());
 		graphics.present();
 	}
 
@@ -85,7 +84,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 	}
 
 	private void handleEvents() {
-		getLogic().handleEvents();
+		getLogic().handleEvents(getInput());
 	}
 
 	public void resume() {

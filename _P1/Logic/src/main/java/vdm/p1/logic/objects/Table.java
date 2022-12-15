@@ -260,12 +260,12 @@ public final class Table extends GameObject {
 						logic.getGameManager().save(engine);
 					}
 				}
-				logic.changeScene(new WinScene(engine, getSolutions()));
+				logic.setScene(new WinScene(engine, getSolutions()));
 			} else {
 				cell.setWrong(true);
 				if (!lifeManager.removeHeart()) {
 					Logic logic = (Logic) lifeManager.getEngine().getLogic();
-					logic.changeScene(new StartScene(lifeManager.getEngine()));
+					logic.setScene(new StartScene(lifeManager.getEngine()));
 				}
 			}
 		} else if (previous == State.MARKED && cell.isSolution()) {

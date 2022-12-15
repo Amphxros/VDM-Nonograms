@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 		engine = new AndroidEngine(renderView, this);
 		Logic logic = new Logic(engine);
 		engine.setLogic(logic);
-		logic.initLogic();
+		engine.getGraphics().setResolution(400, 600);
 
 		//if the user enters by a notification
 		Intent intent = getIntent();

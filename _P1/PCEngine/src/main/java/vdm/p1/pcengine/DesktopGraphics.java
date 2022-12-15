@@ -163,7 +163,6 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public void save() {
-
 	}
 
 	@Override

@@ -153,7 +153,7 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void setResolution(int width, int height) {
-
+		// TODO: Write this
 	}
 
 	@Override

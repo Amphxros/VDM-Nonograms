@@ -11,8 +11,6 @@ public final class DesktopEngine extends Engine implements Runnable {
 
 	public DesktopEngine() {
 		renderView = new JFrame("Nonogramas");
-
-		renderView.setSize(800, 1000);
 		renderView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		renderView.setIgnoreRepaint(true);
 		renderView.setVisible(true);
@@ -41,8 +39,6 @@ public final class DesktopEngine extends Engine implements Runnable {
 
 	@Override
 	public void run() {
-		getLogic().initLogic();
-
 		long lastFrameTime = System.nanoTime();
 		while (running) {
 			long currentTime = System.nanoTime();
@@ -52,11 +48,11 @@ public final class DesktopEngine extends Engine implements Runnable {
 			// Frames Per Second
 			double elapsedTime = (double) nanoElapsedTime / 1.0E9;
 
-			getLogic().handleEvents();
+			getLogic().handleEvents(getInput());
 			getLogic().update(elapsedTime);
 
 			getGraphics().clear(Color.WHITE);
-			getLogic().render();
+			getLogic().render(getGraphics());
 			getGraphics().present();
 		}
 	}

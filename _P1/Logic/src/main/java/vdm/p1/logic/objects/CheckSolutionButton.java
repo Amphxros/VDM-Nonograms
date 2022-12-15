@@ -20,7 +20,7 @@ public final class CheckSolutionButton extends Button {
 	public boolean onPrimaryAction(TouchEvent event) {
 		if (table.performSolutionShow()) {
 			Logic logic = (Logic) engine.getLogic();
-			logic.changeScene(new WinScene(engine, table.getSolutions()));
+			logic.setScene(new WinScene(engine, table.getSolutions()));
 		}
 
 		return true;
