@@ -1,5 +1,8 @@
 package vdm.p1.logic.scenes;
 
+import java.util.ArrayList;
+
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IInput;
@@ -7,23 +10,23 @@ import vdm.p1.engine.IScene;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.layout.Body;
+import vdm.p1.logic.Vector2D;
 
 public abstract class Scene implements IScene {
 	private final IEngine engine;
-	private final Body body;
+	private final ArrayList<GameObject> objects = new ArrayList<>();
+	private Vector2D pointer = null;
 
 	public Scene(IEngine engine) {
 		this.engine = engine;
-		this.body = new Body(engine);
 	}
 
 	public IEngine getEngine() {
 		return engine;
 	}
 
-	public Body getBody() {
-		return body;
+	public void addGameObject(GameObject object) {
+		objects.add(object);
 	}
 
 	/**
@@ -33,7 +36,15 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void render(IGraphics graphics) {
-		getBody().render(graphics);
+		if (pointer != null) {
+			graphics.setColor(new Color(0, 255, 0));
+			graphics.drawLine(0, pointer.getY(), graphics.getWidth(), pointer.getY());
+			graphics.drawLine(pointer.getX(), 0, pointer.getX(), graphics.getHeight());
+		}
+
+		for (GameObject object : objects) {
+			if (object.isEnabled()) object.render(graphics);
+		}
 	}
 
 	/**
@@ -43,7 +54,9 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void update(double delta) {
-		getBody().update(delta);
+		for (GameObject object : objects) {
+			if (object.isEnabled()) object.update(delta);
+		}
 	}
 
 	/**
@@ -53,8 +66,24 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void handleInput(IInput input) {
+		pointer = null;
 		for (TouchEvent event : input.getTouchEvents()) {
-			getBody().handleInput(event);
+			pointer = new Vector2D(event.getX(), event.getY());
+
+			for (GameObject object : objects) {
+				if (object.isEnabled()) object.handleInput(event);
+			}
+		}
+	}
+
+	/**
+	 * An event method called once the scene has been constructed. By default, this will call the
+	 * awake method on GameObjects.
+	 */
+	@Override
+	public void init() {
+		for (GameObject object : objects) {
+			object.init();
 		}
 	}
 

@@ -1,12 +1,6 @@
-package vdm.p1.logic.objects;
+package vdm.p1.logic.objects.buttons;
 
 import vdm.p1.engine.IEngine;
-import vdm.p1.engine.IFont;
-import vdm.p1.engine.TouchEvent;
-import vdm.p1.logic.Logic;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.base.Button;
 import vdm.p1.logic.objects.base.GoToSceneButton;
 import vdm.p1.logic.scenes.GameScene;
 import vdm.p1.logic.scenes.Scene;

@@ -7,19 +7,10 @@ import vdm.p1.logic.GameManager;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
-import vdm.p1.logic.components.HandleParentResize;
-import vdm.p1.logic.components.InheritParentPosition;
-import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Container;
-import vdm.p1.logic.layout.FlowDirection;
-import vdm.p1.logic.layout.Grid;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.Padding;
-import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.CreateThemeButton;
-import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
+import vdm.p1.logic.objects.buttons.CreateThemeButton;
+import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 
 public final class ThemeSelectScene extends Scene {
 	private final GameManager gameManager;
@@ -35,79 +26,39 @@ public final class ThemeSelectScene extends Scene {
 		locked = gameManager.getLastUnlockedLevel() >= 5 ? null : engine.getGraphics().newImage("image/lock.png");
 
 		GameTheme[] themes = gameManager.getThemes();
-		Grid row0 = new Grid(3, FlowDirection.HORIZONTAL);
-		row0.setElement(0, createLevelButton(font, themes[0]));
-		row0.setElement(1, createLevelButton(font, themes[1]));
-		row0.setElement(2, createLevelButton(font, themes[2]));
-		Grid row1 = new Grid(3, FlowDirection.HORIZONTAL);
-		row1.setElement(0, createLevelButton(font, themes[3]));
-		row1.setElement(1, createLevelButton(font, themes[4]));
-		row1.setElement(2, createLevelButton(font, themes[5]));
+		addLevelButton(font, themes[0], 50, 100);
+		addLevelButton(font, themes[1], 150, 100);
+		addLevelButton(font, themes[2], 250, 100);
+		addLevelButton(font, themes[3], 50, 200);
+		addLevelButton(font, themes[4], 150, 200);
+		addLevelButton(font, themes[5], 250, 200);
 
-		Grid rows = new Grid(2, FlowDirection.VERTICAL);
-		rows.setElement(0, row0);
-		rows.setElement(1, row1);
-
-		GameObject table = new Padding(0.4, 0, 0.1, 0)
-				.addChild(rows);
-
-		GameObject goBackButton = new GoToStartSceneButton(getEngine())
-				.addComponent(new InheritParentSize())
-				.addComponent(new InheritParentPosition());
-		GameObject goBackText = new Text("Volver", font)
-				.addChild(goBackButton)
-				.addComponent(new InheritParentPosition());
-
-		GameObject header = new Padding(0, 0, 0.8, 0)
-				.addChild(goBackText);
-
-		GameObject description = new Padding(0.1, 0, 0, 0)
-				.addChild(new Text("Seleccione categoria a jugar", font)
-						.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-						.setVerticalAlignment(VerticalAlignment.TOP));
-
-		GameObject padding = new Padding(0.04, 0.1)
-				.addChild(header)
-				.addChild(description)
-				.addChild(table);
-
-		GameObject container = new Container(400, 600).addChild(padding);
-		getBody().addChild(container);
+		addGameObject(new Text("Seleccione categoria a jugar", font).setPosition(200, 50));
+		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 50);
 	}
 
-	private GameObject createLevelButton(IFont font, GameTheme theme) {
-		GameObject text;
-		GameObject icon;
+	private void addLevelButton(IFont font, GameTheme theme, int x, int y) {
+		final int size = 50;
+		final int halfSize = 25;
 
+		String name;
+		IImage icon;
 		if (gameManager.getLastUnlockedTheme() < theme.getIndex()) {
-			text = new Text("BLOQUEADO", font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.BOTTOM);
-
-			icon = new Image(locked)
-					.addComponent(new HandleParentResize(1, 1))
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.TOP);
+			name = "BLOQUEADO";
+			icon = locked;
 		} else {
-			text = new Text(theme.getName(), font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.BOTTOM);
+			name = theme.getName();
+			icon = getEngine().getGraphics().newImage(theme.getImagePath());
 
-			GameObject image = new Image(getEngine().getGraphics().newImage(theme.getImagePath()))
-					.addComponent(new InheritParentSize())
-					.addComponent(new InheritParentPosition());
-
-			icon = new CreateThemeButton(getEngine(), theme)
-					.addComponent(new HandleParentResize(1, 1))
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.TOP)
-					.addChild(image);
+			addGameObject(new CreateThemeButton(getEngine(), theme).setPosition(x, y).setSize(size, size + size));
 		}
 
-		return new Padding(0.05)
-				.addChild(new Padding(0, 0, 0.2, 0).addChild(icon))
-				.addChild(text)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		addGameObject(new Text(name, font).setPosition(x + halfSize, y + size));
+		addGameObject(new Image(icon).setPosition(0, 0).setSize(size, size));
+	}
+
+	private void addButton(GameObject button, IFont font, String text, int x, int y) {
+		GameObject textComponent = new Text(text, font).setPosition(x + 50, y);
+		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(100, 50));
 	}
 }

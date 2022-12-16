@@ -4,69 +4,36 @@ import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.components.HandleParentResize;
-import vdm.p1.logic.components.InheritParentPosition;
-import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.FlowDirection;
-import vdm.p1.logic.layout.Grid;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.Padding;
-import vdm.p1.logic.layout.VerticalAlignment;
+import vdm.p1.logic.Vector2D;
 
 /**
  * The life manager GameObject. This object will always attach children and components that are
- * necessary for it to be visualized correctly:<br><br>
- *
- * <b>Children</b>:
- * <ul>
- *     <li>{@link Padding}
- *         <ul>
- *             <li>{@link Text}</li>
- *             <li>{@link Grid}
- *                 <ul>
- *                     <li>{@link Image}</li>
- *                     <li>{@link Image}</li>
- *                     <li>{@link Image}</li>
- *                 </ul>
- *             </li>
- *         </ul>
- *     </li>
- * </ul>
- *
- * <b>Components</b>:
- * <ul>
- *     <li>{@link InheritParentSize}</li>
- *     <li>{@link InheritParentPosition}</li>
- * </ul>
+ * necessary for it to be visualized correctly.
  */
 public final class LifeManager extends GameObject {
 	private final IEngine engine;
 	private final IImage heartFill;
 	private final IImage heartEmpty;
+	private final IFont font;
 	private int remainingLives = 3;
 
 	public LifeManager(IEngine engine, IFont font) {
 		this.engine = engine;
+		this.font = font;
 
 		heartFill = engine.getGraphics().newImage("image/heartfill.png");
 		heartEmpty = engine.getGraphics().newImage("image/heartempty.png");
+	}
 
-		Padding padding = new Padding(0.35, 0.01);
-		GameObject text = new Text(Integer.toString(this.remainingLives), font)
-				.setVerticalAlignment(VerticalAlignment.TOP)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE);
-		Grid grid = (Grid) new Grid(3, FlowDirection.HORIZONTAL)
-				.setVerticalAlignment(VerticalAlignment.BOTTOM)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE);
-		for (int i = 0; i < remainingLives; i++) {
-			grid.setElement(i, createHeart(heartFill));
-		}
+	@Override
+	public void init() {
+		addChild(new Text(Integer.toString(this.remainingLives), font).setPosition(getX() + getHeight() / 2, getY()));
 
-		padding.addChild(text).addChild(grid);
-		addChild(padding);
+		addChild(createHeart(heartFill).setPosition(getX(), getY() + 20));
+		addChild(createHeart(heartFill).setPosition(getX() + getWidth() / 2 - 20, getY() + 20));
+		addChild(createHeart(heartFill).setPosition(getX() + getWidth() - 40, getY() + 20));
 
-		addComponent(new InheritParentSize());
-		addComponent(new InheritParentPosition());
+		super.init();
 	}
 
 	public IEngine getEngine() {
@@ -83,13 +50,8 @@ public final class LifeManager extends GameObject {
 
 		++remainingLives;
 
-		// Gets the padding object the components are at:
-		GameObject padding = getChildren().get(0);
-		Text text = (Text) padding.getChildren().get(0);
-		text.setText(Integer.toString(remainingLives));
-
-		Grid grid = (Grid) padding.getChildren().get(1);
-		grid.setElement(remainingLives, createHeart(heartFill));
+		((Text) getChildren().get(0)).setText(Integer.toString(remainingLives));
+		((Image) getChildren().get(remainingLives + 1)).setImage(heartFill);
 		return true;
 	}
 
@@ -100,21 +62,12 @@ public final class LifeManager extends GameObject {
 
 		--remainingLives;
 
-		// Gets the padding object the components are at:
-		GameObject padding = getChildren().get(0);
-		Text text = (Text) padding.getChildren().get(0);
-		text.setText(Integer.toString(remainingLives));
-
-		Grid grid = (Grid) padding.getChildren().get(1);
-		grid.setElement(remainingLives, createHeart(heartEmpty));
-
+		((Text) getChildren().get(0)).setText(Integer.toString(remainingLives));
+		((Image) getChildren().get(remainingLives + 1)).setImage(heartEmpty);
 		return true;
 	}
 
 	private GameObject createHeart(IImage image) {
-		return new Image(image)
-				.addComponent(new HandleParentResize(1))
-				.setVerticalAlignment(VerticalAlignment.MIDDLE)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE);
+		return new Image(image).setSize(new Vector2D(40, 40));
 	}
 }

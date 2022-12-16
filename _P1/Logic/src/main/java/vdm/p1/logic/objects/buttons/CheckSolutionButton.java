@@ -1,8 +1,9 @@
-package vdm.p1.logic.objects;
+package vdm.p1.logic.objects.buttons;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.Logic;
+import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.base.Button;
 import vdm.p1.logic.scenes.WinScene;
 

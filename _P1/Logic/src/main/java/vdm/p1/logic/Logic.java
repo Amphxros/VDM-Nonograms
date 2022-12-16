@@ -11,6 +11,7 @@ public final class Logic implements ILogic {
 	private final GameManager gameManager;
 	private IScene currentScene;
 
+	// TODO: Do not pass Engine, pass GameManager + StartScene
 	public Logic(Engine engine) {
 		this.gameManager = GameManager.load(engine);
 		this.currentScene = new StartScene(engine);
@@ -24,6 +25,7 @@ public final class Logic implements ILogic {
 	public void setScene(IScene scene) {
 		if (currentScene != null) currentScene.dispose();
 		currentScene = scene;
+		currentScene.init();
 	}
 
 	@Override

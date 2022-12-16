@@ -2,6 +2,12 @@ package vdm.p1.engine;
 
 public interface IScene {
 	/**
+	 * An event method called once the scene has been constructed. By default, this will call the
+	 * init method on GameObjects.
+	 */
+	void init();
+
+	/**
 	 * Signal the scene's objects to render given a {@link IGraphics} engine.
 	 *
 	 * @param graphics The assigned platform-specific {@link IGraphics} engine.

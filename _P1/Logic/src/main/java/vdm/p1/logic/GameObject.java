@@ -5,18 +5,11 @@ import java.util.Vector;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
-import vdm.p1.logic.components.Component;
-import vdm.p1.logic.components.HandleHorizontalAlignment;
-import vdm.p1.logic.components.HandleVerticalAlignment;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.VerticalAlignment;
 
 public abstract class GameObject {
-	private final Vector2D position;
 	private final Vector<GameObject> children = new Vector<>();
-	private final Vector<Component> components = new Vector<>();
-	private int width;
-	private int height;
+	private Vector2D position;
+	private Vector2D size;
 	private boolean enabled = true;
 	private Color strokeColor = null;
 	private GameObject parent = null;
@@ -27,73 +20,50 @@ public abstract class GameObject {
 
 	public GameObject(int x, int y, int width, int height) {
 		this.position = new Vector2D(x, y);
-		this.width = width;
-		this.height = height;
-	}
-
-	/**
-	 * Sets the horizontal alignment, applies when {@link #handleParentScreenChange()} is called,
-	 * unless {@link HorizontalAlignment#NONE} is passed, which resets to a NOP behaviour.
-	 *
-	 * @param alignment The alignment to use.
-	 * @return The updated {@link GameObject} instance.
-	 */
-	public GameObject setHorizontalAlignment(HorizontalAlignment alignment) {
-		HandleHorizontalAlignment existing = getComponent(HandleHorizontalAlignment.class);
-		if (existing == null) this.addComponent(new HandleHorizontalAlignment(alignment));
-		else existing.setAlignment(alignment);
-		return this;
-	}
-
-	/**
-	 * Sets the vertical alignment, applies when {@link #handleParentScreenChange()} is called,
-	 * unless {@link VerticalAlignment#NONE} is passed, which resets to a NOP behaviour.
-	 *
-	 * @param alignment The alignment to use.
-	 * @return The updated {@link GameObject} instance.
-	 */
-	public GameObject setVerticalAlignment(VerticalAlignment alignment) {
-		HandleVerticalAlignment existing = getComponent(HandleVerticalAlignment.class);
-		if (existing == null) this.addComponent(new HandleVerticalAlignment(alignment));
-		else existing.setAlignment(alignment);
-		return this;
-	}
-
-	public Color getStrokeColor() {
-		return strokeColor;
-	}
-
-	public GameObject setStrokeColor(Color strokeColor) {
-		this.strokeColor = strokeColor;
-		return this;
+		this.size = new Vector2D(width, height);
 	}
 
 	public Vector2D getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vector2D position) {
-		this.position.set(position);
+	public GameObject setPosition(Vector2D position) {
+		this.position = position;
+		return this;
 	}
 
-	public void setPosition(int x, int y) {
-		position.set(x, y);
+	public GameObject setPosition(int x, int y) {
+		setPosition(new Vector2D(x, y));
+		return this;
+	}
+
+	public int getX() {
+		return position.getX();
+	}
+
+	public int getY() {
+		return position.getY();
+	}
+
+	public Vector2D getSize() {
+		return size;
+	}
+
+	public GameObject setSize(Vector2D size) {
+		this.size = size;
+		return this;
+	}
+
+	public GameObject setSize(int width, int height) {
+		return setSize(new Vector2D(width, height));
 	}
 
 	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
+		return getSize().getX();
 	}
 
 	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
+		return getSize().getY();
 	}
 
 	public boolean isEnabled() {
@@ -112,19 +82,9 @@ public abstract class GameObject {
 		return children;
 	}
 
-	public Vector<Component> getComponents() {
-		return components;
-	}
-
-	public <T extends Component> T getComponent(Class<T> classRef) {
-		for (Component component : getComponents()) {
-			if (classRef.isInstance(component)) {
-				//noinspection unchecked
-				return (T) component;
-			}
-		}
-
-		return null;
+	public GameObject setStrokeColor(Color strokeColor) {
+		this.strokeColor = strokeColor;
+		return this;
 	}
 
 	/**
@@ -145,26 +105,18 @@ public abstract class GameObject {
 	}
 
 	/**
-	 * Adds a component to the GameObject.
-	 *
-	 * @param component The object to add as a component.
-	 * @return The updated {@link GameObject} instance.
-	 * @throws RuntimeException When the given object already has a parent.
+	 * An event method that's called once on initialization.
 	 */
-	public GameObject addComponent(Component component) {
-		if (component.getGameObject() != null) {
-			throw new RuntimeException("The given Component already has an assigned GameObject");
+	public void init() {
+		for (GameObject child : getChildren()) {
+			child.init();
 		}
-
-		component.setGameObject(this);
-		components.add(component);
-		return this;
 	}
 
 	public void render(IGraphics graphics) {
 		if (strokeColor != null) {
 			graphics.setColor(strokeColor);
-			graphics.drawRectangle(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
+			graphics.drawRectangle(getX(), getY(), getWidth(), getHeight());
 		}
 
 		for (GameObject child : getChildren()) {
@@ -201,49 +153,5 @@ public abstract class GameObject {
 		}
 
 		return false;
-	}
-
-	/**
-	 * An event called when the parent's size or position change. This is not called automatically,
-	 * and should be called manually based on whether or not the size has changed.
-	 */
-	public void handleParentScreenChange() {
-		for (Component component : getComponents()) {
-			component.handleParentScreenChange();
-		}
-
-		for (GameObject child : getChildren()) {
-			child.handleParentScreenChange();
-		}
-	}
-
-	/**
-	 * Inherits the parent's position and size. Internally calls {@link #inheritParentPosition()}
-	 * followed by {@link #inheritParentSize()}.<br><br>
-	 * <p>
-	 * This is useful for container {@link GameObject}s that share the area and position of the
-	 * parent, but restrain the sizes of its children.
-	 */
-	public void inheritParentArea() {
-		inheritParentPosition();
-		inheritParentSize();
-	}
-
-	/**
-	 * Inherits the parent's position. Internally calls {@link #setPosition(Vector2D)}
-	 * with the value from {@link #getParent()}'s {@link #getPosition()}.
-	 */
-	public void inheritParentPosition() {
-		setPosition(getParent().getPosition());
-	}
-
-	/**
-	 * Inherits the parent's size. Internally calls {@link #setWidth(int)} and {@link #setHeight(int)}
-	 * with the results of {@link #getParent()}'s {@link #getWidth()} and {@link #getHeight()},
-	 * respectively.
-	 */
-	public void inheritParentSize() {
-		setWidth(getParent().getWidth());
-		setHeight(getParent().getHeight());
 	}
 }

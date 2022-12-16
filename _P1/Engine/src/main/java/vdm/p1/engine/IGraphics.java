@@ -5,8 +5,12 @@ public interface IGraphics {
 
 	IFont newFont(String name, int size, boolean isBold);
 
-	// TODO: Remove this
-	Dimension getTextDimensions(IFont font, String string);
+	/**
+	 * Sets the text alignment for text.
+	 *
+	 * @param alignment The alignment to use.
+	 */
+	void setTextAlignment(HorizontalAlignment alignment);
 
 	/**
 	 * Draws an image with the original size at a point of the canvas.

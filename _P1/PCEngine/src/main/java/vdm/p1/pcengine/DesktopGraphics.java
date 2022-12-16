@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import vdm.p1.engine.Dimension;
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
@@ -23,6 +24,7 @@ public final class DesktopGraphics implements IGraphics {
 	private int width = 600;
 	private int height = 800;
 	private Graphics2D canvas;
+	private HorizontalAlignment textAlignment;
 
 	public DesktopGraphics(JFrame window) {
 		this.window = window;
@@ -69,9 +71,14 @@ public final class DesktopGraphics implements IGraphics {
 		return new DesktopFont(this, font);
 	}
 
-	public Dimension getTextDimensions(IFont font, String string) {
-		FontMetrics metrics = canvas.getFontMetrics(((DesktopFont) font).getUnderlyingFont());
-		return new Dimension(metrics.stringWidth(string), metrics.getHeight());
+	/**
+	 * Sets the text alignment for text.
+	 *
+	 * @param alignment The alignment to use.
+	 */
+	@Override
+	public void setTextAlignment(HorizontalAlignment alignment) {
+		textAlignment = alignment;
 	}
 
 	@Override
@@ -86,7 +93,14 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public void drawText(String text, int x, int y) {
-		canvas.drawString(text, x, y);
+		int outX = x;
+		if (textAlignment == HorizontalAlignment.CENTRE) {
+			outX -= canvas.getFontMetrics().stringWidth(text) / 2;
+		} else if (textAlignment == HorizontalAlignment.RIGHT) {
+			outX -= canvas.getFontMetrics().stringWidth(text);
+		}
+
+		canvas.drawString(text, outX, y);
 	}
 
 	@Override
