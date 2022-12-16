@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -15,7 +14,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import vdm.p1.engine.Color;
-import vdm.p1.engine.Dimension;
+import vdm.p1.engine.GraphicsTransformer;
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
@@ -27,9 +27,9 @@ public final class AndroidGraphics implements IGraphics {
 	private final HashMap<String, AndroidImage> loadedImages = new HashMap<>();
 	private final HashMap<String, IFont> loadedFonts = new HashMap<>();
 	private final AssetManager assetManager;
-	private int width = 400;
-	private int height = 600;
+	private final GraphicsTransformer transformer = new GraphicsTransformer();
 	private Canvas canvas = null;
+	private HorizontalAlignment textAlignment = HorizontalAlignment.NONE;
 
 	public AndroidGraphics(SurfaceView surfaceView, Context context) {
 		this.surfaceView = surfaceView;
@@ -98,16 +98,14 @@ public final class AndroidGraphics implements IGraphics {
 		return aFont;
 	}
 
+	/**
+	 * Sets the text alignment for text.
+	 *
+	 * @param alignment The alignment to use.
+	 */
 	@Override
-	public Dimension getTextDimensions(IFont font, String string) {
-		Typeface tf = ((AndroidFont) font).getUnderlyingFont();
-		Paint paint = new Paint();
-		paint.setTextSize(font.getSize());
-		paint.setTypeface(tf);
-
-		Rect result = new Rect();
-		paint.getTextBounds(string, 0, string.length(), result);
-		return new Dimension(result.width(), result.height());
+	public void setTextAlignment(HorizontalAlignment alignment) {
+		this.textAlignment = alignment;
 	}
 
 	@Override
@@ -124,7 +122,18 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void drawText(String text, int x, int y) {
-		canvas.drawText(text, x, y, paint);
+		int outX = x;
+		if (textAlignment == HorizontalAlignment.CENTRE) {
+			Rect result = new Rect();
+			paint.getTextBounds(text, 0, text.length(), result);
+			outX -= result.centerX();
+		} else if (textAlignment == HorizontalAlignment.RIGHT) {
+			Rect result = new Rect();
+			paint.getTextBounds(text, 0, text.length(), result);
+			outX -= result.width();
+		}
+
+		canvas.drawText(text, outX, y, paint);
 	}
 
 	@Override
@@ -156,8 +165,7 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void setResolution(int width, int height) {
-		this.width = width;
-		this.height = height;
+		transformer.setSize(width, height);
 	}
 
 	@Override
@@ -200,12 +208,36 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public int getWidth() {
-		return width;
+		return transformer.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return height;
+		return transformer.getHeight();
+	}
+
+	/**
+	 * Transforms the window X-axis point into a value within 0 and {@link #getWidth()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param x The window X-axis point to transform.
+	 * @return The scene X-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getScenePointX(int x) {
+		return transformer.getTransformedX(x);
+	}
+
+	/**
+	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param y The window Y-axis point to transform.
+	 * @return The scene Y-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getScenePointY(int y) {
+		return transformer.getTransformedY(y);
 	}
 
 	/**
@@ -216,19 +248,8 @@ public final class AndroidGraphics implements IGraphics {
 		int contentW = surfaceView.getWidth();
 		int contentH = surfaceView.getHeight();
 
-		double ratio = width / (double) height;
-		double ratioP = contentW / (double) contentH;
-
-		double s;
-		if (ratio >= ratioP) {
-			s = contentW / (double) width;
-			translate(0, (int) ((contentH - height * s) / 2.0));
-		} else {
-			s = contentH / (double) height;
-			translate((int) ((contentW - width * s) / 2.0), 0);
-		}
-
-		scale(s, s);
+		transformer.update(contentW, contentH);
+		transformer.transform(this);
 	}
 }
 

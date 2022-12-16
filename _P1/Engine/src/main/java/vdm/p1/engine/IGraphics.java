@@ -121,4 +121,22 @@ public interface IGraphics {
 	int getWidth();
 
 	int getHeight();
+
+	/**
+	 * Transforms the window X-axis point into a value within 0 and {@link #getWidth()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param x The window X-axis point to transform.
+	 * @return The scene X-axis point, -1 if invalid.
+	 */
+	int getScenePointX(int x);
+
+	/**
+	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param y The window Y-axis point to transform.
+	 * @return The scene Y-axis point, -1 if invalid.
+	 */
+	int getScenePointY(int y);
 }

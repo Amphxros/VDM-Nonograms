@@ -12,7 +12,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import vdm.p1.engine.Dimension;
+import vdm.p1.engine.GraphicsTransformer;
 import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
@@ -21,10 +21,9 @@ import vdm.p1.engine.IImage;
 public final class DesktopGraphics implements IGraphics {
 	private final JFrame window;
 	private final BufferStrategy buffer;
-	private int width = 600;
-	private int height = 800;
 	private Graphics2D canvas;
 	private HorizontalAlignment textAlignment;
+	private final GraphicsTransformer transformer = new GraphicsTransformer();
 
 	public DesktopGraphics(JFrame window) {
 		this.window = window;
@@ -131,8 +130,7 @@ public final class DesktopGraphics implements IGraphics {
 	@Override
 	public void setResolution(int width, int height) {
 		window.setSize(width, height);
-		this.width = width;
-		this.height = height;
+		transformer.setSize(width, height);
 	}
 
 	@Override
@@ -192,12 +190,36 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public int getWidth() {
-		return width;
+		return transformer.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return height;
+		return transformer.getHeight();
+	}
+
+	/**
+	 * Transforms the window X-axis point into a value within 0 and {@link #getWidth()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param x The window X-axis point to transform.
+	 * @return The scene X-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getScenePointX(int x) {
+		return transformer.getTransformedX(x);
+	}
+
+	/**
+	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param y The window Y-axis point to transform.
+	 * @return The scene Y-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getScenePointY(int y) {
+		return transformer.getTransformedY(y);
 	}
 
 	/**
@@ -209,20 +231,8 @@ public final class DesktopGraphics implements IGraphics {
 		int contentW = window.getWidth() - insets.left - insets.right;
 		int contentH = window.getHeight() - insets.top - insets.bottom;
 
-		translate(insets.left, insets.top);
-
-		double ratio = width / (double) height;
-		double ratioP = contentW / (double) contentH;
-
-		double s;
-		if (ratio >= ratioP) {
-			s = contentW / (double) width;
-			translate(0, (int) ((contentH - height * s) / 2.0));
-		} else {
-			s = contentH / (double) height;
-			translate((int) ((contentW - width * s) / 2.0), 0);
-		}
-
-		scale(s, s);
+		transformer.setInset(insets.top, insets.left, insets.bottom, insets.right);
+		transformer.update(contentW, contentH);
+		transformer.transform(this);
 	}
 }

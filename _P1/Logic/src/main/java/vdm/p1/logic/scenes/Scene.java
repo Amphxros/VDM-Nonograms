@@ -37,9 +37,20 @@ public abstract class Scene implements IScene {
 	@Override
 	public void render(IGraphics graphics) {
 		if (pointer != null) {
+			int x = pointer.getX();
+			int y = pointer.getY();
+
 			graphics.setColor(new Color(0, 255, 0));
-			graphics.drawLine(0, pointer.getY(), graphics.getWidth(), pointer.getY());
-			graphics.drawLine(pointer.getX(), 0, pointer.getX(), graphics.getHeight());
+			graphics.drawLine(0, y, graphics.getWidth(), y);
+			graphics.drawLine(x, 0, x, graphics.getHeight());
+
+			x = graphics.getScenePointX(x);
+			y = graphics.getScenePointY(y);
+			if (x != -1 && y != -1) {
+				graphics.setColor(new Color(255, 0, 0));
+				graphics.drawLine(0, y, graphics.getWidth(), y);
+				graphics.drawLine(x, 0, x, graphics.getHeight());
+			}
 		}
 
 		for (GameObject object : objects) {
@@ -66,7 +77,6 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void handleInput(IInput input) {
-		pointer = null;
 		for (TouchEvent event : input.getTouchEvents()) {
 			pointer = new Vector2D(event.getX(), event.getY());
 

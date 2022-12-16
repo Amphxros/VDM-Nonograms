@@ -1,6 +1,6 @@
 package vdm.p1.engine;
 
-public class TouchEvent {
+public final class TouchEvent {
 	/**
 	 * The coordinates the touch event happened at.
 	 */
