@@ -1,5 +1,6 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
@@ -18,7 +19,7 @@ public final class ShopScene extends Scene {
 
 	public ShopScene(IEngine engine) {
 		super(engine);
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		IImage coin = engine.getGraphics().newImage("image/coin.png");
 		GameManager gameManager = ((Logic) engine.getLogic()).getGameManager();
 
@@ -26,31 +27,29 @@ public final class ShopScene extends Scene {
 
 		if (!gameManager.loadedPalettes()) gameManager.loadPalettes(engine);
 
-		addGameObject(new Image(coin).setPosition(330, 50).setSize(20, 20));
-		addGameObject(new Text(Integer.toString(gameManager.getMoney()), font, HorizontalAlignment.RIGHT).setPosition(320, 50));
+		addGameObject(new Image(coin).setPosition(320, 55).setSize(30, 30));
+		addGameObject(new Text(Integer.toString(gameManager.getMoney()), font, HorizontalAlignment.RIGHT).setPosition(310, 75));
 
-		int y = 100;
+		int y = 150;
 		for (PaletteItem item : gameManager.getPalettes()) {
 			IImage preview = engine.getGraphics().newImage(PALETTE_ICON_ROUTE + item.getName() + ".png");
 			String price = Integer.toString(item.getPrice());
 			addPaletteButton(font, preview, coin, item.getName(), price, y);
-			y += 70;
+			y += 50;
 		}
 	}
 
 	private void addPaletteButton(IFont font, IImage glass, IImage coin, String title, String currency, int y) {
+		final int x = 50;
+		final int textOffsetY = 22;
+
 		// TODO: Use a proper button instead of Empty
 		addGameObject(new Empty()
-				.addChild(new Image(glass).setPosition(50, y).setSize(30, 30))
-				.addChild(new Text(title, font).setPosition(200, y))
-				.addChild(new Image(coin).setPosition(90, y).setSize(20, 20))
-				.addChild(new Text(currency, font, HorizontalAlignment.RIGHT).setPosition(320, 50))
+				.addChild(new Image(glass).setPosition(x, y).setSize(30, 30))
+				.addChild(new Image(coin).setPosition(x + 40, y + 5).setSize(20, 20))
+				.addChild(new Text(currency, font, HorizontalAlignment.LEFT).setPosition(x + 70, y + textOffsetY))
+				.addChild(new Text(title, font, HorizontalAlignment.RIGHT).setPosition(350, y + textOffsetY))
 				.setPosition(50, y)
-				.setSize(300, 50));
-	}
-
-	private void addButton(GameObject button, IFont font, String text, int x, int y) {
-		GameObject textComponent = new Text(text, font).setPosition(x + 65, y);
-		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(100, 50));
+				.setSize(300, 30));
 	}
 }

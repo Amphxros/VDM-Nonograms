@@ -1,5 +1,6 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
@@ -12,29 +13,34 @@ import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 public final class LevelSelectScene extends Scene {
 	public LevelSelectScene(IEngine engine) {
 		super(engine);
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		IImage glass = engine.getGraphics().newImage("image/glassPanel.png");
 
-		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 50);
-		addGameObject(new Text("Selecciona el tamaño del puzzle", font).setPosition(200, 50));
+		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 20);
+		addGameObject(new Text("Selecciona el tamaño del puzzle", font).setPosition(200, 150));
 
-		addLevelButton(font, glass, 4, 4, 20, 50);
-		addLevelButton(font, glass, 5, 5, 120, 50);
-		addLevelButton(font, glass, 5, 10, 240, 50);
+		final int x0 = 50;
+		final int x1 = 170;
+		final int x2 = 290;
+		final int y0 = 200;
+		final int y1 = 320;
 
-		addLevelButton(font, glass, 8, 8, 20, 200);
-		addLevelButton(font, glass, 10, 10, 120, 200);
-		addLevelButton(font, glass, 10, 15, 240, 200);
-	}
+		addLevelButton(font, glass, 4, 4, x0, y0);
+		addLevelButton(font, glass, 5, 5, x1, y0);
+		addLevelButton(font, glass, 5, 10, x2, y0);
 
-	private void addButton(GameObject button, IFont font, String text, int x, int y) {
-		GameObject textComponent = new Text(text, font).setPosition(x + 50, y);
-		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(100, 50));
+		addLevelButton(font, glass, 8, 8, x0, y1);
+		addLevelButton(font, glass, 10, 10, x1, y1);
+		addLevelButton(font, glass, 10, 15, x2, y1);
 	}
 
 	private void addLevelButton(IFont font, IImage glass, int rows, int columns, int x, int y) {
-		GameObject image = new Image(glass).setPosition(x + 20, y + 20).setSize(60, 60);
-		GameObject text = new Text(rows + "x" + columns, font).setPosition(x + 50, y + 100);
-		addGameObject(new CreateLevelButton(getEngine(), rows, columns).addChild(image).addChild(text));
+		final int size = 60;
+		final int textOffsetX = 30;
+		final int textOffsetY = 35;
+
+		GameObject image = new Image(glass).setPosition(x, y).setSize(size, size);
+		GameObject text = new Text(rows + "x" + columns, font).setPosition(x + textOffsetX, y + textOffsetY);
+		addGameObject(new CreateLevelButton(getEngine(), rows, columns).addChild(image).addChild(text).setPosition(x, y).setSize(size, size));
 	}
 }

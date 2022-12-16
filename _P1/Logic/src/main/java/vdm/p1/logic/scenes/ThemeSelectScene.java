@@ -1,5 +1,6 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
@@ -19,32 +20,39 @@ public final class ThemeSelectScene extends Scene {
 	public ThemeSelectScene(IEngine engine) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		gameManager = ((Logic) engine.getLogic()).getGameManager();
 		if (!gameManager.loaded()) gameManager.loadThemes(engine);
 
 		locked = gameManager.getLastUnlockedLevel() >= 5 ? null : engine.getGraphics().newImage("image/lock.png");
 
-		GameTheme[] themes = gameManager.getThemes();
-		addLevelButton(font, themes[0], 50, 100);
-		addLevelButton(font, themes[1], 150, 100);
-		addLevelButton(font, themes[2], 250, 100);
-		addLevelButton(font, themes[3], 50, 200);
-		addLevelButton(font, themes[4], 150, 200);
-		addLevelButton(font, themes[5], 250, 200);
-
-		addGameObject(new Text("Seleccione categoria a jugar", font).setPosition(200, 50));
 		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 50);
+		addGameObject(new Text("Seleccione categoria a jugar", font).setPosition(200, 150));
+
+		final int x0 = 50;
+		final int x1 = 170;
+		final int x2 = 290;
+		final int y0 = 200;
+		final int y1 = 320;
+
+		GameTheme[] themes = gameManager.getThemes();
+		addLevelButton(font, themes[0], x0, y0);
+		addLevelButton(font, themes[1], x1, y0);
+		addLevelButton(font, themes[2], x2, y0);
+		addLevelButton(font, themes[3], x0, y1);
+		addLevelButton(font, themes[4], x1, y1);
+		addLevelButton(font, themes[5], x2, y1);
 	}
 
 	private void addLevelButton(IFont font, GameTheme theme, int x, int y) {
 		final int size = 50;
-		final int halfSize = 25;
+		final int textOffsetX = 25;
+		final int textOffsetY = 65;
 
 		String name;
 		IImage icon;
 		if (gameManager.getLastUnlockedTheme() < theme.getIndex()) {
-			name = "BLOQUEADO";
+			name = "Bloqueado";
 			icon = locked;
 		} else {
 			name = theme.getName();
@@ -53,12 +61,7 @@ public final class ThemeSelectScene extends Scene {
 			addGameObject(new CreateThemeButton(getEngine(), theme).setPosition(x, y).setSize(size, size + size));
 		}
 
-		addGameObject(new Text(name, font).setPosition(x + halfSize, y + size));
-		addGameObject(new Image(icon).setPosition(0, 0).setSize(size, size));
-	}
-
-	private void addButton(GameObject button, IFont font, String text, int x, int y) {
-		GameObject textComponent = new Text(text, font).setPosition(x + 50, y);
-		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(100, 50));
+		addGameObject(new Text(name, font).setPosition(x + textOffsetX, y + textOffsetY));
+		addGameObject(new Image(icon).setPosition(x, y).setSize(size, size));
 	}
 }

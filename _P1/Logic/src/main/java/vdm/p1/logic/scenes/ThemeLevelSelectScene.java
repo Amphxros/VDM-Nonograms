@@ -41,7 +41,7 @@ public final class ThemeLevelSelectScene extends Scene {
 		for (int i = 0, r = 0; i < levels.length; i += 3, r++) {
 			String[] span = Arrays.copyOfRange(levels, i, Math.min(levels.length, i + 3));
 			for (int j = 0; j < span.length; j++) {
-				addLevelButton(font, glass, i + j, theme, span[j], 50 + (i * 100), 50 + (j * 100));
+				addLevelButton(font, glass, i + j, theme, span[j], 50 + (j * 100), 50 + (i * 100));
 			}
 		}
 	}
@@ -57,10 +57,5 @@ public final class ThemeLevelSelectScene extends Scene {
 		} else {
 			addGameObject(new Image(locked).setPosition(x, y).setSize(size, size));
 		}
-	}
-
-	private void addButton(GameObject button, IFont font, String text, int x, int y) {
-		GameObject textComponent = new Text(text, font).setPosition(x + 50, y);
-		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(100, 50));
 	}
 }

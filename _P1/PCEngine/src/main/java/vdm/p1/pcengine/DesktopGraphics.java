@@ -206,7 +206,7 @@ public final class DesktopGraphics implements IGraphics {
 	 * @return The scene X-axis point, -1 if invalid.
 	 */
 	@Override
-	public int getScenePointX(int x) {
+	public int getLogicPointX(int x) {
 		return transformer.getTransformedX(x);
 	}
 
@@ -218,7 +218,7 @@ public final class DesktopGraphics implements IGraphics {
 	 * @return The scene Y-axis point, -1 if invalid.
 	 */
 	@Override
-	public int getScenePointY(int y) {
+	public int getLogicPointY(int y) {
 		return transformer.getTransformedY(y);
 	}
 

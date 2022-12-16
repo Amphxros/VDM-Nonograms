@@ -129,7 +129,7 @@ public interface IGraphics {
 	 * @param x The window X-axis point to transform.
 	 * @return The scene X-axis point, -1 if invalid.
 	 */
-	int getScenePointX(int x);
+	int getLogicPointX(int x);
 
 	/**
 	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
@@ -138,5 +138,5 @@ public interface IGraphics {
 	 * @param y The window Y-axis point to transform.
 	 * @return The scene Y-axis point, -1 if invalid.
 	 */
-	int getScenePointY(int y);
+	int getLogicPointY(int y);
 }

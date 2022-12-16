@@ -29,17 +29,17 @@ public final class StartScene extends Scene {
 
 		// Quick Match
 		addGameObject(new Text("Partida Rapida", font).setPosition(center, 250));
-		addGameObject(new GoToLevelSelectSceneButton(getEngine()).setPosition(buttonX, 210).setSize(buttonW, 50).setStrokeColor(Color.BLACK));
+		addGameObject(new GoToLevelSelectSceneButton(getEngine()).setPosition(buttonX, 210).setSize(buttonW, 50));
 
 		// Story Mode
 		addGameObject(new Text("Modo Historia", font).setPosition(center, 350));
-		addGameObject(new GoToThemeSelectSceneButton(getEngine()).setPosition(buttonX, 310).setSize(buttonW, 50).setStrokeColor(Color.BLACK));
+		addGameObject(new GoToThemeSelectSceneButton(getEngine()).setPosition(buttonX, 310).setSize(buttonW, 50));
 
 		// Buttons
-		addGameObject(createButton(new GoToShopSceneButton(getEngine()), share).setPosition(20, 500));
+		addGameObject(createButton(new GoToShopSceneButton(getEngine()).setPosition(20, 500).setSize(50, 50), share));
 	}
 
-	private GameObject createButton(Button button, IImage img) {
+	private GameObject createButton(GameObject button, IImage img) {
 		return button.addChild(new Image(img)
 				.setPosition(button.getPosition())
 				.setSize(button.getSize()));

@@ -1,9 +1,11 @@
 package vdm.p1.logic.scenes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IInput;
 import vdm.p1.engine.IScene;
@@ -11,6 +13,7 @@ import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.Vector2D;
+import vdm.p1.logic.objects.Text;
 
 public abstract class Scene implements IScene {
 	private final IEngine engine;
@@ -44,8 +47,8 @@ public abstract class Scene implements IScene {
 			graphics.drawLine(0, y, graphics.getWidth(), y);
 			graphics.drawLine(x, 0, x, graphics.getHeight());
 
-			x = graphics.getScenePointX(x);
-			y = graphics.getScenePointY(y);
+			x = graphics.getLogicPointX(x);
+			y = graphics.getLogicPointY(y);
 			if (x != -1 && y != -1) {
 				graphics.setColor(new Color(255, 0, 0));
 				graphics.drawLine(0, y, graphics.getWidth(), y);
@@ -77,8 +80,13 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void handleInput(IInput input) {
-		for (TouchEvent event : input.getTouchEvents()) {
-			pointer = new Vector2D(event.getX(), event.getY());
+		List<TouchEvent> events = input.getTouchEvents();
+		if (events.isEmpty()) return;
+
+		IGraphics graphics = getEngine().getGraphics();
+		for (TouchEvent event : events) {
+			event.defineLogicCoordinates(graphics);
+			if (!event.isValid()) continue;
 
 			for (GameObject object : objects) {
 				if (object.isEnabled()) object.handleInput(event);
@@ -116,5 +124,14 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void handleOpeningNotifications() {
+	}
+
+	protected void addButton(GameObject button, IFont font, String text, int x, int y) {
+		final int width = 100;
+		final int textOffsetX = 50;
+		final int textOffsetY = 25;
+
+		GameObject textComponent = new Text(text, font).setPosition(x + textOffsetX, y + textOffsetY);
+		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(width, 40).setStrokeColor(Color.BLACK));
 	}
 }
