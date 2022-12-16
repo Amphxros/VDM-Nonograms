@@ -27,11 +27,14 @@ public final class LifeManager extends GameObject {
 
 	@Override
 	public void init() {
-		addChild(new Text(Integer.toString(this.remainingLives), font).setPosition(getX() + getHeight() / 2, getY()));
+		final int textOffsetY = 5;
+		final int heartOffsetY = 5;
 
-		addChild(createHeart(heartFill).setPosition(getX(), getY() + 20));
-		addChild(createHeart(heartFill).setPosition(getX() + getWidth() / 2 - 20, getY() + 20));
-		addChild(createHeart(heartFill).setPosition(getX() + getWidth() - 40, getY() + 20));
+		addChild(new Text(Integer.toString(this.remainingLives), font).setPosition(getX() + getWidth() / 2, getY() + textOffsetY));
+
+		addChild(createHeart(heartFill).setPosition(getX(), getY() + heartOffsetY));
+		addChild(createHeart(heartFill).setPosition(getX() + getWidth() / 2 - 20, getY() + heartOffsetY));
+		addChild(createHeart(heartFill).setPosition(getX() + getWidth() - 40, getY() + heartOffsetY));
 
 		super.init();
 	}

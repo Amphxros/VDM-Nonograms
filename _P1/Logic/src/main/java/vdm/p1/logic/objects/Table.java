@@ -96,13 +96,17 @@ public final class Table extends GameObject {
 
 	@Override
 	public void init() {
-		final int cellSize = 20;
+		final int w02 = (int) (getWidth() * 0.2);
+		final int w08 = getWidth() - w02;
+		final int cellSize = (int) Math.min(w08 / (double) rows, w08 / (double) columns);
 
+		final int x = getX() + w02 + 1;
+		final int y = getY() + w02 + 1;
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < columns; ++j) {
 				boolean solution = solutions[i][j];
 				Cell cell = (Cell) new Cell(this, solution)
-						.setPosition(getX() + i * cellSize, getY() + i * cellSize)
+						.setPosition(x + j * cellSize, y + i * cellSize)
 						.setSize(cellSize, cellSize);
 				cells[i][j] = cell;
 				if (solution) remaining++;
@@ -111,19 +115,8 @@ public final class Table extends GameObject {
 			}
 		}
 
-		// The left hint padding is calculated by doing the following operations:
-		// • Top    : scaledMarginTop  || matches Grid's top padding
-		// • Right  : 80%              || matches the Table's width minus 20%
-		// • Bottom : 0%
-		// • Left   : 0%
-		addHints(getXHints(solutions), true);
-
-		// The top hint padding is calculated by doing the following operations:
-		// • Top    : 0.8 - gridHeight || matches Grid's top padding minus 20%
-		// • Right  : 0%
-		// • Bottom : gridHeight       || matches Grid's top padding
-		// • Left   : 20%              || matches Grid's left padding
-		addHints(getYHints(solutions), false);
+		addXHints(getXHints(solutions));
+		addYHints(getYHints(solutions));
 
 		super.init();
 	}
@@ -250,24 +243,47 @@ public final class Table extends GameObject {
 		}
 	}
 
-	private void addHints(List<List<Integer>> lines, boolean vertical) {
-		final int cellSize = 20;
-		final int hintWidth = 5;
-		final int hintHeight = 8;
+	// TODO: Make this change size dynamically on Table ratio
+	private void addXHints(List<List<Integer>> lines) {
+		final int bar02 = (int) (getWidth() * 0.2);
+		final int bar08 = getWidth() - bar02;
+		GameObject hints = new Empty().setStrokeColor(Color.BLACK).setSize(bar02, bar08).setPosition(getX(), getY() + bar02);
 
-		int x = getX();
-		int y = getY();
+		final int cellSize = bar08 / rows;
+		final int letterWidth = 20;
+
+		final int x = hints.getX() + hints.getWidth() - 8;
+		final int y = hints.getY() + 35;
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
 			for (int j = 0; j < line.size(); j++) {
-				addChild(new Text(line.get(line.size() - j - 1).toString(), font).setPosition(x, y));
-				if (vertical) x -= hintWidth;
-				else y -= hintHeight;
+				hints.addChild(new Text(line.get(line.size() - j - 1).toString(), font)
+						.setPosition(x - (j * letterWidth), y + (i * cellSize)));
 			}
-
-			if (vertical) x = getX() + cellSize;
-			else y = getY() + cellSize;
 		}
+
+		addChild(hints);
+	}
+
+	private void addYHints(List<List<Integer>> lines) {
+		final int bar02 = (int) (getWidth() * 0.2);
+		final int bar08 = getWidth() - bar02;
+		GameObject hints = new Empty().setStrokeColor(Color.BLACK).setSize(bar08, bar02).setPosition(getX() + bar02, getY());
+
+		final int cellSize = bar08 / columns;
+		final int letterHeight = 20;
+
+		final int x = hints.getX() + 35;
+		final int y = hints.getY() + hints.getHeight() - 4;
+		for (int i = 0; i < lines.size(); ++i) {
+			List<Integer> line = lines.get(i);
+			for (int j = 0; j < line.size(); j++) {
+				hints.addChild(new Text(line.get(line.size() - j - 1).toString(), font)
+						.setPosition(x + (i * cellSize), y - (j * letterHeight)));
+			}
+		}
+
+		addChild(hints);
 	}
 
 	private List<List<Integer>> getXHints(boolean[][] solutions) {

@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IImage;
 import vdm.p1.engine.IInput;
 import vdm.p1.engine.IScene;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.Vector2D;
+import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
 public abstract class Scene implements IScene {
@@ -133,5 +136,15 @@ public abstract class Scene implements IScene {
 
 		GameObject textComponent = new Text(text, font).setPosition(x + textOffsetX, y + textOffsetY);
 		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(width, 40).setStrokeColor(Color.BLACK));
+	}
+
+	protected void addButton(GameObject button, IImage image, IFont font, String text, int x, int y) {
+		final int width = 120;
+		final int textOffsetX = 30;
+		final int textOffsetY = 26;
+
+		GameObject imageComponent = new Image(image).setPosition(x + 5, y + 10).setSize(20, 20);
+		GameObject textComponent = new Text(text, font, HorizontalAlignment.LEFT).setPosition(x + textOffsetX, y + textOffsetY);
+		addGameObject(button.addChild(textComponent).addChild(imageComponent).setPosition(x, y).setSize(width, 40).setStrokeColor(Color.BLACK));
 	}
 }

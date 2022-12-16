@@ -1,5 +1,6 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
@@ -10,6 +11,7 @@ import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.LifeManager;
 import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.Text;
+import vdm.p1.logic.objects.buttons.CheckSolutionButton;
 import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 
 public final class GameScene extends Scene {
@@ -19,30 +21,31 @@ public final class GameScene extends Scene {
 	public GameScene(IEngine engine, GameTheme theme, String level) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
-		lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(200, 50);
+		lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(130, 100).setSize(140, 40);
 
 		addGameObject(lifeManager);
-		addGameObject(Table.fromFile(font, lifeManager, theme, level).setPosition(20, 80).setSize(360, 360));
+		addGameObject(Table.fromFile(font, lifeManager, theme, level).setPosition(50, 150).setSize(300, 300));
 	}
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
-		lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(200, 50);
+		lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(130, 100).setSize(140, 40);
+		Table table = (Table) Table.fromRandom(font, lifeManager, rows, columns).setPosition(50, 150).setSize(300, 300);
 
 		addGameObject(lifeManager);
-		addGameObject(Table.fromRandom(font, lifeManager, rows, columns).setPosition(20, 80).setSize(360, 360));
+		addGameObject(table);
 
 		addButton(new GoToStartSceneButton(getEngine()), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
-		addButton(new GoToStartSceneButton(getEngine()), engine.getGraphics().newImage("image/grey_boxCheckmark.png"), font, "Comprobar", 280, 20);
+		addButton(new CheckSolutionButton(getEngine(), table), engine.getGraphics().newImage("image/grey_boxCheckmark.png"), font, "Comprobar", 260, 20);
 	}
 
 	public LifeManager getLifeManager() {
@@ -65,11 +68,5 @@ public final class GameScene extends Scene {
 		/**
 		 * si el tablero esta resuelto -->otro popup
 		 */
-	}
-
-	private void addButton(GameObject button, IImage image, IFont font, String text, int x, int y) {
-		GameObject imageComponent = new Image(image).setPosition(x + 5, y + 5).setSize(20, 20);
-		GameObject textComponent = new Text(text, font).setPosition(x + 65, y);
-		addGameObject(button.addChild(textComponent).addChild(imageComponent).setPosition(x, y).setSize(100, 50));
 	}
 }
