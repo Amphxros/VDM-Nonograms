@@ -93,7 +93,7 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public AndroidFont newFont(String name, int size, boolean isBold) {
-		AndroidFont aFont = new AndroidFont(this, name, assetManager, size, isBold);
+		AndroidFont aFont = new AndroidFont(name, assetManager, size, isBold);
 		loadedFonts.put(name, aFont);
 		return aFont;
 	}

@@ -2,7 +2,6 @@ package vdm.p1.pcengine;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.image.BufferStrategy;
@@ -21,9 +20,9 @@ import vdm.p1.engine.IImage;
 public final class DesktopGraphics implements IGraphics {
 	private final JFrame window;
 	private final BufferStrategy buffer;
+	private final GraphicsTransformer transformer = new GraphicsTransformer();
 	private Graphics2D canvas;
 	private HorizontalAlignment textAlignment;
-	private final GraphicsTransformer transformer = new GraphicsTransformer();
 
 	public DesktopGraphics(JFrame window) {
 		this.window = window;
@@ -67,7 +66,7 @@ public final class DesktopGraphics implements IGraphics {
 		}
 
 		font = font.deriveFont(isBold ? Font.BOLD : Font.PLAIN, (float) size);
-		return new DesktopFont(this, font);
+		return new DesktopFont(font);
 	}
 
 	/**
