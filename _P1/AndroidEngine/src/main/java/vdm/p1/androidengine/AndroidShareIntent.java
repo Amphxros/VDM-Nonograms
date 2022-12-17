@@ -1,5 +1,6 @@
 package vdm.p1.androidengine;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.provider.MediaStore;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import vdm.p1.engine.IShareIntent;
 
@@ -21,22 +23,34 @@ public class AndroidShareIntent implements IShareIntent {
 
 	@Override
 	public void share(String imagePath) {
-		Bitmap bitmap = null;
+		Bitmap bitmap;
 		try {
 			InputStream input = context.getAssets().open(imagePath);
 			bitmap = BitmapFactory.decodeStream(input);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
 		}
 
-		String imagepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Nonograms", "level");
-		Uri uri = Uri.parse(imagepath);
+		ContentValues values = new ContentValues();
+		values.put(MediaStore.Images.Media.TITLE, "Nonograms");
+		values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+		values.put(MediaStore.Images.Media.DESCRIPTION, "level");
+		Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+		OutputStream outputStream;
+		try {
+			outputStream = context.getContentResolver().openOutputStream(uri);
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		Intent share = new Intent(Intent.ACTION_SEND);
-		share.setAction(Intent.ACTION_SEND);
 		share.setType("image/jpeg");
 		share.putExtra(Intent.EXTRA_STREAM, uri);
-		Intent chooser = Intent.createChooser(share, "share Image");
-		context.startActivity(chooser);
+
+		context.startActivity(Intent.createChooser(share, "Share Image"));
 	}
 }
