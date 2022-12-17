@@ -108,7 +108,7 @@ public final class LifeManager extends GameObject {
 		Grid grid = (Grid) padding.getChildren().get(1);
 		grid.setElement(remainingLives, createHeart(heartEmpty));
 
-		return true;
+		return remainingLives > 0;
 	}
 
 	private GameObject createHeart(IImage image) {
