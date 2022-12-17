@@ -41,7 +41,7 @@ public final class ThemeLevelSelectScene extends Scene {
 		for (int r = 0, i = 0; r < levels.length; r += 3, i++) {
 			String[] span = Arrays.copyOfRange(levels, r, Math.min(levels.length, r + 3));
 			for (int j = 0; j < span.length; j++) {
-				addLevelButton(font, glass, r + j, theme, span[j], 50 + (j * distance), 150 + (i * distance));
+				addLevelButton(font, glass, r + j, theme, span[j], 50 + (j * distance), 120 + (i * distance));
 			}
 		}
 	}
