@@ -24,7 +24,7 @@ public final class ThemeSelectScene extends Scene {
 		gameManager = ((Logic) engine.getLogic()).getGameManager();
 		if (!gameManager.loaded()) gameManager.loadThemes(engine);
 
-		locked = gameManager.getLastUnlockedLevel() >= 5 ? null : engine.getGraphics().newImage("image/lock.png");
+		locked = engine.getGraphics().newImage("image/lock.png");
 
 		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 50);
 		addGameObject(new Text("Seleccione categoria a jugar", font).setPosition(200, 150));
