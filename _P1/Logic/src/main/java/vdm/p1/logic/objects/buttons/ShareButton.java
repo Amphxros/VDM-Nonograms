@@ -6,14 +6,16 @@ import vdm.p1.logic.objects.base.Button;
 
 public class ShareButton extends Button {
 	private final IEngine engine;
+	private final String sharingpath;
 
-	public ShareButton(IEngine engine) {
+	public ShareButton(IEngine engine, String sharingpath) {
+		this.sharingpath=sharingpath;
 		this.engine = engine;
 	}
 
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
-		engine.getShareIntent().onShareIntent("compartir", "nonograms");
+		engine.getShareIntent().shareTweet(sharingpath);
 		return true;
 	}
 }
