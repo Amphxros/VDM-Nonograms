@@ -31,7 +31,7 @@ public final class Table extends GameObject {
 	/**
 	 * The maximum duration at which the timer ends.
 	 */
-	private static final double CHECK_RESET_DURATION = 5.0;
+	private static final double CHECK_RESET_DURATION = 1.0;
 
 	private final GameTheme theme;
 	private final String level;
