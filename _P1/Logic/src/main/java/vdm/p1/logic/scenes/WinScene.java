@@ -16,7 +16,7 @@ public final class WinScene extends Scene {
 		addGameObject(new Text("ENHORABUENA!", font).setPosition(200, 120));
 		addGameObject(new TableSolution(solutions).setPosition(50, 150).setSize(new Vector2D(300, 300)));
 
-		addButton(new ShareButton(getEngine(),"image/share.png"),font,"compartir",250,20);
+		addButton(new ShareButton(getEngine(), "image/share.png"), font, "Compartir", 250, 20);
 		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 20);
 	}
 }

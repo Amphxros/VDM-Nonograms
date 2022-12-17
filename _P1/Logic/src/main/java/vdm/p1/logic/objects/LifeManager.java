@@ -52,25 +52,23 @@ public final class LifeManager extends GameObject {
 		}
 
 		++remainingLives;
-
 		((Text) getChildren().get(0)).setText(Integer.toString(remainingLives));
 		((Image) getChildren().get(remainingLives + 1)).setImage(heartFill);
 		return true;
 	}
 
 	/**
-	 *
-	 * @return whether or not the number of lifes is greater than 0
+	 * @return Whether or not the number of lives is greater than 0
 	 */
 	public boolean removeHeart() {
-		if (remainingLives == 0) {
+		if (remainingLives <= 1) {
 			return false;
 		}
+
 		--remainingLives;
 		((Text) getChildren().get(0)).setText(Integer.toString(remainingLives));
 		((Image) getChildren().get(remainingLives + 1)).setImage(heartEmpty);
 		return remainingLives > 0;
-
 	}
 
 	private GameObject createHeart(IImage image) {
