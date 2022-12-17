@@ -11,11 +11,10 @@ public final class WinScene extends Scene {
 	public WinScene(IEngine engine, boolean[][] solutions) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
-		addGameObject(new Text("ENHORABUENA!", font).setPosition(200, 5));
-		addGameObject(new TableSolution(solutions).setPosition(50, 50).setSize(new Vector2D(350, 350)));
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
+		addGameObject(new Text("ENHORABUENA!", font).setPosition(200, 120));
+		addGameObject(new TableSolution(solutions).setPosition(50, 150).setSize(new Vector2D(300, 300)));
 
-		addGameObject(new GoToStartSceneButton(getEngine()).setPosition(100, 500).setSize(200, 50));
-		addGameObject(new Text("Volver", font).setPosition(200, 500));
+		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 50);
 	}
 }

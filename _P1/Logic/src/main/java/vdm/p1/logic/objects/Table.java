@@ -239,7 +239,7 @@ public final class Table extends GameObject {
 		final int bar02 = (int) (getWidth() * 0.2);
 		final int bar08 = getWidth() - bar02;
 
-		final int cellSize = (int) Math.min(bar08 / (double) rows, bar08 / (double) columns);
+		final int cellSize = bar08 / Math.max(rows, columns);
 		final int letterWidth = 20;
 
 		GameObject hints = new Empty()
@@ -264,7 +264,7 @@ public final class Table extends GameObject {
 		final int bar02 = (int) (getWidth() * 0.2);
 		final int bar08 = getWidth() - bar02;
 
-		final int cellSize = bar08 / columns;
+		final int cellSize = bar08 / Math.max(rows, columns);
 		final int letterHeight = 20;
 
 		GameObject hints = new Empty()
