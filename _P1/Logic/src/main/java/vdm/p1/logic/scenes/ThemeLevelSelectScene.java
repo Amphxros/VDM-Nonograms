@@ -1,19 +1,16 @@
 package vdm.p1.logic.scenes;
 
-
 import java.util.Arrays;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameManager;
-import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 import vdm.p1.logic.objects.buttons.CreateThemeLevelButton;
-import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 import vdm.p1.logic.objects.buttons.GoToThemeSelectSceneButton;
 
 public final class ThemeLevelSelectScene extends Scene {
@@ -32,7 +29,7 @@ public final class ThemeLevelSelectScene extends Scene {
 
 		locked = engine.getGraphics().newImage("image/lock.png");
 
-		addButton(new GoToThemeSelectSceneButton(getEngine()), font, "Volver", 20, 50);
+		addButton(new GoToThemeSelectSceneButton(getEngine()), font, "Volver", 20, 20);
 
 		// Load level grid:
 		if (!theme.loaded()) theme.load(engine);

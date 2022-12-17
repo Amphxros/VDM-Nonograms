@@ -55,13 +55,6 @@ public final class DesktopEngine extends Engine implements Runnable {
 			getGraphics().clear(Color.WHITE);
 			getLogic().render(getGraphics());
 			getGraphics().present();
-
-			// TODO: For testing, remove this later
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 }

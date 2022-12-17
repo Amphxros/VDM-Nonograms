@@ -240,15 +240,15 @@ public final class Table extends GameObject {
 		final int bar08 = getWidth() - bar02;
 
 		final int cellSize = bar08 / Math.max(rows, columns);
-		final int letterWidth = 20;
+		final int letterWidth = 12;
 
 		GameObject hints = new Empty()
 				.setStrokeColor(Color.BLACK)
 				.setSize(bar02, cellSize * rows)
 				.setPosition(getX(), getY() + bar02);
 
-		final int x = hints.getX() + hints.getWidth() - 8;
-		final int y = hints.getY() + (cellSize / 2) + 8;
+		final int x = hints.getX() + hints.getWidth() - 4;
+		final int y = hints.getY() + (cellSize / 2) + 5;
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
 			for (int j = 0; j < line.size(); j++) {
@@ -265,7 +265,7 @@ public final class Table extends GameObject {
 		final int bar08 = getWidth() - bar02;
 
 		final int cellSize = bar08 / Math.max(rows, columns);
-		final int letterHeight = 20;
+		final int letterHeight = 12;
 
 		GameObject hints = new Empty()
 				.setStrokeColor(Color.BLACK)
@@ -273,7 +273,7 @@ public final class Table extends GameObject {
 				.setPosition(getX() + bar02, getY());
 
 		final int x = hints.getX() + (cellSize / 2);
-		final int y = hints.getY() + hints.getHeight() - 4;
+		final int y = hints.getY() + hints.getHeight() - 2;
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
 			for (int j = 0; j < line.size(); j++) {

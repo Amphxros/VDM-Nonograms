@@ -6,10 +6,10 @@ import vdm.p1.logic.objects.base.GoToSceneButton;
 import vdm.p1.logic.scenes.Scene;
 import vdm.p1.logic.scenes.ThemeLevelSelectScene;
 
-public final class CreateThemeButton extends GoToSceneButton {
+public final class GoToThemeLevelSelectButton extends GoToSceneButton {
 	private final GameTheme theme;
 
-	public CreateThemeButton(IEngine engine, GameTheme theme) {
+	public GoToThemeLevelSelectButton(IEngine engine, GameTheme theme) {
 		super(engine);
 		this.theme = theme;
 	}

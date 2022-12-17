@@ -3,7 +3,6 @@ package vdm.p1.logic.scenes;
 import java.util.ArrayList;
 import java.util.List;
 
-import vdm.p1.engine.Color;
 import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
@@ -14,14 +13,12 @@ import vdm.p1.engine.IScene;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.Vector2D;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
 
 public abstract class Scene implements IScene {
 	private final IEngine engine;
 	private final ArrayList<GameObject> objects = new ArrayList<>();
-	private Vector2D pointer = null;
 
 	public Scene(IEngine engine) {
 		this.engine = engine;
@@ -42,23 +39,6 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void render(IGraphics graphics) {
-		if (pointer != null) {
-			int x = pointer.getX();
-			int y = pointer.getY();
-
-			graphics.setColor(new Color(0, 255, 0));
-			graphics.drawLine(0, y, graphics.getWidth(), y);
-			graphics.drawLine(x, 0, x, graphics.getHeight());
-
-			x = graphics.getLogicPointX(x);
-			y = graphics.getLogicPointY(y);
-			if (x != -1 && y != -1) {
-				graphics.setColor(new Color(255, 0, 0));
-				graphics.drawLine(0, y, graphics.getWidth(), y);
-				graphics.drawLine(x, 0, x, graphics.getHeight());
-			}
-		}
-
 		for (GameObject object : objects) {
 			if (object.isEnabled()) object.render(graphics);
 		}
@@ -135,7 +115,7 @@ public abstract class Scene implements IScene {
 		final int textOffsetY = 25;
 
 		GameObject textComponent = new Text(text, font).setPosition(x + textOffsetX, y + textOffsetY);
-		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(width, 40).setStrokeColor(Color.BLACK));
+		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(width, 40));
 	}
 
 	protected void addButton(GameObject button, IImage image, IFont font, String text, int x, int y) {
@@ -145,6 +125,6 @@ public abstract class Scene implements IScene {
 
 		GameObject imageComponent = new Image(image).setPosition(x + 5, y + 10).setSize(20, 20);
 		GameObject textComponent = new Text(text, font, HorizontalAlignment.LEFT).setPosition(x + textOffsetX, y + textOffsetY);
-		addGameObject(button.addChild(textComponent).addChild(imageComponent).setPosition(x, y).setSize(width, 40).setStrokeColor(Color.BLACK));
+		addGameObject(button.addChild(textComponent).addChild(imageComponent).setPosition(x, y).setSize(width, 40));
 	}
 }
