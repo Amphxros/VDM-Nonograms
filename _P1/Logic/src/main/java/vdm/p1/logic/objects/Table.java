@@ -191,15 +191,10 @@ public final class Table extends GameObject {
 		String text = missing > 0 ? "Faltan: " + missing : "";
 		if (wrong > 0) text += (text.isEmpty() ? "" : " ") + "Incorrectos: " + wrong;
 
-		Text headerText = (Text) new Text(text, font).setPosition(200, 50);
+		Text headerText = (Text) new Text(text, font).setPosition(200, 80);
 		headerText.setColor(new Color(255, 0, 0));
 		addChild(headerText);
 
-		// GameObject p = getParent().getChildren().get(0);
-		// for (GameObject child : p.getChildren()) {
-		// 	child.setEnabled(false);
-		// }
-		// p.addChild(headerText);
 		return false;
 	}
 
@@ -212,9 +207,6 @@ public final class Table extends GameObject {
 
 		Vector<GameObject> children = getChildren();
 		children.removeElementAt(children.size() - 1);
-		// for (GameObject child : children) {
-		// 	child.setEnabled(true);
-		// }
 	}
 
 	public void onCellUpdate(Cell cell, State previous) {
@@ -243,17 +235,20 @@ public final class Table extends GameObject {
 		}
 	}
 
-	// TODO: Make this change size dynamically on Table ratio
 	private void addXHints(List<List<Integer>> lines) {
 		final int bar02 = (int) (getWidth() * 0.2);
 		final int bar08 = getWidth() - bar02;
-		GameObject hints = new Empty().setStrokeColor(Color.BLACK).setSize(bar02, bar08).setPosition(getX(), getY() + bar02);
 
-		final int cellSize = bar08 / rows;
+		final int cellSize = (int) Math.min(bar08 / (double) rows, bar08 / (double) columns);
 		final int letterWidth = 20;
 
+		GameObject hints = new Empty()
+				.setStrokeColor(Color.BLACK)
+				.setSize(bar02, cellSize * rows)
+				.setPosition(getX(), getY() + bar02);
+
 		final int x = hints.getX() + hints.getWidth() - 8;
-		final int y = hints.getY() + 35;
+		final int y = hints.getY() + (cellSize / 2) + 8;
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
 			for (int j = 0; j < line.size(); j++) {
@@ -268,12 +263,16 @@ public final class Table extends GameObject {
 	private void addYHints(List<List<Integer>> lines) {
 		final int bar02 = (int) (getWidth() * 0.2);
 		final int bar08 = getWidth() - bar02;
-		GameObject hints = new Empty().setStrokeColor(Color.BLACK).setSize(bar08, bar02).setPosition(getX() + bar02, getY());
 
 		final int cellSize = bar08 / columns;
 		final int letterHeight = 20;
 
-		final int x = hints.getX() + 35;
+		GameObject hints = new Empty()
+				.setStrokeColor(Color.BLACK)
+				.setSize(bar08, bar02)
+				.setPosition(getX() + bar02, getY());
+
+		final int x = hints.getX() + (cellSize / 2);
 		final int y = hints.getY() + hints.getHeight() - 4;
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);

@@ -39,13 +39,13 @@ public final class ShopScene extends Scene {
 		}
 	}
 
-	private void addPaletteButton(IFont font, IImage glass, IImage coin, String title, String currency, int y) {
+	private void addPaletteButton(IFont font, IImage icon, IImage coin, String title, String currency, int y) {
 		final int x = 50;
 		final int textOffsetY = 22;
 
 		// TODO: Use a proper button instead of Empty
 		addGameObject(new Empty()
-				.addChild(new Image(glass).setPosition(x, y).setSize(30, 30))
+				.addChild(new Image(icon).setPosition(x, y).setSize(30, 30))
 				.addChild(new Image(coin).setPosition(x + 40, y + 5).setSize(20, 20))
 				.addChild(new Text(currency, font, HorizontalAlignment.LEFT).setPosition(x + 70, y + textOffsetY))
 				.addChild(new Text(title, font, HorizontalAlignment.RIGHT).setPosition(350, y + textOffsetY))
