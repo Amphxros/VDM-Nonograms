@@ -4,8 +4,6 @@ import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.State;
-import vdm.p1.logic.components.InheritParentPosition;
-import vdm.p1.logic.components.InheritParentSize;
 import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
@@ -25,8 +23,6 @@ public final class Cell extends Button {
 		super();
 		this.table = table;
 		this.isSolution = isSolution;
-		this.addComponent(new InheritParentSize());
-		this.addComponent(new InheritParentPosition());
 	}
 
 	public boolean isSolution() {

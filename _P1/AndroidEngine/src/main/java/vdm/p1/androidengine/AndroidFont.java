@@ -14,7 +14,7 @@ public final class AndroidFont implements IFont {
 	public AndroidFont(AndroidGraphics graphics, String route, AssetManager assetManager, int size, boolean isBold) {
 		this.graphics = graphics;
 		this.size = size;
-		font = Typeface.create(Typeface.createFromAsset(assetManager, route), size, isBold);
+		font = Typeface.create(new Typeface.Builder(assetManager, route).setWeight(size).build(), isBold ? Typeface.NORMAL : Typeface.BOLD);
 	}
 
 	public Typeface getFont() {

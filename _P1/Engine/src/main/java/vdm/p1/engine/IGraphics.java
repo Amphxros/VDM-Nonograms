@@ -5,7 +5,12 @@ public interface IGraphics {
 
 	IFont newFont(String name, int size, boolean isBold);
 
-	Dimension getTextDimensions(IFont font, String string);
+	/**
+	 * Sets the text alignment for text.
+	 *
+	 * @param alignment The alignment to use.
+	 */
+	void setTextAlignment(HorizontalAlignment alignment);
 
 	/**
 	 * Draws an image with the original size at a point of the canvas.
@@ -117,4 +122,21 @@ public interface IGraphics {
 
 	int getHeight();
 
+	/**
+	 * Transforms the window X-axis point into a value within 0 and {@link #getWidth()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param x The window X-axis point to transform.
+	 * @return The scene X-axis point, -1 if invalid.
+	 */
+	int getLogicPointX(int x);
+
+	/**
+	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param y The window Y-axis point to transform.
+	 * @return The scene Y-axis point, -1 if invalid.
+	 */
+	int getLogicPointY(int y);
 }

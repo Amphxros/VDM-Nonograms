@@ -1,29 +1,35 @@
 package vdm.p1.logic.scenes;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IEngine;
+import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IImage;
+import vdm.p1.engine.IInput;
+import vdm.p1.engine.IScene;
 import vdm.p1.engine.Input;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.IScene;
-import vdm.p1.logic.layout.Body;
+import vdm.p1.logic.objects.Image;
+import vdm.p1.logic.objects.Text;
 
 public abstract class Scene implements IScene {
 	private final IEngine engine;
-	private final Body body;
+	private final ArrayList<GameObject> objects = new ArrayList<>();
 
 	public Scene(IEngine engine) {
 		this.engine = engine;
-		this.body = new Body(engine);
 	}
 
 	public IEngine getEngine() {
 		return engine;
 	}
 
-	@Override
-	public Body getBody() {
-		return body;
+	public void addGameObject(GameObject object) {
+		objects.add(object);
 	}
 
 	/**
@@ -33,7 +39,9 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void render(IGraphics graphics) {
-		getBody().render(graphics);
+		for (GameObject object : objects) {
+			if (object.isEnabled()) object.render(graphics);
+		}
 	}
 
 	/**
@@ -43,7 +51,9 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void update(double delta) {
-		getBody().update(delta);
+		for (GameObject object : objects) {
+			if (object.isEnabled()) object.update(delta);
+		}
 	}
 
 	/**
@@ -52,9 +62,29 @@ public abstract class Scene implements IScene {
 	 * @param input The assigned platform-specific {@link Input} engine.
 	 */
 	@Override
-	public void handleInput(Input input) {
-		for (TouchEvent event : input.getTouchEvents()) {
-			getBody().handleInput(event);
+	public void handleInput(IInput input) {
+		List<TouchEvent> events = input.getTouchEvents();
+		if (events.isEmpty()) return;
+
+		IGraphics graphics = getEngine().getGraphics();
+		for (TouchEvent event : events) {
+			event.defineLogicCoordinates(graphics);
+			if (!event.isValid()) continue;
+
+			for (GameObject object : objects) {
+				if (object.isEnabled()) object.handleInput(event);
+			}
+		}
+	}
+
+	/**
+	 * An event method called once the scene has been constructed. By default, this will call the
+	 * awake method on GameObjects.
+	 */
+	@Override
+	public void init() {
+		for (GameObject object : objects) {
+			object.init();
 		}
 	}
 
@@ -77,5 +107,24 @@ public abstract class Scene implements IScene {
 	 */
 	@Override
 	public void handleOpeningNotifications() {
+	}
+
+	protected void addButton(GameObject button, IFont font, String text, int x, int y) {
+		final int width = 100;
+		final int textOffsetX = 50;
+		final int textOffsetY = 25;
+
+		GameObject textComponent = new Text(text, font).setPosition(x + textOffsetX, y + textOffsetY);
+		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(width, 40));
+	}
+
+	protected void addButton(GameObject button, IImage image, IFont font, String text, int x, int y) {
+		final int width = 120;
+		final int textOffsetX = 30;
+		final int textOffsetY = 26;
+
+		GameObject imageComponent = new Image(image).setPosition(x + 5, y + 10).setSize(20, 20);
+		GameObject textComponent = new Text(text, font, HorizontalAlignment.LEFT).setPosition(x + textOffsetX, y + textOffsetY);
+		addGameObject(button.addChild(textComponent).addChild(imageComponent).setPosition(x, y).setSize(width, 40));
 	}
 }

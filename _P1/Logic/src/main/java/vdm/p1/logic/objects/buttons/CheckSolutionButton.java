@@ -1,8 +1,9 @@
-package vdm.p1.logic.objects;
+package vdm.p1.logic.objects.buttons;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.Logic;
+import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.base.Button;
 import vdm.p1.logic.scenes.WinScene;
 
@@ -20,7 +21,7 @@ public final class CheckSolutionButton extends Button {
 	public boolean onPrimaryAction(TouchEvent event) {
 		if (table.performSolutionShow()) {
 			Logic logic = (Logic) engine.getLogic();
-			logic.changeScene(new WinScene(engine, table.getSolutions()));
+			logic.setScene(new WinScene(engine, table.getSolutions()));
 		}
 
 		return true;

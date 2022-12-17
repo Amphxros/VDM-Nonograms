@@ -4,22 +4,12 @@ import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameManager;
-import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
-import vdm.p1.logic.components.HandleParentResize;
-import vdm.p1.logic.components.InheritParentPosition;
-import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Container;
-import vdm.p1.logic.layout.FlowDirection;
-import vdm.p1.logic.layout.Grid;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.Padding;
-import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.CreateThemeButton;
-import vdm.p1.logic.objects.GoToStartSceneButton;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
+import vdm.p1.logic.objects.buttons.GoToThemeLevelSelectButton;
+import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 
 public final class ThemeSelectScene extends Scene {
 	private final GameManager gameManager;
@@ -28,86 +18,48 @@ public final class ThemeSelectScene extends Scene {
 	public ThemeSelectScene(IEngine engine) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		gameManager = ((Logic) engine.getLogic()).getGameManager();
 		if (!gameManager.loaded()) gameManager.loadThemes(engine);
 
-		locked = gameManager.getLastUnlockedLevel() >= 5 ? null : engine.getGraphics().newImage("image/lock.png");
+		locked = engine.getGraphics().newImage("image/lock.png");
+
+		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 20);
+		addGameObject(new Text("Seleccione categoria a jugar", font).setPosition(200, 150));
+
+		final int x0 = 50;
+		final int x1 = 170;
+		final int x2 = 290;
+		final int y0 = 200;
+		final int y1 = 320;
 
 		GameTheme[] themes = gameManager.getThemes();
-		Grid row0 = new Grid(3, FlowDirection.HORIZONTAL);
-		row0.setElement(0, createLevelButton(font, themes[0]));
-		row0.setElement(1, createLevelButton(font, themes[1]));
-		row0.setElement(2, createLevelButton(font, themes[2]));
-		Grid row1 = new Grid(3, FlowDirection.HORIZONTAL);
-		row1.setElement(0, createLevelButton(font, themes[3]));
-		row1.setElement(1, createLevelButton(font, themes[4]));
-		row1.setElement(2, createLevelButton(font, themes[5]));
-
-		Grid rows = new Grid(2, FlowDirection.VERTICAL);
-		rows.setElement(0, row0);
-		rows.setElement(1, row1);
-
-		GameObject table = new Padding(0.4, 0, 0.1, 0)
-				.addChild(rows);
-
-		GameObject goBackButton = new GoToStartSceneButton(getEngine())
-				.addComponent(new InheritParentSize())
-				.addComponent(new InheritParentPosition());
-		GameObject goBackText = new Text("Volver", font)
-				.addChild(goBackButton)
-				.addComponent(new InheritParentPosition());
-
-		GameObject header = new Padding(0, 0, 0.8, 0)
-				.addChild(goBackText);
-
-		GameObject description = new Padding(0.1, 0, 0, 0)
-				.addChild(new Text("Seleccione categoria a jugar", font)
-						.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-						.setVerticalAlignment(VerticalAlignment.TOP));
-
-		GameObject padding = new Padding(0.04, 0.1)
-				.addChild(header)
-				.addChild(description)
-				.addChild(table);
-
-		GameObject container = new Container(400, 600).addChild(padding);
-		getBody().addChild(container);
+		addLevelButton(font, themes[0], x0, y0);
+		addLevelButton(font, themes[1], x1, y0);
+		addLevelButton(font, themes[2], x2, y0);
+		addLevelButton(font, themes[3], x0, y1);
+		addLevelButton(font, themes[4], x1, y1);
+		addLevelButton(font, themes[5], x2, y1);
 	}
 
-	private GameObject createLevelButton(IFont font, GameTheme theme) {
-		GameObject text;
-		GameObject icon;
+	private void addLevelButton(IFont font, GameTheme theme, int x, int y) {
+		final int size = 50;
+		final int textOffsetX = 25;
+		final int textOffsetY = 65;
 
+		String name;
+		IImage icon;
 		if (gameManager.getLastUnlockedTheme() < theme.getIndex()) {
-			text = new Text("BLOQUEADO", font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.BOTTOM);
-
-			icon = new Image(locked)
-					.addComponent(new HandleParentResize(1, 1))
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.TOP);
+			name = "Bloqueado";
+			icon = locked;
 		} else {
-			text = new Text(theme.getName(), font)
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.BOTTOM);
+			name = theme.getName();
+			icon = getEngine().getGraphics().newImage(theme.getImagePath());
 
-			GameObject image = new Image(getEngine().getGraphics().newImage(theme.getImagePath()))
-					.addComponent(new InheritParentSize())
-					.addComponent(new InheritParentPosition());
-
-			icon = new CreateThemeButton(getEngine(), theme)
-					.addComponent(new HandleParentResize(1, 1))
-					.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-					.setVerticalAlignment(VerticalAlignment.TOP)
-					.addChild(image);
+			addGameObject(new GoToThemeLevelSelectButton(getEngine(), theme).setPosition(x, y).setSize(size, size + size));
 		}
 
-		return new Padding(0.05)
-				.addChild(new Padding(0, 0, 0.2, 0).addChild(icon))
-				.addChild(text)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		addGameObject(new Text(name, font).setPosition(x + textOffsetX, y + textOffsetY));
+		addGameObject(new Image(icon).setPosition(x, y).setSize(size, size));
 	}
 }
