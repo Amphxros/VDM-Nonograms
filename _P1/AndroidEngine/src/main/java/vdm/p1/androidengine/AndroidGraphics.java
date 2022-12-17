@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -15,7 +14,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import vdm.p1.engine.Color;
-import vdm.p1.engine.Dimension;
+import vdm.p1.engine.GraphicsTransformer;
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
@@ -27,7 +27,9 @@ public final class AndroidGraphics implements IGraphics {
 	private final HashMap<String, AndroidImage> loadedImages = new HashMap<>();
 	private final HashMap<String, IFont> loadedFonts = new HashMap<>();
 	private final AssetManager assetManager;
+	private final GraphicsTransformer transformer = new GraphicsTransformer();
 	private Canvas canvas = null;
+	private HorizontalAlignment textAlignment = HorizontalAlignment.NONE;
 
 	public AndroidGraphics(SurfaceView surfaceView, Context context) {
 		this.surfaceView = surfaceView;
@@ -62,6 +64,7 @@ public final class AndroidGraphics implements IGraphics {
 	public void clear(int color) {
 		canvas = surfaceHolder.lockCanvas();
 		canvas.drawColor(color); // ARGB
+		updateTransformParameters();
 	}
 
 	public void present() {
@@ -90,21 +93,19 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public AndroidFont newFont(String name, int size, boolean isBold) {
-		AndroidFont aFont = new AndroidFont(this, name, assetManager, size, isBold);
+		AndroidFont aFont = new AndroidFont(name, assetManager, size, isBold);
 		loadedFonts.put(name, aFont);
 		return aFont;
 	}
 
+	/**
+	 * Sets the text alignment for text.
+	 *
+	 * @param alignment The alignment to use.
+	 */
 	@Override
-	public Dimension getTextDimensions(IFont font, String string) {
-		Typeface tf = ((AndroidFont) font).getUnderlyingFont();
-		Paint paint = new Paint();
-		paint.setTextSize(font.getSize());
-		paint.setTypeface(tf);
-
-		Rect result = new Rect();
-		paint.getTextBounds(string, 0, string.length(), result);
-		return new Dimension(result.width(), result.height());
+	public void setTextAlignment(HorizontalAlignment alignment) {
+		this.textAlignment = alignment;
 	}
 
 	@Override
@@ -121,7 +122,18 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void drawText(String text, int x, int y) {
-		canvas.drawText(text, x, y, paint);
+		int outX = x;
+		if (textAlignment == HorizontalAlignment.CENTRE) {
+			Rect result = new Rect();
+			paint.getTextBounds(text, 0, text.length(), result);
+			outX -= result.centerX();
+		} else if (textAlignment == HorizontalAlignment.RIGHT) {
+			Rect result = new Rect();
+			paint.getTextBounds(text, 0, text.length(), result);
+			outX -= result.width();
+		}
+
+		canvas.drawText(text, outX, y, paint);
 	}
 
 	@Override
@@ -153,7 +165,7 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void setResolution(int width, int height) {
-
+		transformer.setSize(width, height);
 	}
 
 	@Override
@@ -176,12 +188,12 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public void translate(int x, int y) {
-
+		canvas.translate(x, y);
 	}
 
 	@Override
 	public void scale(double x, double y) {
-
+		canvas.scale((float) x, (float) y);
 	}
 
 	@Override
@@ -196,12 +208,48 @@ public final class AndroidGraphics implements IGraphics {
 
 	@Override
 	public int getWidth() {
-		return surfaceView.getWidth();
+		return transformer.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return surfaceView.getHeight();
+		return transformer.getHeight();
+	}
+
+	/**
+	 * Transforms the window X-axis point into a value within 0 and {@link #getWidth()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param x The window X-axis point to transform.
+	 * @return The scene X-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getLogicPointX(int x) {
+		return transformer.getTransformedX(x);
+	}
+
+	/**
+	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param y The window Y-axis point to transform.
+	 * @return The scene Y-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getLogicPointY(int y) {
+		return transformer.getTransformedY(y);
+	}
+
+	/**
+	 * Updates the transform parameters, internally calls {@link #translate(int, int)} and
+	 * {@link #scale(double, double)} internally.
+	 */
+	private void updateTransformParameters() {
+		int contentW = surfaceView.getWidth();
+		int contentH = surfaceView.getHeight();
+
+		transformer.update(contentW, contentH);
+		transformer.transform(this);
 	}
 }
 

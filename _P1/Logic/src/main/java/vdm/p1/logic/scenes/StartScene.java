@@ -1,75 +1,47 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.components.InheritParentPosition;
-import vdm.p1.logic.components.InheritParentSize;
-import vdm.p1.logic.layout.Container;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.Padding;
-import vdm.p1.logic.layout.VerticalAlignment;
-import vdm.p1.logic.objects.GoToLevelSelectSceneButton;
-import vdm.p1.logic.objects.GoToShopScene;
-import vdm.p1.logic.objects.GoToThemeSelectSceneButton;
 import vdm.p1.logic.objects.Image;
-import vdm.p1.logic.objects.ShareButton;
 import vdm.p1.logic.objects.Text;
 import vdm.p1.logic.objects.base.Button;
+import vdm.p1.logic.objects.buttons.GoToLevelSelectSceneButton;
+import vdm.p1.logic.objects.buttons.GoToShopSceneButton;
+import vdm.p1.logic.objects.buttons.GoToThemeSelectSceneButton;
 
 public final class StartScene extends Scene {
 	public StartScene(IEngine engine) {
 		super(engine);
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 48, false);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 20, false);
 		IImage share = engine.getGraphics().newImage("image/cart.png");
-		GameObject title = new Text("Nonogramas", font)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.TOP);
+
+		int maxWidth = engine.getGraphics().getWidth();
+		int center = maxWidth / 2;
+
+		int buttonW = (int) (maxWidth * 0.8);
+		int buttonX = center - buttonW / 2;
+
+		// Title
+		addGameObject(new Text("Nonogramas", font).setPosition(center, 50));
 
 		// Quick Match
-		GameObject quickMatchButton = new GoToLevelSelectSceneButton(getEngine())
-				.addComponent(new InheritParentSize())
-				.addComponent(new InheritParentPosition());
-		GameObject quickMatchText = new Text("Partida Rapida", font)
-				.addChild(quickMatchButton)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.MIDDLE);
-
-		GameObject shopButton = new Padding(0.8, 0.4, 0.1, 0.4)
-				.addChild(createButton(new GoToShopScene(getEngine()), share)
-						.setVerticalAlignment(VerticalAlignment.TOP)
-						.setHorizontalAlignment(HorizontalAlignment.CENTRE));
+		addGameObject(new Text("Partida Rapida", font).setPosition(center, 250));
+		addGameObject(new GoToLevelSelectSceneButton(getEngine()).setPosition(buttonX, 210).setSize(buttonW, 50));
 
 		// Story Mode
-		GameObject storyModeButton = new GoToThemeSelectSceneButton(getEngine())
-				.addComponent(new InheritParentSize())
-				.addComponent(new InheritParentPosition());
-		GameObject storyModeText = new Text("Modo Historia", font)
-				.addChild(storyModeButton)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.BOTTOM);
+		addGameObject(new Text("Modo Historia", font).setPosition(center, 350));
+		addGameObject(new GoToThemeSelectSceneButton(getEngine()).setPosition(buttonX, 310).setSize(buttonW, 50));
 
-		GameObject padding = new Padding(0.04, 0.1, 0.3, 0.1)
-				.addChild(title)
-				.addChild(quickMatchText)
-				.addChild(storyModeText);
-
-		GameObject container = new Container(400, 600)
-				.addChild(padding)
-				.addChild(shopButton);
-		getBody().addChild(container);
+		// Buttons
+		addGameObject(createButton(new GoToShopSceneButton(getEngine()).setPosition(20, 500).setSize(50, 50), share));
 	}
 
-	private GameObject createButton(Button button, IImage img) {
-		GameObject image = new Image(img)
-				.addComponent(new InheritParentPosition())
-				.addComponent(new InheritParentSize());
-
-		button.addChild(image)
-				.addComponent(new InheritParentPosition())
-				.addComponent(new InheritParentSize());
-
-		return new Padding(0.02).addChild(button);
+	private GameObject createButton(GameObject button, IImage img) {
+		return button.addChild(new Image(img)
+				.setPosition(button.getPosition())
+				.setSize(button.getSize()));
 	}
 }

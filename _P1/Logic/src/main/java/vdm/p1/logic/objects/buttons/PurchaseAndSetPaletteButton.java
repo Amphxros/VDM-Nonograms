@@ -1,9 +1,10 @@
-package vdm.p1.logic.objects;
+package vdm.p1.logic.objects.buttons;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameManager;
 import vdm.p1.logic.Logic;
+import vdm.p1.logic.objects.PaletteItem;
 import vdm.p1.logic.objects.base.Button;
 
 public final class PurchaseAndSetPaletteButton extends Button {

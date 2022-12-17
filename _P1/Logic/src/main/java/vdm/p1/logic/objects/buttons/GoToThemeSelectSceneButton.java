@@ -1,4 +1,4 @@
-package vdm.p1.logic.objects;
+package vdm.p1.logic.objects.buttons;
 
 import vdm.p1.engine.IEngine;
 import vdm.p1.logic.objects.base.GoToSceneButton;

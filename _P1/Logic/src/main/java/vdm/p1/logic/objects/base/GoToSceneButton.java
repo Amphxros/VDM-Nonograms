@@ -19,8 +19,7 @@ public abstract class GoToSceneButton extends Button {
 
 	@Override
 	public boolean onPrimaryAction(TouchEvent event) {
-		Logic logic = (Logic) engine.getLogic();
-		logic.changeScene(createScene());
+		engine.getLogic().setScene(createScene());
 		return true;
 	}
 

@@ -14,12 +14,6 @@ import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.State;
-import vdm.p1.logic.components.HandleParentResize;
-import vdm.p1.logic.layout.FlowDirection;
-import vdm.p1.logic.layout.Grid;
-import vdm.p1.logic.layout.HorizontalAlignment;
-import vdm.p1.logic.layout.Padding;
-import vdm.p1.logic.layout.VerticalAlignment;
 import vdm.p1.logic.scenes.StartScene;
 import vdm.p1.logic.scenes.WinScene;
 
@@ -67,64 +61,6 @@ public final class Table extends GameObject {
 		this.name = name;
 
 		cells = new Cell[rows][columns];
-		Grid grid = new Grid(rows, FlowDirection.VERTICAL);
-		for (int i = 0; i < rows; ++i) {
-			Grid row = new Grid(columns, FlowDirection.HORIZONTAL);
-			for (int j = 0; j < columns; ++j) {
-				boolean solution = solutions[i][j];
-				Cell cell = new Cell(this, solution);
-				row.setElement(j, cell);
-				cells[i][j] = cell;
-				if (solution) remaining++;
-			}
-
-			grid.setElement(i, row);
-		}
-
-		// Calculate the percentage of the grid's space within the table:
-		// — The width of the grid is always the width of the table minus 20% → 80%:
-		double gridWidth = 1.0 - 0.2;
-		// — The height of the grid is always the width of the grid multiplied by its ratio:
-		//   Examples:
-		//     • 5x5  → 80% * (5 / 5)  = 80%
-		//     • 5x10 → 80% * (5 / 10) = 40%
-		double gridHeight = gridWidth * (rows / (double) columns);
-		// — Calculate the margin top for the horizontal and grid Padding elements, this is
-		//   accomplished by calculating 100% - gridHeight.
-		double scaledMarginTop = 1.0 - gridHeight;
-
-		// The Grid's padding is calculated by doing the following operations:
-		// • Top    : scaledMarginTop
-		// • Right  : 0%
-		// • Bottom : 0%
-		// • Left   : 20%              || matches LeftHint's left padding
-		addChild(new Padding(scaledMarginTop, 0, 0, 0.2)
-				.addChild(grid)
-				.setStrokeColor(Color.BLACK));
-
-		// The left hint padding is calculated by doing the following operations:
-		// • Top    : scaledMarginTop  || matches Grid's top padding
-		// • Right  : 80%              || matches the Table's width minus 20%
-		// • Bottom : 0%
-		// • Left   : 0%
-		Grid hintLeftGrid = new Grid(rows, FlowDirection.VERTICAL);
-		setHints(hintLeftGrid, getXHints(solutions));
-		addChild(new Padding(scaledMarginTop, 0.8, 0, 0)
-				.addChild(hintLeftGrid)
-				.setStrokeColor(Color.BLACK));
-
-		// The top hint padding is calculated by doing the following operations:
-		// • Top    : 0.8 - gridHeight || matches Grid's top padding minus 20%
-		// • Right  : 0%
-		// • Bottom : gridHeight       || matches Grid's top padding
-		// • Left   : 20%              || matches Grid's left padding
-		Grid hintTopGrid = new Grid(columns, FlowDirection.HORIZONTAL);
-		setHints(hintTopGrid, getYHints(solutions));
-		addChild(new Padding(0.8 - gridHeight, 0, gridHeight, 0.2)
-				.addChild(hintTopGrid)
-				.setStrokeColor(Color.BLACK));
-
-		addComponent(new HandleParentResize(1));
 	}
 
 	public static Table fromRandom(IFont font, LifeManager lifeManager, int rows, int columns) {
@@ -156,6 +92,33 @@ public final class Table extends GameObject {
 		}
 
 		return new Table(font, lifeManager, solutions, theme, level, name);
+	}
+
+	@Override
+	public void init() {
+		final int w02 = (int) (getWidth() * 0.2);
+		final int w08 = getWidth() - w02;
+		final int cellSize = (int) Math.min(w08 / (double) rows, w08 / (double) columns);
+
+		final int x = getX() + w02 + 1;
+		final int y = getY() + w02 + 1;
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				boolean solution = solutions[i][j];
+				Cell cell = (Cell) new Cell(this, solution)
+						.setPosition(x + j * cellSize, y + i * cellSize)
+						.setSize(cellSize, cellSize);
+				cells[i][j] = cell;
+				if (solution) remaining++;
+
+				addChild(cell);
+			}
+		}
+
+		addXHints(getXHints(solutions));
+		addYHints(getYHints(solutions));
+
+		super.init();
 	}
 
 	@Override
@@ -194,6 +157,15 @@ public final class Table extends GameObject {
 		return solutions;
 	}
 
+	/**
+	 * Gets the table's name.
+	 *
+	 * @return The name of the table.
+	 */
+	public String getName() {
+		return name;
+	}
+
 	public boolean performSolutionShow() {
 		if (elapsed != CHECK_NULL_TIME) return false;
 		elapsed = CHECK_START_TIME;
@@ -219,17 +191,10 @@ public final class Table extends GameObject {
 		String text = missing > 0 ? "Faltan: " + missing : "";
 		if (wrong > 0) text += (text.isEmpty() ? "" : " ") + "Incorrectos: " + wrong;
 
-		Text headerText = (Text) new Text(text, font)
-				.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-				.setVerticalAlignment(VerticalAlignment.TOP);
+		Text headerText = (Text) new Text(text, font).setPosition(200, 80);
 		headerText.setColor(new Color(255, 0, 0));
+		addChild(headerText);
 
-		GameObject p = getParent().getChildren().get(0);
-		for (GameObject child : p.getChildren()) {
-			child.setEnabled(false);
-		}
-		p.addChild(headerText);
-		headerText.handleParentScreenChange();
 		return false;
 	}
 
@@ -240,11 +205,8 @@ public final class Table extends GameObject {
 			}
 		}
 
-		Vector<GameObject> children = getParent().getChildren().get(0).getChildren();
+		Vector<GameObject> children = getChildren();
 		children.removeElementAt(children.size() - 1);
-		for (GameObject child : children) {
-			child.setEnabled(true);
-		}
 	}
 
 	public void onCellUpdate(Cell cell, State previous) {
@@ -260,12 +222,12 @@ public final class Table extends GameObject {
 						logic.getGameManager().save(engine);
 					}
 				}
-				logic.changeScene(new WinScene(engine, getSolutions()));
+				logic.setScene(new WinScene(engine, getSolutions()));
 			} else {
 				cell.setWrong(true);
 				if (!lifeManager.removeHeart()) {
 					Logic logic = (Logic) lifeManager.getEngine().getLogic();
-					logic.changeScene(new StartScene(lifeManager.getEngine()));
+					logic.setScene(new StartScene(lifeManager.getEngine()));
 				}
 			}
 		} else if (previous == State.MARKED && cell.isSolution()) {
@@ -273,22 +235,54 @@ public final class Table extends GameObject {
 		}
 	}
 
-	private void setHints(Grid grid, List<List<Integer>> lines) {
-		FlowDirection hintDirection = grid.getDirection() == FlowDirection.HORIZONTAL ? FlowDirection.VERTICAL : FlowDirection.HORIZONTAL;
+	private void addXHints(List<List<Integer>> lines) {
+		final int bar02 = (int) (getWidth() * 0.2);
+		final int bar08 = getWidth() - bar02;
 
+		final int cellSize = bar08 / Math.max(rows, columns);
+		final int letterWidth = 12;
+
+		GameObject hints = new Empty()
+				.setStrokeColor(Color.BLACK)
+				.setSize(bar02, cellSize * rows)
+				.setPosition(getX(), getY() + bar02);
+
+		final int x = hints.getX() + hints.getWidth() - 4;
+		final int y = hints.getY() + (cellSize / 2) + 5;
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
-			int size = Math.max(4, line.size());
-			Grid lineGrid = new Grid(size, hintDirection);
 			for (int j = 0; j < line.size(); j++) {
-				GameObject text = new Text(line.get(line.size() - j - 1).toString(), font)
-						.setHorizontalAlignment(HorizontalAlignment.CENTRE)
-						.setVerticalAlignment(VerticalAlignment.MIDDLE);
-				lineGrid.setElement(size - j - 1, text);
+				hints.addChild(new Text(line.get(line.size() - j - 1).toString(), font)
+						.setPosition(x - (j * letterWidth), y + (i * cellSize)));
 			}
-
-			grid.setElement(i, lineGrid);
 		}
+
+		addChild(hints);
+	}
+
+	private void addYHints(List<List<Integer>> lines) {
+		final int bar02 = (int) (getWidth() * 0.2);
+		final int bar08 = getWidth() - bar02;
+
+		final int cellSize = bar08 / Math.max(rows, columns);
+		final int letterHeight = 12;
+
+		GameObject hints = new Empty()
+				.setStrokeColor(Color.BLACK)
+				.setSize(bar08, bar02)
+				.setPosition(getX() + bar02, getY());
+
+		final int x = hints.getX() + (cellSize / 2);
+		final int y = hints.getY() + hints.getHeight() - 2;
+		for (int i = 0; i < lines.size(); ++i) {
+			List<Integer> line = lines.get(i);
+			for (int j = 0; j < line.size(); j++) {
+				hints.addChild(new Text(line.get(line.size() - j - 1).toString(), font)
+						.setPosition(x + (i * cellSize), y - (j * letterHeight)));
+			}
+		}
+
+		addChild(hints);
 	}
 
 	private List<List<Integer>> getXHints(boolean[][] solutions) {
