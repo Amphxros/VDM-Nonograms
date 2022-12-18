@@ -62,7 +62,7 @@ public final class GameScene extends Scene {
 			shakeListener = new ShakeListener() {
 				@Override
 				public void onShake(double acceleration) {
-					table.shuffle();
+					table.prepareShuffle();
 				}
 			};
 			sensors.registerListener(shakeListener);
