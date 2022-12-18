@@ -53,7 +53,7 @@ public final class LifeManager extends GameObject {
 
 		++remainingLives;
 		((Text) getChildren().get(0)).setText(Integer.toString(remainingLives));
-		((Image) getChildren().get(remainingLives + 1)).setImage(heartFill);
+		((Image) getChildren().get(remainingLives)).setImage(heartFill);
 		return true;
 	}
 

@@ -5,10 +5,10 @@ public abstract class Engine implements IEngine {
 	private IAudio audio;
 	private Input input;
 	private ILogic logic;
-
 	private IFileManager fileManager;
 	private INotificationManager notificationManager;
 	private IShareIntent shareIntent;
+	private ISensors sensors;
 
 	/**
 	 * @return An {@link ILogic} instance.
@@ -62,9 +62,8 @@ public abstract class Engine implements IEngine {
 		this.audio = audio;
 	}
 
-
 	/**
-	 * @return an instance of {@link IFileManager} instance
+	 * @return An {@link IFileManager} instance.
 	 */
 	@Override
 	public IFileManager getFileManager() {
@@ -76,9 +75,26 @@ public abstract class Engine implements IEngine {
 		this.fileManager = manager;
 	}
 
+	/**
+	 * @return An {@link ISensors} instance
+	 */
+	@Override
+	public ISensors getSensors() {
+		return sensors;
+	}
 
 	/**
-	 * @return An {@link IShareIntent} instance
+	 * Sets the {@link ISensors} system.
+	 *
+	 * @param sensors An {@link ISensors} instance.
+	 */
+	@Override
+	public void setSensors(ISensors sensors) {
+		this.sensors = sensors;
+	}
+
+	/**
+	 * @return An {@link IShareIntent} instance.
 	 */
 	@Override
 	public IShareIntent getShareIntent() {

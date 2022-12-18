@@ -10,20 +10,16 @@ public final class AndroidEngine extends Engine implements Runnable {
 	private boolean running;
 
 	public AndroidEngine(SurfaceView surfaceView, Context context) {
-		AndroidGraphics graphics = new AndroidGraphics(surfaceView, context);
-		AndroidInput input = new AndroidInput();
-		AndroidAudio audio = new AndroidAudio(context);
-		AndroidFileManager fileManager = new AndroidFileManager(context);
-		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
-		AndroidShareIntent shareIntent = new AndroidShareIntent(context);
-		surfaceView.setOnTouchListener(input);
+		setGraphics(new AndroidGraphics(surfaceView, context));
+		setAudio(new AndroidAudio(context));
+		setFileManager(new AndroidFileManager(context));
+		setNotificationManager(new AndroidNotificationManager(context));
+		setShareIntent(new AndroidShareIntent(context));
+		setSensors(new AndroidSensors(context));
 
-		setGraphics(graphics);
+		AndroidInput input = new AndroidInput();
+		surfaceView.setOnTouchListener(input);
 		setInput(input);
-		setAudio(audio);
-		setFileManager(fileManager);
-		setShareIntent(shareIntent);
-		setNotificationManager(notificationManager);
 	}
 
 	@Override
@@ -54,7 +50,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 		long lastFrameTime = System.nanoTime();
 
-		// MAIN GAME LOOP
 		while (running) {
 			long currentTime = System.nanoTime();
 			long nanoElapsedTime = currentTime - lastFrameTime;
@@ -67,7 +62,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 			update(elapsedTime);
 			render();
 		}
-
 	}
 
 	private void render() {
@@ -94,9 +88,12 @@ public final class AndroidEngine extends Engine implements Runnable {
 			// Only if we weren't doing anything yet
 			// (Defensive programming at its best)
 			running = true;
+
 			// run() is "running" in a new thread
 			thread = new Thread(this);
 			thread.start();
+
+			getSensors().register();
 		}
 	}
 
@@ -112,6 +109,9 @@ public final class AndroidEngine extends Engine implements Runnable {
 					// Something went REALLY wrong
 				}
 			}
+
+			getSensors().unregister();
 		}
+
 	}
 }

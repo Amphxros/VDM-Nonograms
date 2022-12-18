@@ -2,18 +2,6 @@ package vdm.p1.engine;
 
 public interface IEngine {
 	/**
-	 * @return An {@link IFileManager} instance.
-	 */
-	IFileManager getFileManager();
-
-	/**
-	 * Sets the {@link IFileManager} engine.
-	 *
-	 * @param manager An {@link IFileManager} instance.
-	 */
-	void setFileManager(IFileManager manager);
-
-	/**
 	 * @return An {@link IGraphics} instance.
 	 */
 	IGraphics getGraphics();
@@ -84,6 +72,30 @@ public interface IEngine {
 	 * @param notificationManager An {@link INotificationManager} instance.
 	 */
 	void setNotificationManager(INotificationManager notificationManager);
+
+	/**
+	 * @return An {@link IFileManager} instance.
+	 */
+	IFileManager getFileManager();
+
+	/**
+	 * Sets the {@link IFileManager} engine.
+	 *
+	 * @param manager An {@link IFileManager} instance.
+	 */
+	void setFileManager(IFileManager manager);
+
+	/**
+	 * @return An {@link ISensors} instance
+	 */
+	ISensors getSensors();
+
+	/**
+	 * Sets the {@link ISensors} system.
+	 *
+	 * @param sensors An {@link ISensors} instance.
+	 */
+	void setSensors(ISensors sensors);
 
 	/**
 	 * @return The application's window width.

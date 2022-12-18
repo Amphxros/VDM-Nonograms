@@ -32,6 +32,10 @@ public abstract class Scene implements IScene {
 		objects.add(object);
 	}
 
+	public void removeGameObject(GameObject object) {
+		objects.remove(object);
+	}
+
 	/**
 	 * Signal the scene's {@link GameObject}s to render given a {@link IGraphics} engine.
 	 *

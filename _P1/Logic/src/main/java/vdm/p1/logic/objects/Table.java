@@ -69,8 +69,7 @@ public final class Table extends GameObject {
 		Random rng = new Random();
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < columns; ++j) {
-				boolean solution = rng.nextBoolean();
-				solutions[i][j] = solution;
+				solutions[i][j] = rng.nextBoolean();
 			}
 		}
 
@@ -90,12 +89,28 @@ public final class Table extends GameObject {
 				solutions[i][j] = read.next().equals("O");
 			}
 		}
-
 		return new Table(font, lifeManager, solutions, theme, level, name);
+	}
+
+	public void shuffle() {
+		getChildren().clear();
+
+		Random rng = new Random();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				solutions[i][j] = rng.nextBoolean();
+			}
+		}
+
+		init();
 	}
 
 	@Override
 	public void init() {
+		elapsed = CHECK_NULL_TIME;
+		remaining = 0;
+		while (lifeManager.addHeart());
+
 		final int w02 = (int) (getWidth() * 0.2);
 		final int w08 = getWidth() - w02;
 		final int cellSize = (int) Math.min(w08 / (double) rows, w08 / (double) columns);
