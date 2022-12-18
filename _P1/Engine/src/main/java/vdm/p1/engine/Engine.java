@@ -87,10 +87,6 @@ public abstract class Engine implements IEngine {
 	public void setSensors(ISensors sensors) {
 		this.sensors=sensors;
 	}
-
-	/**
-	 * @return An {@link IShareIntent} instance
-	 */
 	@Override
 	public IShareIntent getShareIntent() {
 		return shareIntent;

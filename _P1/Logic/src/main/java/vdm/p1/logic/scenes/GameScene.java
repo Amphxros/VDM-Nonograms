@@ -70,19 +70,9 @@ public final class GameScene extends Scene {
 
 		//if we shake the device change the table if its random
 		if(getEngine().getSensors().isShaking() && table.getGenerationRandom()){
-			getEngine().getSensors().shaked();
-			removeGameObject(table);
+			getEngine().getSensors().resetShaking();
 			table.suffle();
-			addGameObject(table);
 
 		}
-
-		/**
-		 * si el nº de vidas es 0 -->popup
-		 */
-
-		/**
-		 * si el tablero esta resuelto -->otro popup
-		 */
 	}
 }

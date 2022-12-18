@@ -12,11 +12,9 @@ import vdm.p1.engine.Sensors;
 public class AndroidSensors extends Sensors implements SensorEventListener {
 	private final SensorManager sensorManager;
 
-	private Sensor accel;
-	private Sensor gyro;
-
+	private Sensor accel; //accelerometer sensor
 	private boolean isShaking=false;
-	private float time;
+
 	private static final int SHAKE_THRESHOLD = 20;
 
 	public AndroidSensors(Context context){
@@ -31,33 +29,28 @@ public class AndroidSensors extends Sensors implements SensorEventListener {
 		else{
 			register();
 		}
-
-
 	}
 
-	@Override
-	public void update(float t) {
-		this.time+=t;
-	}
 
 	@Override
 	public boolean isShaking() {
 		return isShaking;
 	}
 
+	/**
+	 * resets the shaking
+	 */
 	@Override
-	public void shaked() {
+	public void resetShaking() {
 		isShaking=false;
 	}
 
 	/**
-	 * registers the accelerometer sensor
+	 * registers the sensors that we need (in this case just the accelerometer)
 	 */
 	@Override
 	public void register() {
-
 		accel= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
 		if(accel!=null && sensorManager!=null){
 			try{
 				sensorManager.registerListener(this,accel,SensorManager.SENSOR_DELAY_NORMAL);
@@ -85,13 +78,10 @@ public class AndroidSensors extends Sensors implements SensorEventListener {
 		//casts the event in the Accelerometer one
 		if(sensorEvent.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
 			long curTime = System.currentTimeMillis();
-			float diff= curTime - time;
-				time=curTime;
-
 				float x= sensorEvent.values[0];
 				float y= sensorEvent.values[1];
 				float z= sensorEvent.values[2];
-				float speed= Math.abs(x+y+z-getX() -getY()-getZ())/1;
+				float speed= Math.abs(x+y+z-getX() -getY()-getZ());
 				System.out.println("speed: " + speed);
 				if(speed>SHAKE_THRESHOLD){
 						isShaking=true;
@@ -102,7 +92,6 @@ public class AndroidSensors extends Sensors implements SensorEventListener {
 
 			}
 	}
-
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int i) {
 
