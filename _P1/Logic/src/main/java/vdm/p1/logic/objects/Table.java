@@ -44,6 +44,7 @@ public final class Table extends GameObject {
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
 	private int remaining = 0;
+	private boolean pendingSuffle = false;
 
 	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions) {
 		this(font, lifeManager, solutions, null, null, null);
@@ -92,24 +93,15 @@ public final class Table extends GameObject {
 		return new Table(font, lifeManager, solutions, theme, level, name);
 	}
 
-	public void shuffle() {
-		getChildren().clear();
-
-		Random rng = new Random();
-		for (int i = 0; i < rows; ++i) {
-			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = rng.nextBoolean();
-			}
-		}
-
-		init();
+	public void prepareShuffle() {
+		pendingSuffle = true;
 	}
 
 	@Override
 	public void init() {
 		elapsed = CHECK_NULL_TIME;
 		remaining = 0;
-		while (lifeManager.addHeart());
+		while (lifeManager.addHeart()) ;
 
 		final int w02 = (int) (getWidth() * 0.2);
 		final int w08 = getWidth() - w02;
@@ -138,6 +130,12 @@ public final class Table extends GameObject {
 
 	@Override
 	public void update(double delta) {
+		if (pendingSuffle) {
+			pendingSuffle = false;
+			shuffle();
+			return;
+		}
+
 		if (elapsed != CHECK_NULL_TIME) {
 			elapsed += delta;
 			if (elapsed < CHECK_RESET_DURATION) return;
@@ -248,6 +246,19 @@ public final class Table extends GameObject {
 		} else if (previous == State.MARKED && cell.isSolution()) {
 			remaining++;
 		}
+	}
+
+	private void shuffle() {
+		getChildren().clear();
+
+		Random rng = new Random();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				solutions[i][j] = rng.nextBoolean();
+			}
+		}
+
+		init();
 	}
 
 	private void addXHints(List<List<Integer>> lines) {
