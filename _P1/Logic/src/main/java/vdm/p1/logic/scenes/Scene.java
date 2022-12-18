@@ -32,7 +32,7 @@ public abstract class Scene implements IScene {
 		objects.add(object);
 	}
 
-	public void removeGameObject(GameObject object){
+	public void removeGameObject(GameObject object) {
 		objects.remove(object);
 	}
 
