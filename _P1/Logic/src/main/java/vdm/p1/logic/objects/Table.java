@@ -107,7 +107,9 @@ public final class Table extends GameObject {
 
 	@Override
 	public void init() {
+		elapsed = CHECK_NULL_TIME;
 		remaining = 0;
+		while (lifeManager.addHeart());
 
 		final int w02 = (int) (getWidth() * 0.2);
 		final int w08 = getWidth() - w02;
