@@ -13,26 +13,31 @@ public class AndroidSensors extends Sensors implements SensorEventListener {
 	private final SensorManager sensorManager;
 
 	private Sensor accel;
-	private float acceleration;
-	private float currentAcceleration;
-	private float lastAcceleration;
+	private Sensor gyro;
 
 	private boolean isShaking=false;
-
-	private static final int SHAKE_THRESHOLD = 800;
+	private float time;
+	private static final int SHAKE_THRESHOLD = 20;
 
 	public AndroidSensors(Context context){
 		super();
+
 		this.sensorManager= (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+		sensorManager.unregisterListener(this);
 		if(sensorManager==null){
+			System.out.println("Sensor service not detected");
 			Toast.makeText(context, "Sensor service not detected", Toast.LENGTH_SHORT).show();
 		}
 		else{
 			register();
 		}
-		this.acceleration=0f;
-		this.currentAcceleration=0f;
-		this.lastAcceleration=0f;
+
+
+	}
+
+	@Override
+	public void update(float t) {
+		this.time+=t;
 	}
 
 	@Override
@@ -41,12 +46,31 @@ public class AndroidSensors extends Sensors implements SensorEventListener {
 	}
 
 	@Override
-	public void register() {
-		accel= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		if(accel!=null)
-			sensorManager.registerListener(this,accel,SensorManager.SENSOR_DELAY_NORMAL);
+	public void shaked() {
+		isShaking=false;
 	}
 
+	/**
+	 * registers the accelerometer sensor
+	 */
+	@Override
+	public void register() {
+
+		accel= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+		if(accel!=null && sensorManager!=null){
+			try{
+				sensorManager.registerListener(this,accel,SensorManager.SENSOR_DELAY_NORMAL);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * unregister the accelerometer sensor
+	 */
 	@Override
 	public void unregister() {
 		sensorManager.unregisterListener(this,accel);
@@ -60,9 +84,23 @@ public class AndroidSensors extends Sensors implements SensorEventListener {
 	public void onSensorChanged(SensorEvent sensorEvent) {
 		//casts the event in the Accelerometer one
 		if(sensorEvent.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+			long curTime = System.currentTimeMillis();
+			float diff= curTime - time;
+				time=curTime;
 
+				float x= sensorEvent.values[0];
+				float y= sensorEvent.values[1];
+				float z= sensorEvent.values[2];
+				float speed= Math.abs(x+y+z-getX() -getY()-getZ())/1;
+				System.out.println("speed: " + speed);
+				if(speed>SHAKE_THRESHOLD){
+						isShaking=true;
+						setX(x);
+						setY(y);
+						setZ(z);
+					}
 
-		}
+			}
 	}
 
 	@Override

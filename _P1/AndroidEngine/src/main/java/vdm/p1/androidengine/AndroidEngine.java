@@ -11,12 +11,20 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 	public AndroidEngine(SurfaceView surfaceView, Context context) {
 		AndroidGraphics graphics = new AndroidGraphics(surfaceView, context);
+
 		AndroidInput input = new AndroidInput();
-		AndroidAudio audio = new AndroidAudio(context);
-		AndroidFileManager fileManager = new AndroidFileManager(context);
-		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
-		AndroidShareIntent shareIntent = new AndroidShareIntent(context);
 		surfaceView.setOnTouchListener(input);
+
+		AndroidAudio audio = new AndroidAudio(context);
+
+		AndroidFileManager fileManager = new AndroidFileManager(context);
+
+		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
+
+		AndroidShareIntent shareIntent = new AndroidShareIntent(context);
+
+		AndroidSensors sensors= new AndroidSensors(context);
+
 
 		setGraphics(graphics);
 		setInput(input);
@@ -24,6 +32,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		setFileManager(fileManager);
 		setShareIntent(shareIntent);
 		setNotificationManager(notificationManager);
+		setSensors(sensors);
 	}
 
 	@Override
@@ -53,7 +62,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 		while (running && getGraphics().getWidth() == 0) ;
 
 		long lastFrameTime = System.nanoTime();
-
 		// MAIN GAME LOOP
 		while (running) {
 			long currentTime = System.nanoTime();
@@ -66,6 +74,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 			handleEvents();
 			update(elapsedTime);
 			render();
+			getSensors().update((float)elapsedTime);
 		}
 
 	}
@@ -94,6 +103,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 			// Only if we weren't doing anything yet
 			// (Defensive programming at its best)
 			running = true;
+
 			// run() is "running" in a new thread
 			thread = new Thread(this);
 			thread.start();
@@ -113,5 +123,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 				}
 			}
 		}
+
+		getSensors().unregister();
 	}
 }

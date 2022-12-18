@@ -44,9 +44,10 @@ public final class Table extends GameObject {
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
 	private int remaining = 0;
-
+	private boolean isGeneratedRandom;
 	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions) {
 		this(font, lifeManager, solutions, null, null, null);
+		this.isGeneratedRandom=true;
 	}
 
 	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions, GameTheme theme, String level, String name) {
@@ -59,6 +60,7 @@ public final class Table extends GameObject {
 		this.theme = theme;
 		this.level = level;
 		this.name = name;
+		this.isGeneratedRandom=false;
 
 		cells = new Cell[rows][columns];
 	}
@@ -90,8 +92,21 @@ public final class Table extends GameObject {
 				solutions[i][j] = read.next().equals("O");
 			}
 		}
-
 		return new Table(font, lifeManager, solutions, theme, level, name);
+	}
+
+	public void suffle(){
+
+		removeAll();
+
+		Random rng = new Random();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				boolean solution = rng.nextBoolean();
+				solutions[i][j] = solution;
+			}
+		}
+		init();
 	}
 
 	@Override
@@ -156,7 +171,6 @@ public final class Table extends GameObject {
 	public boolean[][] getSolutions() {
 		return solutions;
 	}
-
 	/**
 	 * Gets the table's name.
 	 *
@@ -332,4 +346,7 @@ public final class Table extends GameObject {
 
 		return lines;
 	}
+
+
+	public boolean getGenerationRandom(){return isGeneratedRandom;}
 }

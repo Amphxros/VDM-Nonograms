@@ -25,6 +25,7 @@ public interface ISensors {
 	public void setZ(float z);
 
 	public boolean isShaking();
+	public void shaked();
 	void register();
 	void unregister();
 }

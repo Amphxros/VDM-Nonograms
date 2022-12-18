@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 		//if (savedInstanceState != null) {
 		//mColor = mPreferences.getInt("lastColor", 0);
@@ -55,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 		//} else {}
 
 		engine.resume();
+		//engine.getSensors().register();
+
+
 	}
 
 	@Override
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 		preferencesEditor.apply(); // APPLIES ALL CHANGED PREFERENCES
 
 		engine.pause();
+
 	}
 
 }

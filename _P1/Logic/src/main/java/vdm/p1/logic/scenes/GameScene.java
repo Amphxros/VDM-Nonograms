@@ -13,19 +13,23 @@ import vdm.p1.logic.objects.buttons.GoToThemeLevelSelectButton;
 public final class GameScene extends Scene {
 	private final ISound sound;
 	private final LifeManager lifeManager;
-
+	private Table table;
+	private final IFont font;
+	int rows;
+	int cols;
 	public GameScene(IEngine engine, GameTheme theme, String level) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
+		font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		IFont tableFont = engine.getGraphics().newFont("font/pico.ttf", 7, false);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
 		lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(130, 100).setSize(140, 40);
+		table= (Table)Table.fromFile(tableFont, lifeManager, theme, level).setPosition(50, 150).setSize(300, 300);
 
 		addGameObject(lifeManager);
-		addGameObject(Table.fromFile(tableFont, lifeManager, theme, level).setPosition(50, 150).setSize(300, 300));
+		addGameObject(table);
 
 		addButton(new GoToThemeLevelSelectButton(getEngine(), theme), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
 	}
@@ -33,13 +37,15 @@ public final class GameScene extends Scene {
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);
 
-		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
+		font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		IFont tableFont = engine.getGraphics().newFont("font/pico.ttf", 7, false);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
 		lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(130, 100).setSize(140, 40);
-		Table table = (Table) Table.fromRandom(tableFont, lifeManager, rows, columns).setPosition(50, 150).setSize(300, 300);
+		this.rows=rows;
+		this.cols=cols;
+		table = (Table) Table.fromRandom(tableFont, lifeManager, rows, columns).setPosition(50, 150).setSize(300, 300);
 
 		addGameObject(lifeManager);
 		addGameObject(table);
@@ -61,6 +67,16 @@ public final class GameScene extends Scene {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+
+		//if we shake the device change the table if its random
+		if(getEngine().getSensors().isShaking() && table.getGenerationRandom()){
+			getEngine().getSensors().shaked();
+			removeGameObject(table);
+			table.suffle();
+			addGameObject(table);
+
+		}
+
 		/**
 		 * si el nº de vidas es 0 -->popup
 		 */

@@ -78,6 +78,15 @@ public abstract class Engine implements IEngine {
 		this.fileManager = manager;
 	}
 
+	@Override
+	public ISensors getSensors() {
+		return sensors;
+	}
+
+	@Override
+	public void setSensors(ISensors sensors) {
+		this.sensors=sensors;
+	}
 
 	/**
 	 * @return An {@link IShareIntent} instance
