@@ -3,14 +3,11 @@ package vdm.p1.pcengine;
 import java.awt.Font;
 
 import vdm.p1.engine.IFont;
-import vdm.p1.engine.IGraphics;
 
 public final class DesktopFont implements IFont {
-	private final DesktopGraphics graphics;
 	private final Font font;
 
-	public DesktopFont(DesktopGraphics graphics, Font font) {
-		this.graphics = graphics;
+	public DesktopFont(Font font) {
 		this.font = font;
 	}
 
@@ -32,11 +29,6 @@ public final class DesktopFont implements IFont {
 	@Override
 	public boolean isBold() {
 		return font.isBold();
-	}
-
-	@Override
-	public IGraphics getGraphics() {
-		return graphics;
 	}
 
 	/**

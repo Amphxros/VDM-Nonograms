@@ -14,6 +14,4 @@ public interface IFont {
 	 * @return Whether or not the font is bold.
 	 */
 	boolean isBold();
-
-	IGraphics getGraphics();
 }

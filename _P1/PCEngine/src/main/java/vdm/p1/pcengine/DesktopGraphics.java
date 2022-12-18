@@ -2,8 +2,8 @@ package vdm.p1.pcengine;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,7 +11,8 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import vdm.p1.engine.Dimension;
+import vdm.p1.engine.GraphicsTransformer;
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
@@ -19,7 +20,9 @@ import vdm.p1.engine.IImage;
 public final class DesktopGraphics implements IGraphics {
 	private final JFrame window;
 	private final BufferStrategy buffer;
+	private final GraphicsTransformer transformer = new GraphicsTransformer();
 	private Graphics2D canvas;
+	private HorizontalAlignment textAlignment;
 
 	public DesktopGraphics(JFrame window) {
 		this.window = window;
@@ -63,12 +66,17 @@ public final class DesktopGraphics implements IGraphics {
 		}
 
 		font = font.deriveFont(isBold ? Font.BOLD : Font.PLAIN, (float) size);
-		return new DesktopFont(this, font);
+		return new DesktopFont(font);
 	}
 
-	public Dimension getTextDimensions(IFont font, String string) {
-		FontMetrics metrics = canvas.getFontMetrics(((DesktopFont) font).getUnderlyingFont());
-		return new Dimension(metrics.stringWidth(string), metrics.getHeight());
+	/**
+	 * Sets the text alignment for text.
+	 *
+	 * @param alignment The alignment to use.
+	 */
+	@Override
+	public void setTextAlignment(HorizontalAlignment alignment) {
+		textAlignment = alignment;
 	}
 
 	@Override
@@ -83,7 +91,14 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public void drawText(String text, int x, int y) {
-		canvas.drawString(text, x, y);
+		int outX = x;
+		if (textAlignment == HorizontalAlignment.CENTRE) {
+			outX -= canvas.getFontMetrics().stringWidth(text) / 2;
+		} else if (textAlignment == HorizontalAlignment.RIGHT) {
+			outX -= canvas.getFontMetrics().stringWidth(text);
+		}
+
+		canvas.drawString(text, outX, y);
 	}
 
 	@Override
@@ -114,6 +129,7 @@ public final class DesktopGraphics implements IGraphics {
 	@Override
 	public void setResolution(int width, int height) {
 		window.setSize(width, height);
+		transformer.setSize(width, height);
 	}
 
 	@Override
@@ -142,13 +158,14 @@ public final class DesktopGraphics implements IGraphics {
 	@Override
 	public void clear(vdm.p1.engine.Color color) {
 		setColor(color);
-		canvas.fillRect(0, 0, getWidth(), getHeight());
+		canvas.fillRect(0, 0, window.getWidth(), window.getHeight());
+		updateTransformParameters();
 	}
 
 	@Override
 	public void clear(int color) {
 		setColor(color);
-		canvas.fillRect(0, 0, getWidth(), getHeight());
+		canvas.fillRect(0, 0, window.getWidth(), window.getHeight());
 	}
 
 	@Override
@@ -163,7 +180,6 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public void save() {
-
 	}
 
 	@Override
@@ -173,11 +189,49 @@ public final class DesktopGraphics implements IGraphics {
 
 	@Override
 	public int getWidth() {
-		return window.getWidth();
+		return transformer.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return window.getHeight();
+		return transformer.getHeight();
+	}
+
+	/**
+	 * Transforms the window X-axis point into a value within 0 and {@link #getWidth()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param x The window X-axis point to transform.
+	 * @return The scene X-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getLogicPointX(int x) {
+		return transformer.getTransformedX(x);
+	}
+
+	/**
+	 * Transforms the window Y-axis point into a value within 0 and {@link #getHeight()}, returns -1
+	 * if the resulting value is out of bounds.
+	 *
+	 * @param y The window Y-axis point to transform.
+	 * @return The scene Y-axis point, -1 if invalid.
+	 */
+	@Override
+	public int getLogicPointY(int y) {
+		return transformer.getTransformedY(y);
+	}
+
+	/**
+	 * Updates the transform parameters, internally calls {@link #translate(int, int)} and
+	 * {@link #scale(double, double)} internally.
+	 */
+	private void updateTransformParameters() {
+		Insets insets = window.getInsets();
+		int contentW = window.getWidth() - insets.left - insets.right;
+		int contentH = window.getHeight() - insets.top - insets.bottom;
+
+		transformer.setInset(insets.top, insets.left, insets.bottom, insets.right);
+		transformer.update(contentW, contentH);
+		transformer.transform(this);
 	}
 }

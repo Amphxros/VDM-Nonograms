@@ -15,12 +15,14 @@ public final class AndroidEngine extends Engine implements Runnable {
 		AndroidAudio audio = new AndroidAudio(context);
 		AndroidFileManager fileManager = new AndroidFileManager(context);
 		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
+		AndroidShareIntent shareIntent = new AndroidShareIntent(context);
 		surfaceView.setOnTouchListener(input);
 
 		setGraphics(graphics);
 		setInput(input);
 		setAudio(audio);
 		setFileManager(fileManager);
+		setShareIntent(shareIntent);
 		setNotificationManager(notificationManager);
 	}
 
@@ -50,7 +52,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 		// Waits for the view to be initialized (The thread could be faster than the initialization)
 		while (running && getGraphics().getWidth() == 0) ;
 
-		getLogic().initLogic();
 		long lastFrameTime = System.nanoTime();
 
 		// MAIN GAME LOOP
@@ -76,7 +77,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		while (!graphics.surfaceValid()) ;
 
 		graphics.clear(0xFFFFFFFF); // ARGB
-		getLogic().render();
+		getLogic().render(getGraphics());
 		graphics.present();
 	}
 
@@ -85,7 +86,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 	}
 
 	private void handleEvents() {
-		getLogic().handleEvents();
+		getLogic().handleEvents(getInput());
 	}
 
 	public void resume() {
