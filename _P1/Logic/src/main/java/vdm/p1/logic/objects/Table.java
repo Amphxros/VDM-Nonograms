@@ -9,6 +9,7 @@ import java.util.Vector;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
+import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
@@ -93,7 +94,6 @@ public final class Table extends GameObject {
 	}
 
 	public void shuffle() {
-		getChildren().clear();
 
 		Random rng = new Random();
 		for (int i = 0; i < rows; ++i) {
@@ -101,7 +101,7 @@ public final class Table extends GameObject {
 				solutions[i][j] = rng.nextBoolean();
 			}
 		}
-
+		getChildren().clear();
 		init();
 	}
 
@@ -147,6 +147,14 @@ public final class Table extends GameObject {
 		}
 
 		super.update(delta);
+	}
+
+	@Override
+	public void render(IGraphics graphics) {
+		if (getChildren().size()<0){
+			return;
+		}
+		super.render(graphics);
 	}
 
 	@Override
