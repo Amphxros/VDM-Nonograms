@@ -74,7 +74,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 			handleEvents();
 			update(elapsedTime);
 			render();
-			getSensors().update((float)elapsedTime);
 		}
 
 	}
