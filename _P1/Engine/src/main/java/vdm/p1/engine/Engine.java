@@ -10,6 +10,8 @@ public abstract class Engine implements IEngine {
 	private INotificationManager notificationManager;
 	private IShareIntent shareIntent;
 
+	private ISensors sensors;
+
 	/**
 	 * @return An {@link ILogic} instance.
 	 */
