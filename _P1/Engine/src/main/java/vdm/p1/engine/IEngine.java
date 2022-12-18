@@ -1,8 +1,6 @@
 package vdm.p1.engine;
 
 public interface IEngine {
-
-
 	/**
 	 * @return An {@link IGraphics} instance.
 	 */
@@ -88,18 +86,16 @@ public interface IEngine {
 	void setFileManager(IFileManager manager);
 
 	/**
-	 *
 	 * @return An {@link ISensors} instance
 	 */
 	ISensors getSensors();
 
 	/**
-	 * sets the {@link ISensors} instance
-	 * @param sensors {@link ISensors} new instance to set
+	 * Sets the {@link ISensors} system.
+	 *
+	 * @param sensors An {@link ISensors} instance.
 	 */
 	void setSensors(ISensors sensors);
-
-
 
 	/**
 	 * @return The application's window width.

@@ -2,24 +2,30 @@ package vdm.p1.engine;
 
 public interface ISensors {
 	/**
-	 * @return the rotation on x axis
+	 * Registers the sensor.
+	 *
+	 * @return Whether or not the operation was successful.
 	 */
-	public float getX();
-	public void setX(float x);
+	boolean register();
 
 	/**
-	 * @return the rotation on y axis
+	 * Unregisters the sensor.
+	 *
+	 * @return Whether or not the operation was successful.
 	 */
-	public float getY();
-	public void setY(float y);
-	/**
-	 * @return the rotation on z axis
-	 */
-	public float getZ();
-	public void setZ(float z);
+	boolean unregister();
 
-	public boolean isShaking();
-	public void resetShaking();
-	void register();
-	void unregister();
+	/**
+	 * Registers a shake listener.
+	 *
+	 * @param listener A {@link ShakeListener} that will be called when the sensors detect a shake.
+	 */
+	void registerListener(ShakeListener listener);
+
+	/**
+	 * Unregisters a shake listener.
+	 *
+	 * @param listener A {@link ShakeListener} that will not longer be called when the sensors detect a shake.
+	 */
+	void unregisterListener(ShakeListener listener);
 }

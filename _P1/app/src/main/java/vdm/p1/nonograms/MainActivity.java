@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
 		//} else {}
 
 		engine.resume();
-		//engine.getSensors().register();
-
-
 	}
 
 	@Override
@@ -75,7 +72,5 @@ public class MainActivity extends AppCompatActivity {
 		preferencesEditor.apply(); // APPLIES ALL CHANGED PREFERENCES
 
 		engine.pause();
-
 	}
-
 }

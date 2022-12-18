@@ -10,29 +10,16 @@ public final class AndroidEngine extends Engine implements Runnable {
 	private boolean running;
 
 	public AndroidEngine(SurfaceView surfaceView, Context context) {
-		AndroidGraphics graphics = new AndroidGraphics(surfaceView, context);
+		setGraphics(new AndroidGraphics(surfaceView, context));
+		setAudio(new AndroidAudio(context));
+		setFileManager(new AndroidFileManager(context));
+		setNotificationManager(new AndroidNotificationManager(context));
+		setShareIntent(new AndroidShareIntent(context));
+		setSensors(new AndroidSensors(context));
 
 		AndroidInput input = new AndroidInput();
 		surfaceView.setOnTouchListener(input);
-
-		AndroidAudio audio = new AndroidAudio(context);
-
-		AndroidFileManager fileManager = new AndroidFileManager(context);
-
-		AndroidNotificationManager notificationManager = new AndroidNotificationManager(context);
-
-		AndroidShareIntent shareIntent = new AndroidShareIntent(context);
-
-		AndroidSensors sensors= new AndroidSensors(context);
-
-
-		setGraphics(graphics);
 		setInput(input);
-		setAudio(audio);
-		setFileManager(fileManager);
-		setShareIntent(shareIntent);
-		setNotificationManager(notificationManager);
-		setSensors(sensors);
 	}
 
 	@Override
@@ -62,7 +49,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		while (running && getGraphics().getWidth() == 0) ;
 
 		long lastFrameTime = System.nanoTime();
-		// MAIN GAME LOOP
+
 		while (running) {
 			long currentTime = System.nanoTime();
 			long nanoElapsedTime = currentTime - lastFrameTime;
@@ -75,7 +62,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 			update(elapsedTime);
 			render();
 		}
-
 	}
 
 	private void render() {
@@ -106,6 +92,8 @@ public final class AndroidEngine extends Engine implements Runnable {
 			// run() is "running" in a new thread
 			thread = new Thread(this);
 			thread.start();
+
+			getSensors().register();
 		}
 	}
 
@@ -121,8 +109,9 @@ public final class AndroidEngine extends Engine implements Runnable {
 					// Something went REALLY wrong
 				}
 			}
+
+			getSensors().unregister();
 		}
 
-		getSensors().unregister();
 	}
 }

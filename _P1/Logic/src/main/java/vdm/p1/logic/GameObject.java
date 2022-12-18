@@ -103,9 +103,6 @@ public abstract class GameObject {
 		children.add(gameObject);
 		return this;
 	}
-	public void removeAll(){
-		children.clear();
-	}
 
 	/**
 	 * An event method that's called once on initialization.

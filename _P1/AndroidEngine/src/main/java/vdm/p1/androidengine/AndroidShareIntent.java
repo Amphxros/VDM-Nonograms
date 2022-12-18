@@ -32,7 +32,6 @@ public class AndroidShareIntent implements IShareIntent {
 			return;
 		}
 
-
 		ContentValues values = new ContentValues();
 		values.put(MediaStore.Images.Media.TITLE, "Nonograms");
 		values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
