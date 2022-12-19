@@ -1,10 +1,17 @@
 package vdm.p1.logic;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 import vdm.p1.engine.Color;
@@ -24,14 +31,45 @@ public final class GameManager implements Serializable {
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
+
 		try {
 			stream = engine.getFileManager().openInputFile("save");
-		} catch (Exception e) {
+		} catch (Exception e) {	// FileNotFoundException??
 			return new GameManager();
 		}
 
+		////// FILE SUS
+
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+			// Generates the checksum of the save and compares it to the previous one
+			try{
+				// If the checksum doesnt exists an error is returned
+				InputStream checksumFD = engine.getFileManager().openInputFile("checksum");
+				String hashing = getFileChecksum(md, stream);
+				String checksumValue = InputStreamToString(checksumFD);
+				String checksum = checksumValue.substring(7);
+
+				if (!hashing.equals(checksum))		// Compares both strings
+				{
+					throw new Exception("Invalid Data");
+				}
+			// Either the Checksum doesn't exists or the comparison wasn't successful
+			} catch (Exception e){
+				// New savefile will be created
+				return new GameManager();
+			}
+
+		} catch(NoSuchAlgorithmException e){
+			e.printStackTrace();
+		}
+
+		///// FILE VALIDATION: NON-SUS
+
 		GameManager object = null;
 		try {
+			stream = engine.getFileManager().openInputFile("save");
 			ObjectInputStream objectStream = new ObjectInputStream(stream);
 			object = (GameManager) objectStream.readObject();
 			objectStream.close();
@@ -41,6 +79,57 @@ public final class GameManager implements Serializable {
 
 		return object;
 	}
+
+	// Creates a hex chain with the checksum and converts to string given an open file
+	private static String getFileChecksum(MessageDigest digest, InputStream file) throws IOException {
+
+		// Temporary chunk of data to feed the digest
+		byte[] byteArray = new byte[1024];
+		int bytesCount = 0;
+
+		// Updates the digest with the chache
+		while ((bytesCount = file.read(byteArray)) != -1) {
+			digest.update(byteArray, 0, bytesCount);
+		};
+
+		// Bytes on the digest
+		byte[] bytes = digest.digest();
+
+		// Passes the digest to hexadecimal
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i< bytes.length ;i++)
+		{
+			sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+		}
+
+		return sb.toString();	// Final checksum of the file
+	}
+
+	private static String InputStreamToString(InputStream stream) throws IOException {
+
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+
+		int DEFAULT_BUFFER_SIZE = 8192;
+
+		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+		int length;
+		while ((length = stream.read(buffer)) != -1) {
+			result.write(buffer, 0, length);
+		}
+
+		return result.toString("UTF-8");
+		/*
+		int bufferSize = 1024;
+		char[] buffer = new char[bufferSize];
+		StringBuilder out = new StringBuilder();
+		Reader in = new InputStreamReader(stream, StandardCharsets.UTF_8);
+		for (int numRead; (numRead = in.read(buffer, 0, buffer.length)) > 0; ) {
+			out.append(buffer, 0, numRead);
+		}
+		return out.toString();
+		*/
+	}
+
 
 	/**
 	 * Gets the current level.
@@ -229,8 +318,33 @@ public final class GameManager implements Serializable {
 			objectStream.writeObject(this);
 			objectStream.flush();
 			objectStream.close();
-			return true;
+			//return true;
 		} catch (Exception e) {
+			e.printStackTrace();
+			//return false;
+		}
+
+		OutputStream checksum = engine.getFileManager().openOutputFile("checksum");
+		if(checksum == null) return false;
+
+		InputStream save;
+		try {
+			save = engine.getFileManager().openInputFile("save");
+		} catch (Exception e) {	// FileNotFoundException??
+			return false;
+		}
+
+		try{
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			ObjectOutputStream objectStream = new ObjectOutputStream(checksum);
+			String text = getFileChecksum(md, save);
+			// The Checksum Result is written as a String
+			objectStream.writeObject(text);
+			objectStream.flush();
+			objectStream.close();
+			return true;
+
+		} catch (Exception e){
 			e.printStackTrace();
 			return false;
 		}
