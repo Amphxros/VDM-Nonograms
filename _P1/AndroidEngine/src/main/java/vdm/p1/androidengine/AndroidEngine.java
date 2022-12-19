@@ -13,7 +13,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 		setGraphics(new AndroidGraphics(surfaceView, context));
 		setAudio(new AndroidAudio(context));
 		setFileManager(new AndroidFileManager(context));
-		setNotificationManager(new AndroidNotificationManager(context));
 		setShareIntent(new AndroidShareIntent(context));
 		setSensors(new AndroidSensors(context));
 

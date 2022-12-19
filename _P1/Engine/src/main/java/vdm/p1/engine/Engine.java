@@ -6,7 +6,6 @@ public abstract class Engine implements IEngine {
 	private Input input;
 	private ILogic logic;
 	private IFileManager fileManager;
-	private INotificationManager notificationManager;
 	private IShareIntent shareIntent;
 	private ISensors sensors;
 
@@ -106,13 +105,4 @@ public abstract class Engine implements IEngine {
 		this.shareIntent = shareIntent;
 	}
 
-	@Override
-	public INotificationManager getNotificationManager() {
-		return notificationManager;
-	}
-
-	@Override
-	public void setNotificationManager(INotificationManager notificationManager) {
-		this.notificationManager = notificationManager;
-	}
 }
