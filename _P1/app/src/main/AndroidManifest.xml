@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nonograms"
-        android:name=".NotificationWorker"
+
         tools:targetApi="31"
         tools:ignore="Instantiatable">
         <activity
