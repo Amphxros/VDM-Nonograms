@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.hardware.sensor.accelerometer "/>
 
     <application
@@ -35,13 +36,6 @@
                android:name="firebase_analytics_collection_enabled"
                android:value="false" />
         
-        <service android:name=".NonogramsMessagingService"
-                 android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firbase.MESSAGING_EVENT"></action>
-            </intent-filter>
-
-        </service>
 
     </application>
 

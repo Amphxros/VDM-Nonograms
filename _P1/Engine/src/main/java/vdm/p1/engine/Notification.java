@@ -1,6 +1,6 @@
 package vdm.p1.engine;
 
-public final class Notification {
+public class Notification {
 	private final String title;
 	private final String subtitle;
 	private final String content;

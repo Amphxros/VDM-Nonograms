@@ -1,5 +1,7 @@
 package vdm.p1.engine;
 
+import java.util.ArrayList;
+
 public interface IEngine {
 	/**
 	 * @return An {@link IGraphics} instance.
@@ -84,6 +86,17 @@ public interface IEngine {
 	 * @param sensors An {@link ISensors} instance.
 	 */
 	void setSensors(ISensors sensors);
+
+	INotificationHandler getNotificationHandler();
+
+	/**
+	 * sets the {@link INotificationHandler}
+	 * @param notificationHandler An {@link INotificationHandler} instance
+	 */
+	void setNotificationHandler(INotificationHandler notificationHandler);
+
+
+	ArrayList<Notification> getNotifications();
 
 	/**
 	 * @return The application's window width.

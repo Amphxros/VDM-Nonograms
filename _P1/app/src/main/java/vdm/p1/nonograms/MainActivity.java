@@ -7,8 +7,15 @@ import android.view.SurfaceView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import vdm.p1.androidengine.AndroidEngine;
+import vdm.p1.engine.Notification;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,5 +79,32 @@ public class MainActivity extends AppCompatActivity {
 		preferencesEditor.apply(); // APPLIES ALL CHANGED PREFERENCES
 
 		engine.pause();
+		handleNotifications();
 	}
+
+	void handleNotifications(){
+		ArrayList<Notification> notifications= engine.getNotifications();
+		int i=0;
+		while (i < notifications.size() ){
+			Notification notification= notifications.get(i);
+			Data input= new Data.Builder()
+					.putString("tittle",notification.getTitle())
+					.putString("content",notification.getContent())
+					.putString("biggerText",notification.getSubtitle())
+					.putBoolean("autocancel",true)
+					.putString("CHANNEL_ID", engine.getNotificationHandler().getChannelID())
+					.build();
+
+			OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+					.setInitialDelay(notification.getDelay(), TimeUnit.SECONDS)
+					.setInputData(input)
+					.build();
+
+			WorkManager.getInstance(this).enqueue(notificationWork);
+			i++;
+		}
+		notifications.clear();
+
+	}
+
 }
