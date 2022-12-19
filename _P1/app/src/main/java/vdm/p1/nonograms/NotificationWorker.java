@@ -8,6 +8,7 @@ package vdm.p1.nonograms;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -40,22 +41,30 @@ public class NotificationWorker extends Worker{
 
 	public void createAndSendNotification(String title, String contentText, String biggerText, String CHANNEL_ID, boolean autoCancel){
 
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-				.setSmallIcon(1)
+		Intent intent= new Intent(getApplicationContext(), MainActivity.class);
+		intent.putExtra("notification", true);
+
+		NotificationCompat.Builder notification;
+		notification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+				.setSmallIcon(R.drawable.mail)
 				.setContentTitle(title)
 				.setContentText(contentText)
 				.setStyle(new NotificationCompat.BigTextStyle()
 						.bigText(biggerText))
 				.setPriority(NotificationCompat.PRIORITY_DEFAULT)
-				.setAutoCancel(autoCancel);
+				.setAutoCancel(autoCancel)
+				;
 
-		Intent intent= new Intent(getApplicationContext(), MainActivity.class);
-		intent.putExtra("notification", true);
-		PendingIntent pendingIntent= PendingIntent.getActivity(getApplicationContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-		builder.setContentIntent(pendingIntent);
+		int flag=0;
+		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
+			flag=PendingIntent.FLAG_IMMUTABLE;
+
+
+		PendingIntent pendingIntent= PendingIntent.getActivity(getApplicationContext(),flag,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+		notification.setContentIntent(pendingIntent);
 
 		NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
-		managerCompat.notify(999, builder.build());
+		managerCompat.notify(1, notification.build());
 		System.out.println("Enviado");
 	}
 }

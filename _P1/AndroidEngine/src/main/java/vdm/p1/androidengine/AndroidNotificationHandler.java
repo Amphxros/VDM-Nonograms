@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,20 +28,13 @@ public class AndroidNotificationHandler implements INotificationHandler {
 
 	@Override
 	public void createNotificationChannel() {
-		// Create the NotificationChannel, but only on API 26+ because
-		// the NotificationChannel class is new and not in the support library
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			CharSequence name = "My Notification";
-			int importance = NotificationManager.IMPORTANCE_DEFAULT;
-			NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-			channel.setDescription("My channel desc");
-			// Register the channel with the system; you can't change the importance
-			// or other notification behaviors after this
-			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-			notificationManager.createNotificationChannel(channel);
+		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+			NotificationChannel channel= new NotificationChannel(CHANNEL_ID,"notifications",NotificationManager.IMPORTANCE_DEFAULT);
+			NotificationManager mngr= (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			mngr.createNotificationChannel(channel);
 		}
 		else{
-			System.out.println("Cant create");
+			Toast.makeText(context, "Can't create notification channel", Toast.LENGTH_SHORT).show();
 		}
 	}
 
