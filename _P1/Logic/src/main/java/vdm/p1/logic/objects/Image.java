@@ -2,13 +2,14 @@ package vdm.p1.logic.objects;
 
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IImage;
+import vdm.p1.engine.IScene;
 import vdm.p1.logic.GameObject;
 
 public final class Image extends GameObject {
 	private IImage image;
 
-	public Image(IImage image) {
-		super();
+	public Image(IScene scene, IImage image) {
+		super(scene);
 		this.image = image;
 	}
 

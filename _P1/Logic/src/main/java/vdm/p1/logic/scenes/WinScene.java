@@ -14,12 +14,12 @@ public final class WinScene extends Scene {
 		super(engine);
 
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
-		addGameObject(new Text("ENHORABUENA!", font).setPosition(200, 120));
-		addGameObject(new TableSolution(solutions).setPosition(50, 150).setSize(new Vector2D(300, 300)));
+		addGameObject(new Text(this, "ENHORABUENA!", font).setPosition(200, 120));
+		addGameObject(new TableSolution(this, solutions).setPosition(50, 150).setSize(new Vector2D(300, 300)));
 
-		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 20);
+		addButton(new GoToStartSceneButton(this), font, "Volver", 20, 20);
 
 		IShareIntent share = getEngine().getShareIntent();
-		if (share != null) addButton(new ShareButton(share, "image/share.png"), font, "Compartir", 250, 20);
+		if (share != null) addButton(new ShareButton(this, share, "image/share.png"), font, "Compartir", 250, 20);
 	}
 }

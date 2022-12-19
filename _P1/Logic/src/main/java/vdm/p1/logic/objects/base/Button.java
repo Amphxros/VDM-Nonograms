@@ -1,10 +1,15 @@
 package vdm.p1.logic.objects.base;
 
 import vdm.p1.engine.EventType;
+import vdm.p1.engine.IScene;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 
 public abstract class Button extends GameObject {
+	public Button(IScene scene) {
+		super(scene);
+	}
+
 	public boolean handleInput(TouchEvent event) {
 		if (event.getType() != EventType.PRIMARY && event.getType() != EventType.SECONDARY) {
 			return false;

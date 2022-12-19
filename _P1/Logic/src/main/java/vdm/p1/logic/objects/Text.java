@@ -1,10 +1,12 @@
 package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IScene;
+import vdm.p1.engine.Palette;
 import vdm.p1.logic.GameObject;
-import vdm.p1.engine.HorizontalAlignment;
 
 public final class Text extends GameObject {
 	private final IFont font;
@@ -12,12 +14,12 @@ public final class Text extends GameObject {
 	private Color color = Color.BLACK;
 	private HorizontalAlignment alignment;
 
-	public Text(String text, IFont font) {
-		this(text, font, HorizontalAlignment.CENTRE);
+	public Text(IScene scene, String text, IFont font) {
+		this(scene, text, font, HorizontalAlignment.CENTRE);
 	}
 
-	public Text(String text, IFont font, HorizontalAlignment alignment) {
-		super();
+	public Text(IScene scene, String text, IFont font, HorizontalAlignment alignment) {
+		super(scene);
 		this.text = text;
 		this.font = font;
 		this.alignment = alignment;
@@ -37,10 +39,7 @@ public final class Text extends GameObject {
 	public void render(IGraphics graphics) {
 		super.render(graphics);
 
-		/**
-		 * TODO: CHANGE THIS TO PALETTE TOO
-		 */
-		graphics.setColor(color);
+		graphics.setColor(getPalette().getColor(Palette.FONT));
 		graphics.setFont(font);
 		graphics.setTextAlignment(alignment);
 		graphics.drawText(text, getX(), getY());

@@ -5,6 +5,7 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IInput;
 import vdm.p1.engine.ILogic;
 import vdm.p1.engine.IScene;
+import vdm.p1.engine.Palette;
 import vdm.p1.logic.scenes.StartScene;
 
 public final class Logic implements ILogic {
@@ -46,5 +47,13 @@ public final class Logic implements ILogic {
 	@Override
 	public void handleOpeningNotifications() {
 		currentScene.handleOpeningNotifications();
+	}
+
+	/**
+	 * @return The active palette.
+	 */
+	@Override
+	public Palette getPalette() {
+		return getGameManager().getCurrentPalette().getPalette();
 	}
 }

@@ -2,25 +2,21 @@ package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IScene;
+import vdm.p1.engine.Palette;
 import vdm.p1.engine.TouchEvent;
+import vdm.p1.logic.Logic;
 import vdm.p1.logic.State;
 import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
-	/**
-	 * TODO: CHANGE THIS TO THE PALETTE
-	 */
-	private static final Color EMPTY_COLOR = new Color(170, 170, 170);
-	private static final Color MARKED_COLOR = new Color(0, 0, 255);
-	private static final Color FLAGGED_COLOR = Color.BLACK;
-	private static final Color WRONG_COLOR = new Color(255, 0, 0);
-
+	private static final Color EMPTY_COLOR = new Color(0, 0, 0, 40);
 	private final Table table;
 	private final boolean isSolution;
 	private State current = State.EMPTY;
 
-	public Cell(Table table, boolean isSolution) {
-		super();
+	public Cell(IScene scene, Table table, boolean isSolution) {
+		super(scene);
 		this.table = table;
 		this.isSolution = isSolution;
 	}
@@ -61,13 +57,13 @@ public final class Cell extends Button {
 				graphics.setColor(EMPTY_COLOR);
 				break;
 			case WRONG:
-				graphics.setColor(WRONG_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.WRONG));
 				break;
 			case MARKED:
-				graphics.setColor(MARKED_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.MARKED));
 				break;
 			case FLAGGED:
-				graphics.setColor(FLAGGED_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.FONT));
 				graphics.drawRectangle(x, y, w, h);
 				graphics.drawLine(x, y, x + w, y + h);
 				return;

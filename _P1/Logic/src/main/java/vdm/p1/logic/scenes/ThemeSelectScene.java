@@ -8,8 +8,8 @@ import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.objects.Image;
 import vdm.p1.logic.objects.Text;
-import vdm.p1.logic.objects.buttons.GoToThemeLevelSelectButton;
 import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
+import vdm.p1.logic.objects.buttons.GoToThemeLevelSelectButton;
 
 public final class ThemeSelectScene extends Scene {
 	private final GameManager gameManager;
@@ -24,8 +24,8 @@ public final class ThemeSelectScene extends Scene {
 
 		locked = engine.getGraphics().newImage("image/lock.png");
 
-		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 20);
-		addGameObject(new Text("Seleccione categoria a jugar", font).setPosition(200, 150));
+		addButton(new GoToStartSceneButton(this), font, "Volver", 20, 20);
+		addGameObject(new Text(this, "Seleccione categoria a jugar", font).setPosition(200, 150));
 
 		final int x0 = 50;
 		final int x1 = 170;
@@ -56,10 +56,10 @@ public final class ThemeSelectScene extends Scene {
 			name = theme.getName();
 			icon = getEngine().getGraphics().newImage(theme.getImagePath());
 
-			addGameObject(new GoToThemeLevelSelectButton(getEngine(), theme).setPosition(x, y).setSize(size, size + size));
+			addGameObject(new GoToThemeLevelSelectButton(this, theme).setPosition(x, y).setSize(size, size + size));
 		}
 
-		addGameObject(new Text(name, font).setPosition(x + textOffsetX, y + textOffsetY));
-		addGameObject(new Image(icon).setPosition(x, y).setSize(size, size));
+		addGameObject(new Text(this, name, font).setPosition(x + textOffsetX, y + textOffsetY));
+		addGameObject(new Image(this, icon).setPosition(x, y).setSize(size, size));
 	}
 }

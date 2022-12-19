@@ -3,6 +3,12 @@ package vdm.p1.engine;
 import java.util.ArrayList;
 
 public final class Palette {
+	public static final int BACKGROUND = 0;
+	public static final int SELECT = 1;
+	public static final int MARKED = 2;
+	public static final int WRONG = 3;
+	public static final int FONT = 4;
+
 	private final ArrayList<Color> colors;
 
 	public Palette() {

@@ -9,6 +9,7 @@ import java.util.Vector;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
+import vdm.p1.engine.IScene;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.GameTheme;
@@ -44,14 +45,14 @@ public final class Table extends GameObject {
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
 	private int remaining = 0;
-	private boolean pendingSuffle = false;
+	private boolean pendingShuffle = false;
 
-	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions) {
-		this(font, lifeManager, solutions, null, null, null);
+	private Table(IScene scene, IFont font, LifeManager lifeManager, boolean[][] solutions) {
+		this(scene, font, lifeManager, solutions, null, null, null);
 	}
 
-	private Table(IFont font, LifeManager lifeManager, boolean[][] solutions, GameTheme theme, String level, String name) {
-		super();
+	private Table(IScene scene, IFont font, LifeManager lifeManager, boolean[][] solutions, GameTheme theme, String level, String name) {
+		super(scene);
 		this.font = font;
 		this.lifeManager = lifeManager;
 		this.rows = solutions.length;
@@ -64,7 +65,7 @@ public final class Table extends GameObject {
 		cells = new Cell[rows][columns];
 	}
 
-	public static Table fromRandom(IFont font, LifeManager lifeManager, int rows, int columns) {
+	public static Table fromRandom(IScene scene, IFont font, LifeManager lifeManager, int rows, int columns) {
 		boolean[][] solutions = new boolean[rows][columns];
 
 		Random rng = new Random();
@@ -74,10 +75,10 @@ public final class Table extends GameObject {
 			}
 		}
 
-		return new Table(font, lifeManager, solutions);
+		return new Table(scene, font, lifeManager, solutions);
 	}
 
-	public static Table fromFile(IFont font, LifeManager lifeManager, GameTheme theme, String level) {
+	public static Table fromFile(IScene scene, IFont font, LifeManager lifeManager, GameTheme theme, String level) {
 		String content = lifeManager.getEngine().getFileManager().readFile(theme.getDataPath(level));
 		Scanner read = new Scanner(content);
 		int rows = read.nextInt();
@@ -90,11 +91,11 @@ public final class Table extends GameObject {
 				solutions[i][j] = read.next().equals("O");
 			}
 		}
-		return new Table(font, lifeManager, solutions, theme, level, name);
+		return new Table(scene, font, lifeManager, solutions, theme, level, name);
 	}
 
 	public void prepareShuffle() {
-		pendingSuffle = true;
+		pendingShuffle = true;
 	}
 
 	@Override
@@ -112,7 +113,7 @@ public final class Table extends GameObject {
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < columns; ++j) {
 				boolean solution = solutions[i][j];
-				Cell cell = (Cell) new Cell(this, solution)
+				Cell cell = (Cell) new Cell(getScene(), this, solution)
 						.setPosition(x + j * cellSize, y + i * cellSize)
 						.setSize(cellSize, cellSize);
 				cells[i][j] = cell;
@@ -130,8 +131,8 @@ public final class Table extends GameObject {
 
 	@Override
 	public void update(double delta) {
-		if (pendingSuffle) {
-			pendingSuffle = false;
+		if (pendingShuffle) {
+			pendingShuffle = false;
 			shuffle();
 			return;
 		}
@@ -204,7 +205,7 @@ public final class Table extends GameObject {
 		String text = missing > 0 ? "Faltan: " + missing : "";
 		if (wrong > 0) text += (text.isEmpty() ? "" : " ") + "Incorrectos: " + wrong;
 
-		Text headerText = (Text) new Text(text, font).setPosition(200, 80);
+		Text headerText = (Text) new Text(getScene(), text, font).setPosition(200, 80);
 		headerText.setColor(new Color(255, 0, 0));
 		addChild(headerText);
 
@@ -232,6 +233,7 @@ public final class Table extends GameObject {
 				Logic logic = (Logic) engine.getLogic();
 				if (theme != null && level != null) {
 					if (logic.getGameManager().setCompleted(theme, level)) {
+						logic.getGameManager().addMoney(30);
 						logic.getGameManager().save(engine);
 					}
 				}
@@ -268,7 +270,7 @@ public final class Table extends GameObject {
 		final int cellSize = bar08 / Math.max(rows, columns);
 		final int letterWidth = 12;
 
-		GameObject hints = new Empty()
+		GameObject hints = new Empty(getScene())
 				.setStrokeColor(Color.BLACK)
 				.setSize(bar02, cellSize * rows)
 				.setPosition(getX(), getY() + bar02);
@@ -278,7 +280,7 @@ public final class Table extends GameObject {
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
 			for (int j = 0; j < line.size(); j++) {
-				hints.addChild(new Text(line.get(line.size() - j - 1).toString(), font)
+				hints.addChild(new Text(getScene(), line.get(line.size() - j - 1).toString(), font)
 						.setPosition(x - (j * letterWidth), y + (i * cellSize)));
 			}
 		}
@@ -293,7 +295,7 @@ public final class Table extends GameObject {
 		final int cellSize = bar08 / Math.max(rows, columns);
 		final int letterHeight = 12;
 
-		GameObject hints = new Empty()
+		GameObject hints = new Empty(getScene())
 				.setStrokeColor(Color.BLACK)
 				.setSize(bar08, bar02)
 				.setPosition(getX() + bar02, getY());
@@ -303,7 +305,7 @@ public final class Table extends GameObject {
 		for (int i = 0; i < lines.size(); ++i) {
 			List<Integer> line = lines.get(i);
 			for (int j = 0; j < line.size(); j++) {
-				hints.addChild(new Text(line.get(line.size() - j - 1).toString(), font)
+				hints.addChild(new Text(getScene(), line.get(line.size() - j - 1).toString(), font)
 						.setPosition(x + (i * cellSize), y - (j * letterHeight)));
 			}
 		}
