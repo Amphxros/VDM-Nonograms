@@ -5,12 +5,10 @@ import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IScene;
 import vdm.p1.engine.Palette;
 import vdm.p1.engine.TouchEvent;
-import vdm.p1.logic.Logic;
 import vdm.p1.logic.State;
 import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
-	private static final Color EMPTY_COLOR = new Color(0, 0, 0, 40);
 	private final Table table;
 	private final boolean isSolution;
 	private State current = State.EMPTY;
@@ -30,18 +28,18 @@ public final class Cell extends Button {
 	}
 
 	public boolean isMissing() {
-		return current != State.MARKED && isSolution;
+		return current != State.SELECT && isSolution;
 	}
 
 	public boolean isWrong() {
-		return current == State.MARKED && !isSolution;
+		return current == State.SELECT && !isSolution;
 	}
 
 	public void setWrong(boolean wrong) {
 		if (wrong) {
 			current = State.WRONG;
 		} else if (current == State.WRONG) {
-			current = State.MARKED;
+			current = State.SELECT;
 		}
 	}
 
@@ -54,13 +52,13 @@ public final class Cell extends Button {
 
 		switch (current) {
 			case EMPTY:
-				graphics.setColor(EMPTY_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.EMPTY));
 				break;
 			case WRONG:
 				graphics.setColor(getPalette().getColor(Palette.WRONG));
 				break;
-			case MARKED:
-				graphics.setColor(getPalette().getColor(Palette.MARKED));
+			case SELECT:
+				graphics.setColor(getPalette().getColor(Palette.SELECT));
 				break;
 			case FLAGGED:
 				graphics.setColor(getPalette().getColor(Palette.FONT));
@@ -77,9 +75,9 @@ public final class Cell extends Button {
 		State previous = current;
 		switch (previous) {
 			case EMPTY:
-				current = State.MARKED;
+				current = State.SELECT;
 				break;
-			case MARKED:
+			case SELECT:
 				current = State.FLAGGED;
 				break;
 			case FLAGGED:

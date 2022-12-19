@@ -224,7 +224,7 @@ public final class Table extends GameObject {
 	}
 
 	public void onCellUpdate(Cell cell, State previous) {
-		if (cell.getState() == State.MARKED) {
+		if (cell.getState() == State.SELECT) {
 			if (cell.isSolution()) {
 				remaining--;
 				if (remaining > 0) return;
@@ -245,7 +245,7 @@ public final class Table extends GameObject {
 					logic.setScene(new StartScene(lifeManager.getEngine()));
 				}
 			}
-		} else if (previous == State.MARKED && cell.isSolution()) {
+		} else if (previous == State.SELECT && cell.isSolution()) {
 			remaining++;
 		}
 	}
