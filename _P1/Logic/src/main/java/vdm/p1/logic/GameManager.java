@@ -2,10 +2,14 @@ package vdm.p1.logic;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
@@ -35,17 +39,23 @@ public final class GameManager implements Serializable {
 		}
 
 		////// FILE SUS
+
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 
 			// Generates the checksum of the save and compares it to the previous one
 			try{
 				// If the checksum doesnt exists an error is returned
-				InputStream checksum = engine.getFileManager().openInputFile("cheksum");
+				InputStream checksumFD = engine.getFileManager().openInputFile("checksum");
 				String hashing = getFileChecksum(md, stream);
-				if (hashing != checksum.toString())		// Compares both strings
+				String checksumValue = InputStreamToString(checksumFD);
+				String checksum = checksumValue.substring(7);
+
+				if (!hashing.equals(checksum))		// Compares both strings
+				{
 					throw new Exception("Invalid Data");
-			// Either the Checksum doesnt exists or the comparison wasn't succesful
+				}
+			// Either the Checksum doesn't exists or the comparison wasn't successful
 			} catch (Exception e){
 				// New savefile will be created
 				return new GameManager();
@@ -54,10 +64,12 @@ public final class GameManager implements Serializable {
 		} catch(NoSuchAlgorithmException e){
 			e.printStackTrace();
 		}
+
 		///// FILE VALIDATION: NON-SUS
 
 		GameManager object = null;
 		try {
+			stream = engine.getFileManager().openInputFile("save");
 			ObjectInputStream objectStream = new ObjectInputStream(stream);
 			object = (GameManager) objectStream.readObject();
 			objectStream.close();
@@ -68,7 +80,7 @@ public final class GameManager implements Serializable {
 		return object;
 	}
 
-	// Creastes a hex chain with the checksum and converts to string given an open file
+	// Creates a hex chain with the checksum and converts to string given an open file
 	private static String getFileChecksum(MessageDigest digest, InputStream file) throws IOException {
 
 		// Temporary chunk of data to feed the digest
@@ -92,6 +104,32 @@ public final class GameManager implements Serializable {
 
 		return sb.toString();	// Final checksum of the file
 	}
+
+	private static String InputStreamToString(InputStream stream) throws IOException {
+
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+
+		int DEFAULT_BUFFER_SIZE = 8192;
+
+		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+		int length;
+		while ((length = stream.read(buffer)) != -1) {
+			result.write(buffer, 0, length);
+		}
+
+		return result.toString("UTF-8");
+		/*
+		int bufferSize = 1024;
+		char[] buffer = new char[bufferSize];
+		StringBuilder out = new StringBuilder();
+		Reader in = new InputStreamReader(stream, StandardCharsets.UTF_8);
+		for (int numRead; (numRead = in.read(buffer, 0, buffer.length)) > 0; ) {
+			out.append(buffer, 0, numRead);
+		}
+		return out.toString();
+		*/
+	}
+
 
 	/**
 	 * Gets the current level.
