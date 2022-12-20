@@ -73,7 +73,7 @@ public class AndroidAdSystem implements IAdSystem {
 
 	@Override
 	public boolean isRewardGranted() {
-		return false;
+		return rewardGranted;
 	}
 
 
@@ -90,7 +90,14 @@ public class AndroidAdSystem implements IAdSystem {
 			}
 			else {
 				reward.setFullScreenContentCallback(new FullScreenRewardContentCallback());
-				reward.show(this.activity,new EarnedRewardListener());
+				if(reward!=null) {
+					reward.show(this.activity, new EarnedRewardListener());
+				}
+				else{
+					System.out.println("The reward ad wasnt ready");
+				}
+
+
 				reward=null;
 			}
 		}
@@ -132,7 +139,7 @@ public class AndroidAdSystem implements IAdSystem {
 
 		@Override
 		public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-			super.onAdFailedToShowFullScreenContent(adError);
+			reward=null;
 		}
 
 		@Override
