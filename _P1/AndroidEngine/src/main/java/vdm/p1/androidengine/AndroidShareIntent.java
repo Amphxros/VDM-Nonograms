@@ -14,7 +14,7 @@ import java.io.OutputStream;
 
 import vdm.p1.engine.IShareIntent;
 
-public class AndroidShareIntent implements IShareIntent {
+public final class AndroidShareIntent implements IShareIntent {
 	private final Context context;
 
 	public AndroidShareIntent(Context context) {

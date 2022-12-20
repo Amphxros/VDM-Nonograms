@@ -102,6 +102,8 @@ public abstract class Engine implements IEngine {
 	}
 
 	/**
+	 * Sets the {@link IShareIntent} system.
+	 *
 	 * @param shareIntent An {@link IShareIntent} instance.
 	 */
 	@Override
@@ -118,8 +120,9 @@ public abstract class Engine implements IEngine {
 	}
 
 	/**
-	 * Sets the {@link INotificationHandler} instance
-	 * @param notificationHandler An {@link INotificationHandler} instance
+	 * Sets the {@link INotificationHandler} instance.
+	 *
+	 * @param notificationHandler An {@link INotificationHandler} instance.
 	 */
 	@Override
 	public void setNotificationHandler(INotificationHandler notificationHandler) {

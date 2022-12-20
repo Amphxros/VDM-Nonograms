@@ -4,24 +4,19 @@ import java.util.ArrayList;
 
 public interface INotificationHandler {
 	/**
-	 * @return
+	 * @return The channel ID.
 	 */
 	String getChannelID();
-	/**
-	 * Creates the notification channel
-	 */
-	void createNotificationChannel();
 
 	/**
-	 * @return the pending notifications to launch
+	 * @return The pending notifications to launch.
 	 */
-	ArrayList<Notification> getNotifications();
+	ArrayList<Notification> getPendingEntries();
 
 	/**
-	 * Adds a new {@link Notification} to launch
-	 * @param notification {@link Notification} to launch
+	 * Adds a new {@link Notification} to the queue.
+	 *
+	 * @param notification {@link Notification} to the queue.
 	 */
-	void addNotification(Notification notification);
-
-
+	void add(Notification notification);
 }

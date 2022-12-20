@@ -32,11 +32,6 @@ public final class DesktopEngine extends Engine implements Runnable {
 	}
 
 	@Override
-	public ArrayList<Notification> getNotifications() {
-		return null;
-	}
-
-	@Override
 	public int getWidth() {
 		return renderView.getWidth();
 	}

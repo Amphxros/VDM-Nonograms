@@ -87,16 +87,17 @@ public interface IEngine {
 	 */
 	void setSensors(ISensors sensors);
 
+	/**
+	 * @return An {@link INotificationHandler} instance
+	 */
 	INotificationHandler getNotificationHandler();
 
 	/**
-	 * sets the {@link INotificationHandler}
-	 * @param notificationHandler An {@link INotificationHandler} instance
+	 * Sets the {@link INotificationHandler} instance.
+	 *
+	 * @param notificationHandler An {@link INotificationHandler} instance.
 	 */
 	void setNotificationHandler(INotificationHandler notificationHandler);
-
-
-	ArrayList<Notification> getNotifications();
 
 	/**
 	 * @return The application's window width.

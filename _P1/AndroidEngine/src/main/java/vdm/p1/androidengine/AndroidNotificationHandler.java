@@ -8,22 +8,21 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import vdm.p1.engine.Notification;
 import vdm.p1.engine.INotificationHandler;
+import vdm.p1.engine.Notification;
 
-public class AndroidNotificationHandler implements INotificationHandler {
-	Context context;
-	String CHANNEL_ID= "My Notification";
-	ArrayList<Notification> notifications;
+public final class AndroidNotificationHandler implements INotificationHandler {
+	private static final String CHANNEL_ID = "My Notification";
+	private final Context context;
+	private final ArrayList<Notification> notifications = new ArrayList<>();
 
-	public AndroidNotificationHandler(Context context){
-		this.context=context;
-		notifications= new ArrayList<>();
+	public AndroidNotificationHandler(Context context) {
+		this.context = context;
 		createNotificationChannel();
 	}
 
 	/**
-	 * @return the channel id
+	 * @return The channel ID.
 	 */
 	@Override
 	public String getChannelID() {
@@ -31,37 +30,33 @@ public class AndroidNotificationHandler implements INotificationHandler {
 	}
 
 	/**
-	 *  Create the NotificationChannel, but only on API 26+ because
-	 * 	 the NotificationChannel class is new and not in the support library
+	 * Create a {@link NotificationChannel}, supported only on <b>API 26+ (Oreo)</b>.
 	 */
-	@Override
 	public void createNotificationChannel() {
-
-		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-			NotificationChannel channel= new NotificationChannel(CHANNEL_ID,"notifications",NotificationManager.IMPORTANCE_DEFAULT);
-			NotificationManager mngr= (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			mngr.createNotificationChannel(channel);
-		}
-		else{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "notifications", NotificationManager.IMPORTANCE_DEFAULT);
+			NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			manager.createNotificationChannel(channel);
+		} else {
 			Toast.makeText(context, "Can't create notification channel", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	/**
-	 *
-	 * @return the pending notifications to launch
+	 * @return The pending notifications to launch.
 	 */
 	@Override
-	public ArrayList<Notification> getNotifications() {
+	public ArrayList<Notification> getPendingEntries() {
 		return notifications;
 	}
 
 	/**
-	 * Adds a new notification to launch
-	 * @param notification {@link Notification} to launch
+	 * Adds a new {@link Notification} to the queue.
+	 *
+	 * @param notification {@link Notification} to the queue.
 	 */
 	@Override
-	public void addNotification(Notification notification) {
+	public void add(Notification notification) {
 		notifications.add(notification);
 	}
 }

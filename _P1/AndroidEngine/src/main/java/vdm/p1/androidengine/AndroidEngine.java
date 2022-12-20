@@ -3,17 +3,12 @@ package vdm.p1.androidengine;
 import android.content.Context;
 import android.view.SurfaceView;
 
-import java.util.ArrayList;
-
 import vdm.p1.engine.Engine;
-import vdm.p1.engine.INotificationHandler;
 import vdm.p1.engine.Notification;
 
 public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;
 	private boolean running;
-
-
 
 	public AndroidEngine(SurfaceView surfaceView, Context context) {
 		setGraphics(new AndroidGraphics(surfaceView, context));
@@ -30,17 +25,12 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 	@Override
 	public AndroidNotificationHandler getNotificationHandler() {
-		return (AndroidNotificationHandler)super.getNotificationHandler();
+		return (AndroidNotificationHandler) super.getNotificationHandler();
 	}
 
 	@Override
 	public AndroidGraphics getGraphics() {
 		return (AndroidGraphics) super.getGraphics();
-	}
-
-	@Override
-	public ArrayList<Notification> getNotifications() {
-		return getNotificationHandler().getNotifications();
 	}
 
 	@Override
@@ -114,8 +104,8 @@ public final class AndroidEngine extends Engine implements Runnable {
 	}
 
 	public void pause() {
-		Notification notification= new Notification("Nonograms", "sub", "content", 30);
-		getNotificationHandler().addNotification(notification);
+		Notification notification = new Notification("Nonograms", "sub", "content", 30);
+		getNotificationHandler().add(notification);
 		if (running) {
 			running = false;
 			while (true) {
@@ -129,7 +119,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 			}
 
 			getSensors().unregister();
-
 		}
 
 	}

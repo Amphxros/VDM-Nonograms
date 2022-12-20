@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import vdm.p1.androidengine.AndroidEngine;
+import vdm.p1.engine.INotificationHandler;
 import vdm.p1.engine.Notification;
 import vdm.p1.logic.Logic;
 
@@ -82,17 +83,16 @@ public class MainActivity extends AppCompatActivity {
 		handleNotifications();
 	}
 
-	void handleNotifications(){
-		ArrayList<Notification> notifications= engine.getNotifications();
-		int i=0;
-		while (i < notifications.size() ){
-			Notification notification= notifications.get(i);
-			Data input= new Data.Builder()
-					.putString("title",notification.getTitle())
-					.putString("content",notification.getContent())
-					.putString("biggerText",notification.getSubtitle())
-					.putBoolean("autocancel",true)
-					.putString("CHANNEL_ID", engine.getNotificationHandler().getChannelID())
+	private void handleNotifications() {
+		INotificationHandler notificationHandler = engine.getNotificationHandler();
+		ArrayList<Notification> notifications = notificationHandler.getPendingEntries();
+		for (Notification notification : notifications) {
+			Data input = new Data.Builder()
+					.putString(NotificationWorker.INPUT_CHANNEL_ID, notificationHandler.getChannelID())
+					.putString(NotificationWorker.INPUT_TITLE, notification.getTitle())
+					.putString(NotificationWorker.INPUT_CONTENT, notification.getContent())
+					.putString(NotificationWorker.INPUT_BIGGER_TEXT, notification.getSubtitle())
+					.putBoolean(NotificationWorker.INPUT_AUTO_CANCEL, true)
 					.build();
 
 			OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotificationWorker.class)
@@ -101,10 +101,8 @@ public class MainActivity extends AppCompatActivity {
 					.build();
 
 			WorkManager.getInstance(this).enqueue(notificationWork);
-			 i++;
 		}
+
 		notifications.clear();
-
 	}
-
 }
