@@ -39,32 +39,25 @@ public final class GameManager implements Serializable {
 		}
 
 		////// FILE SUS
-
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 
 			// Generates the checksum of the save and compares it to the previous one
 			try{
-				// If the checksum doesnt exists an error is returned
+				// If the checksum doesn't exists an error is returned
 				InputStream checksumFD = engine.getFileManager().openInputFile("checksum");
 				String hashing = getFileChecksum(md, stream);
 				String checksumValue = InputStreamToString(checksumFD);
-				String checksum = checksumValue.substring(7);
 
-				if (!hashing.equals(checksum))		// Compares both strings
-				{
+				if (!hashing.equals(checksumValue))		// Compares both strings
 					throw new Exception("Invalid Data");
-				}
 			// Either the Checksum doesn't exists or the comparison wasn't successful
 			} catch (Exception e){
-				// New savefile will be created
-				return new GameManager();
+				return new GameManager();	// New savefile will be created
 			}
-
 		} catch(NoSuchAlgorithmException e){
 			e.printStackTrace();
 		}
-
 		///// FILE VALIDATION: NON-SUS
 
 		GameManager object = null;
@@ -106,9 +99,7 @@ public final class GameManager implements Serializable {
 	}
 
 	private static String InputStreamToString(InputStream stream) throws IOException {
-
 		ByteArrayOutputStream result = new ByteArrayOutputStream();
-
 		int DEFAULT_BUFFER_SIZE = 8192;
 
 		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
@@ -116,18 +107,7 @@ public final class GameManager implements Serializable {
 		while ((length = stream.read(buffer)) != -1) {
 			result.write(buffer, 0, length);
 		}
-
 		return result.toString("UTF-8");
-		/*
-		int bufferSize = 1024;
-		char[] buffer = new char[bufferSize];
-		StringBuilder out = new StringBuilder();
-		Reader in = new InputStreamReader(stream, StandardCharsets.UTF_8);
-		for (int numRead; (numRead = in.read(buffer, 0, buffer.length)) > 0; ) {
-			out.append(buffer, 0, numRead);
-		}
-		return out.toString();
-		*/
 	}
 
 
@@ -318,10 +298,8 @@ public final class GameManager implements Serializable {
 			objectStream.writeObject(this);
 			objectStream.flush();
 			objectStream.close();
-			//return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			//return false;
 		}
 
 		OutputStream checksum = engine.getFileManager().openOutputFile("checksum");
@@ -336,12 +314,10 @@ public final class GameManager implements Serializable {
 
 		try{
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			ObjectOutputStream objectStream = new ObjectOutputStream(checksum);
 			String text = getFileChecksum(md, save);
+
 			// The Checksum Result is written as a String
-			objectStream.writeObject(text);
-			objectStream.flush();
-			objectStream.close();
+			checksum.write(text.getBytes(StandardCharsets.UTF_8));
 			return true;
 
 		} catch (Exception e){
