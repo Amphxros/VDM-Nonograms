@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.SurfaceView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -29,15 +32,13 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 
 		// Creamos el SurfaceView que "contendrá" nuestra escena
-		SurfaceView renderView = new SurfaceView(this);
+		SurfaceView renderView = (SurfaceView) findViewById(R.id.surfaceView);
 		setContentView(renderView);
-
-
-
-
 
 		engine = new AndroidEngine(this,renderView, this);
 		engine.getGraphics().setResolution(400, 600);
+
+		setContentView(R.layout.main_activity);
 
 		Logic logic = new Logic(engine);
 		engine.setLogic(logic);

@@ -2,12 +2,14 @@ package vdm.p1.androidengine;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
@@ -37,7 +39,13 @@ public class AndroidAdSystem implements IAdSystem {
 		this.context = context;
 		this.activity = activity;
 
-		this.view = null;
+
+
+		this.view = new AdView(this.context);
+		view.setAdSize(AdSize.BANNER);
+		view.setAdUnitId(TOKEN);
+
+
 		this.reward = null;
 		this.rewardGranted = false;
 
@@ -50,12 +58,16 @@ public class AndroidAdSystem implements IAdSystem {
 
 		//ad request
 		this.request = new AdRequest.Builder().build();
+loadBanner(view);
+
 
 	}
-
-	public void loadBanner(AdView view) {
-		this.view = view;
-		this.view.loadAd(this.request);
+	public AdView getView(){
+		return this.view;
+	}
+	public void loadBanner(AdView v) {
+		this.view = v;
+		v.loadAd(this.request);
 	}
 
 	public void loadReward() {

@@ -24,6 +24,8 @@ public final class StartScene extends Scene {
 		int buttonW = (int) (maxWidth * 0.8);
 		int buttonX = center - buttonW / 2;
 
+		getEngine().getAdSystem().showBannerAd(true);
+
 		// Title
 		addGameObject(new Text(this, "Nonogramas", font).setPosition(center, 50));
 

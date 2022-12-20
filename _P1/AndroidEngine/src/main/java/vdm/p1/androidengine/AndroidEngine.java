@@ -5,14 +5,17 @@ import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdView;
+
 import vdm.p1.engine.Engine;
+import vdm.p1.engine.IAdSystem;
 import vdm.p1.engine.Notification;
 import vdm.p1.engine.Palette;
 
 public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;
 	private boolean running;
-
+AndroidAdSystem androidAdSystem;
 	public AndroidEngine(AppCompatActivity activity, SurfaceView surfaceView, Context context) {
 		setGraphics(new AndroidGraphics(surfaceView, context));
 		setAudio(new AndroidAudio(context));
@@ -20,7 +23,9 @@ public final class AndroidEngine extends Engine implements Runnable {
 		setShareIntent(new AndroidShareIntent(context));
 		setSensors(new AndroidSensors(context));
 		setNotificationHandler(new AndroidNotificationHandler(context));
-		setAdSystem(new AndroidAdSystem(context,activity ));
+
+		androidAdSystem= new AndroidAdSystem(context,activity );
+		setAdSystem(androidAdSystem);
 
 		AndroidInput input = new AndroidInput();
 		surfaceView.setOnTouchListener(input);
@@ -105,6 +110,11 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 			getSensors().register();
 		}
+	}
+
+	@Override
+	public AndroidAdSystem getAdSystem() {
+		return androidAdSystem;
 	}
 
 	public void pause() {
