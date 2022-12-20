@@ -49,7 +49,7 @@ public class AndroidNotificationHandler implements INotificationHandler {
 
 	/**
 	 *
-	 * @return the pending notifications
+	 * @return the pending notifications to launch
 	 */
 	@Override
 	public ArrayList<Notification> getNotifications() {

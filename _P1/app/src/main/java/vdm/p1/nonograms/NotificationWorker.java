@@ -44,11 +44,11 @@ public class NotificationWorker extends Worker{
 				.setPriority(NotificationCompat.PRIORITY_DEFAULT)
 				.setAutoCancel(autoCancel);
 
-
+		//Creates the intent to mark this event as a notification
 		Intent intent= new Intent(getApplicationContext(),MainActivity.class);
 		intent.putExtra("notification",true);
 
-		//
+
 		PendingIntent pendingIntent= PendingIntent.getActivity(getApplicationContext(),0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
 		notification.setContentIntent(pendingIntent);
 
