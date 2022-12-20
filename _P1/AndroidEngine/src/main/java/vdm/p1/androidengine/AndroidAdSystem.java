@@ -58,6 +58,10 @@ public class AndroidAdSystem implements IAdSystem {
 		this.view.loadAd(this.request);
 	}
 
+	public void loadReward(RewardedAd reward) {
+		this.reward.load(this.activity, TOKEN, new AdRequest.Builder().build(), new RewardLoadCallback());
+	}
+
 	@Override
 	public void showBannerAd(boolean show) {
 		if (this.view == null) {
@@ -108,12 +112,17 @@ public class AndroidAdSystem implements IAdSystem {
 		public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
 			// Handle the reward.
 			System.out.println("Rewarded granted.");
+			//int amount
 			rewardGranted= true;
 		}
 	}
 
 
 	private class RewardLoadCallback extends RewardedAdLoadCallback{
+
+		RewardLoadCallback(){
+
+		}
 		@Override
 		public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
 			reward=null;
@@ -135,6 +144,7 @@ public class AndroidAdSystem implements IAdSystem {
 		@Override
 		public void onAdDismissedFullScreenContent() {
 			super.onAdDismissedFullScreenContent();
+			reward=null;
 		}
 
 		@Override
