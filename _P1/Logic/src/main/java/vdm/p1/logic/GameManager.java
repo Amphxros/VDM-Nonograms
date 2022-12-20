@@ -5,22 +5,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
-import vdm.p1.logic.objects.PaletteItem;
 
 public final class GameManager implements Serializable {
 	private static final long serialVersionUID = 1L;
-	PaletteItem currentPalette;
+	private final ArrayList<Integer> unlockedPalettes = new ArrayList<>();
+	private int currentPaletteId = 0;
 	private int lastUnlockedTheme = 0;
 	private int lastUnlockedLevel = 0;
-	private int LastUnlockedPalette = 0;
 	private int money = 0;
 	private transient GameTheme[] themes = null;
 	private transient PaletteItem[] palettes = null;
-
 
 	public static GameManager load(IEngine engine) {
 		InputStream stream;
@@ -39,6 +38,7 @@ public final class GameManager implements Serializable {
 			e.printStackTrace();
 		}
 
+		if (object != null) object.loadPalettes(engine);
 		return object;
 	}
 
@@ -61,6 +61,33 @@ public final class GameManager implements Serializable {
 	}
 
 	/**
+	 * Gets the list of unlocked palettes.
+	 *
+	 * @return The list of unlocked palettes.
+	 */
+	public ArrayList<Integer> getUnlockedPalettes() {
+		return unlockedPalettes;
+	}
+
+	/**
+	 * Adds a new palette.
+	 *
+	 * @param id The ID of the palette to add.
+	 */
+	public void addPalette(int id) {
+		if (!unlockedPalettes.contains(id)) unlockedPalettes.add(id);
+	}
+
+	/**
+	 * Sets a new current palette.
+	 *
+	 * @param id The ID of the palette to set.
+	 */
+	public void setPalette(int id) {
+		currentPaletteId = id;
+	}
+
+	/**
 	 * Gets the current amount of money.
 	 *
 	 * @return The current amount of money.
@@ -76,6 +103,15 @@ public final class GameManager implements Serializable {
 	 */
 	public void setMoney(int money) {
 		this.money = money;
+	}
+
+	/**
+	 * Adds an amount of money.
+	 *
+	 * @param money The amount of money to add.
+	 */
+	public void addMoney(int money) {
+		this.money += money;
 	}
 
 	/**
@@ -153,10 +189,6 @@ public final class GameManager implements Serializable {
 		return themes != null;
 	}
 
-	public boolean loadedPalettes() {
-		return palettes != null;
-	}
-
 	/**
 	 * Load all the themes.
 	 *
@@ -190,10 +222,14 @@ public final class GameManager implements Serializable {
 	}
 
 	public PaletteItem getCurrentPalette() {
-		return currentPalette;
+		return palettes[currentPaletteId];
 	}
 
-	public void loadPalettes(IEngine engine) {
+	public int getCurrentPaletteId() {
+		return currentPaletteId;
+	}
+
+	private void loadPalettes(IEngine engine) {
 		String content = engine.getFileManager().readFile("palettes/palette");
 		Scanner read = new Scanner(content);
 		palettes = new PaletteItem[read.nextInt()];
@@ -205,9 +241,9 @@ public final class GameManager implements Serializable {
 				stringBuilder.append(read.next());
 			}
 
-			PaletteItem paletteObject = new PaletteItem(stringBuilder.toString(), read.nextInt());
+			PaletteItem paletteObject = new PaletteItem(i, stringBuilder.toString(), read.nextInt());
 			for (int c = 0; c < 5; ++c) {
-				paletteObject.getPalette().addColor(new Color(read.nextInt(16)));
+				paletteObject.getPalette().addColor(new Color(read.nextLong(16)));
 			}
 
 			palettes[i] = paletteObject;

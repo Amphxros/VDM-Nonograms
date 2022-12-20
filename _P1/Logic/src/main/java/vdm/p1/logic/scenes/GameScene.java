@@ -26,13 +26,13 @@ public final class GameScene extends Scene {
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
-		LifeManager lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(130, 100).setSize(140, 40);
-		table = (Table) Table.fromFile(tableFont, lifeManager, theme, level).setPosition(50, 150).setSize(300, 300);
+		LifeManager lifeManager = (LifeManager) new LifeManager(this, font).setPosition(130, 100).setSize(140, 40);
+		table = (Table) Table.fromFile(this, tableFont, lifeManager, theme, level).setPosition(50, 150).setSize(300, 300);
 
 		addGameObject(lifeManager);
 		addGameObject(table);
 
-		addButton(new GoToThemeLevelSelectButton(getEngine(), theme), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
+		addButton(new GoToThemeLevelSelectButton(this, theme), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
 	}
 
 	public GameScene(IEngine engine, int rows, int columns) {
@@ -43,14 +43,14 @@ public final class GameScene extends Scene {
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
-		LifeManager lifeManager = (LifeManager) new LifeManager(engine, font).setPosition(130, 100).setSize(140, 40);
-		table = (Table) Table.fromRandom(tableFont, lifeManager, rows, columns).setPosition(50, 150).setSize(300, 300);
+		LifeManager lifeManager = (LifeManager) new LifeManager(this, font).setPosition(130, 100).setSize(140, 40);
+		table = (Table) Table.fromRandom(this, tableFont, lifeManager, rows, columns).setPosition(50, 150).setSize(300, 300);
 
 		addGameObject(lifeManager);
 		addGameObject(table);
 
-		addButton(new GoToStartSceneButton(getEngine()), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
-		addButton(new CheckSolutionButton(getEngine(), table), engine.getGraphics().newImage("image/grey_boxCheckmark.png"), font, "Comprobar", 260, 20);
+		addButton(new GoToStartSceneButton(this), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
+		addButton(new CheckSolutionButton(this, table), engine.getGraphics().newImage("image/grey_boxCheckmark.png"), font, "Comprobar", 260, 20);
 	}
 
 	@Override

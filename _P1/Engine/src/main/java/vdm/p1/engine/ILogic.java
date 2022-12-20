@@ -10,4 +10,9 @@ public interface ILogic {
 	void handleEvents(IInput input);
 
 	void handleOpeningNotifications();
+
+	/**
+	 * @return The active palette.
+	 */
+	Palette getPalette();
 }

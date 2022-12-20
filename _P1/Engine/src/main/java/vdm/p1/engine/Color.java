@@ -19,6 +19,13 @@ public final class Color {
 	}
 
 	/**
+	 * @param rgba An integer number encoded in RGBA
+	 */
+	public Color(long rgba) {
+		this((int) rgba >> 24, (int) rgba >> 16, (int) rgba >> 8, (int) rgba);
+	}
+
+	/**
 	 * @param r The Red value (0-255)
 	 * @param g The Green value (0-255)
 	 * @param b The Blue value (0-255)

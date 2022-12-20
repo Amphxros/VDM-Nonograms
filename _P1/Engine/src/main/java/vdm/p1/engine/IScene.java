@@ -42,4 +42,9 @@ public interface IScene {
 	 * Handles when a notification has been opened.
 	 */
 	void handleOpeningNotifications();
+
+	/**
+	 * @return The {@link IEngine} that instantiated this scene.
+	 */
+	IEngine getEngine();
 }

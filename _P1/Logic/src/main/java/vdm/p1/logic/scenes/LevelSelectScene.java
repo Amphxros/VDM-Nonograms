@@ -16,8 +16,8 @@ public final class LevelSelectScene extends Scene {
 		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		IImage glass = engine.getGraphics().newImage("image/glassPanel.png");
 
-		addButton(new GoToStartSceneButton(getEngine()), font, "Volver", 20, 20);
-		addGameObject(new Text("Selecciona el tamaño del puzzle", font).setPosition(200, 150));
+		addButton(new GoToStartSceneButton(this), font, "Volver", 20, 20);
+		addGameObject(new Text(this, "Selecciona el tamaño del puzzle", font).setPosition(200, 150));
 
 		final int x0 = 50;
 		final int x1 = 170;
@@ -39,8 +39,8 @@ public final class LevelSelectScene extends Scene {
 		final int textOffsetX = 30;
 		final int textOffsetY = 35;
 
-		GameObject image = new Image(glass).setPosition(x, y).setSize(size, size);
-		GameObject text = new Text(rows + "x" + columns, font).setPosition(x + textOffsetX, y + textOffsetY);
-		addGameObject(new CreateLevelButton(getEngine(), rows, columns).addChild(image).addChild(text).setPosition(x, y).setSize(size, size));
+		GameObject image = new Image(this, glass).setPosition(x, y).setSize(size, size);
+		GameObject text = new Text(this, rows + "x" + columns, font).setPosition(x + textOffsetX, y + textOffsetY);
+		addGameObject(new CreateLevelButton(this, rows, columns).addChild(image).addChild(text).setPosition(x, y).setSize(size, size));
 	}
 }

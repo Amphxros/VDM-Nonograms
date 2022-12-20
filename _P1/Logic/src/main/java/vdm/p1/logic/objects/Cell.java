@@ -2,25 +2,19 @@ package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IScene;
+import vdm.p1.engine.Palette;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.State;
 import vdm.p1.logic.objects.base.Button;
 
 public final class Cell extends Button {
-	/**
-	 * TODO: CHANGE THIS TO THE PALETTE
-	 */
-	private static final Color EMPTY_COLOR = new Color(170, 170, 170);
-	private static final Color MARKED_COLOR = new Color(0, 0, 255);
-	private static final Color FLAGGED_COLOR = Color.BLACK;
-	private static final Color WRONG_COLOR = new Color(255, 0, 0);
-
 	private final Table table;
 	private final boolean isSolution;
 	private State current = State.EMPTY;
 
-	public Cell(Table table, boolean isSolution) {
-		super();
+	public Cell(IScene scene, Table table, boolean isSolution) {
+		super(scene);
 		this.table = table;
 		this.isSolution = isSolution;
 	}
@@ -34,18 +28,18 @@ public final class Cell extends Button {
 	}
 
 	public boolean isMissing() {
-		return current != State.MARKED && isSolution;
+		return current != State.SELECT && isSolution;
 	}
 
 	public boolean isWrong() {
-		return current == State.MARKED && !isSolution;
+		return current == State.SELECT && !isSolution;
 	}
 
 	public void setWrong(boolean wrong) {
 		if (wrong) {
 			current = State.WRONG;
 		} else if (current == State.WRONG) {
-			current = State.MARKED;
+			current = State.SELECT;
 		}
 	}
 
@@ -58,16 +52,16 @@ public final class Cell extends Button {
 
 		switch (current) {
 			case EMPTY:
-				graphics.setColor(EMPTY_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.EMPTY));
 				break;
 			case WRONG:
-				graphics.setColor(WRONG_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.WRONG));
 				break;
-			case MARKED:
-				graphics.setColor(MARKED_COLOR);
+			case SELECT:
+				graphics.setColor(getPalette().getColor(Palette.SELECT));
 				break;
 			case FLAGGED:
-				graphics.setColor(FLAGGED_COLOR);
+				graphics.setColor(getPalette().getColor(Palette.FONT));
 				graphics.drawRectangle(x, y, w, h);
 				graphics.drawLine(x, y, x + w, y + h);
 				return;
@@ -81,9 +75,9 @@ public final class Cell extends Button {
 		State previous = current;
 		switch (previous) {
 			case EMPTY:
-				current = State.MARKED;
+				current = State.SELECT;
 				break;
-			case MARKED:
+			case SELECT:
 				current = State.FLAGGED;
 				break;
 			case FLAGGED:

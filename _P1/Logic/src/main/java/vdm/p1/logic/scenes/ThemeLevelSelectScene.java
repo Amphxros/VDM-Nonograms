@@ -29,7 +29,7 @@ public final class ThemeLevelSelectScene extends Scene {
 
 		locked = engine.getGraphics().newImage("image/lock.png");
 
-		addButton(new GoToThemeSelectSceneButton(getEngine()), font, "Volver", 20, 20);
+		addButton(new GoToThemeSelectSceneButton(this), font, "Volver", 20, 20);
 
 		// Load level grid:
 		if (!theme.loaded()) theme.load(engine);
@@ -52,11 +52,11 @@ public final class ThemeLevelSelectScene extends Scene {
 		final int textOffsetY = 32;
 
 		if (gameManager.getLastUnlockedTheme() > theme.getIndex() || gameManager.getLastUnlockedLevel() >= index) {
-			addGameObject(new Image(glass).setPosition(x, y).setSize(size, size));
-			addGameObject(new Text(Integer.toString(index), font).setPosition(x + textOffsetX, y + textOffsetY));
-			addGameObject(new CreateThemeLevelButton(getEngine(), theme, level).setPosition(x, y).setSize(size, size));
+			addGameObject(new Image(this, glass).setPosition(x, y).setSize(size, size));
+			addGameObject(new Text(this, Integer.toString(index), font).setPosition(x + textOffsetX, y + textOffsetY));
+			addGameObject(new CreateThemeLevelButton(this, theme, level).setPosition(x, y).setSize(size, size));
 		} else {
-			addGameObject(new Image(locked).setPosition(x, y).setSize(size, size));
+			addGameObject(new Image(this, locked).setPosition(x, y).setSize(size, size));
 		}
 	}
 }

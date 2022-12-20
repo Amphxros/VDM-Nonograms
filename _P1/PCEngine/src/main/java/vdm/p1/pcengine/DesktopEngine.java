@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.Engine;
-import vdm.p1.engine.Notification;
+import vdm.p1.engine.Palette;
 
 public final class DesktopEngine extends Engine implements Runnable {
 	private final JFrame renderView;
@@ -55,7 +55,7 @@ public final class DesktopEngine extends Engine implements Runnable {
 			getLogic().handleEvents(getInput());
 			getLogic().update(elapsedTime);
 
-			getGraphics().clear(Color.WHITE);
+			getGraphics().clear(getLogic().getPalette().getColor(Palette.BACKGROUND));
 			getLogic().render(getGraphics());
 			getGraphics().present();
 		}
