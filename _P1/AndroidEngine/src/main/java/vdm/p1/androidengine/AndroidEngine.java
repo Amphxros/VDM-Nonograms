@@ -105,8 +105,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 	}
 
 	public void pause() {
-		Notification notification = new Notification("Nonograms", "sub", "content", 30);
-		getNotificationHandler().add(notification);
+		getNotificationHandler().add(new Notification("Nonograms", "sub", "content", 30));
 		if (running) {
 			running = false;
 			while (true) {
@@ -121,6 +120,5 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 			getSensors().unregister();
 		}
-
 	}
 }
