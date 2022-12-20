@@ -19,6 +19,7 @@ public final class NotificationWorker extends Worker {
 	public static final String INPUT_BIGGER_TEXT = "bigger_text";
 	public static final String INPUT_CHANNEL_ID = "channel_id";
 	public static final String INPUT_AUTO_CANCEL = "auto_cancel";
+	private static final int NOTIFICATION_ID = 1;
 
 	public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
 		super(context, workerParams);
@@ -52,11 +53,11 @@ public final class NotificationWorker extends Worker {
 		intent.putExtra("notification", true);
 
 		// Creates a notification intent:
-		PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+		PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 		notification.setContentIntent(pendingIntent);
 
 		// Launches the notification:
 		NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
-		manager.notify(1, notification.build());
+		manager.notify(NOTIFICATION_ID, notification.build());
 	}
 }
