@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.SurfaceView;
 
 import vdm.p1.engine.Engine;
+import vdm.p1.engine.Notification;
+import vdm.p1.engine.Palette;
 
 public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;
@@ -13,13 +15,18 @@ public final class AndroidEngine extends Engine implements Runnable {
 		setGraphics(new AndroidGraphics(surfaceView, context));
 		setAudio(new AndroidAudio(context));
 		setFileManager(new AndroidFileManager(context));
-		setNotificationManager(new AndroidNotificationManager(context));
 		setShareIntent(new AndroidShareIntent(context));
 		setSensors(new AndroidSensors(context));
+		setNotificationHandler(new AndroidNotificationHandler(context));
 
 		AndroidInput input = new AndroidInput();
 		surfaceView.setOnTouchListener(input);
 		setInput(input);
+	}
+
+	@Override
+	public AndroidNotificationHandler getNotificationHandler() {
+		return (AndroidNotificationHandler) super.getNotificationHandler();
 	}
 
 	@Override
@@ -70,7 +77,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		// Waits for an invalid surface
 		while (!graphics.surfaceValid()) ;
 
-		graphics.clear(0xFFFFFFFF); // ARGB
+		graphics.clear(getLogic().getPalette().getColor(Palette.BACKGROUND)); // ARGB
 		getLogic().render(getGraphics());
 		graphics.present();
 	}
@@ -98,6 +105,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 	}
 
 	public void pause() {
+		getNotificationHandler().add(new Notification("Nonograms", "sub", "content", 30));
 		if (running) {
 			running = false;
 			while (true) {
@@ -112,6 +120,5 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 			getSensors().unregister();
 		}
-
 	}
 }

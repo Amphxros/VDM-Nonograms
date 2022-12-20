@@ -54,13 +54,14 @@ tasks.whenTaskAdded { task ->
 }
 dependencies {
 
+	implementation "androidx.core:core:1.6.0"
 	implementation "androidx.work:work-runtime:2.7.1"
+	implementation "androidx.work:work-multiprocess:2.7.1"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
 	// Import the BoM for the Firebase platform
 	implementation  platform('com.google.firebase:firebase-bom:29.0.1')
 	implementation 'com.google.firebase:firebase-bom:29.0.1'
-
 	implementation 'com.google.firebase:firebase-messaging:23.0.0'
 	implementation 'com.google.firebase:firebase-analytics'
 

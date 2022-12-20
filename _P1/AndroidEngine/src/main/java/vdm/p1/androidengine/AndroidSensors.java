@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import vdm.p1.engine.ISensors;
 import vdm.p1.engine.ShakeListener;
 
-public class AndroidSensors implements ISensors, SensorEventListener {
+public final class AndroidSensors implements ISensors, SensorEventListener {
 	/**
 	 * The acceleration in m/s² for an acceleration to be considered a shake.
 	 */

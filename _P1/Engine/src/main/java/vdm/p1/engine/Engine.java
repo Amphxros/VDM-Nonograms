@@ -6,9 +6,9 @@ public abstract class Engine implements IEngine {
 	private Input input;
 	private ILogic logic;
 	private IFileManager fileManager;
-	private INotificationManager notificationManager;
 	private IShareIntent shareIntent;
 	private ISensors sensors;
+	private INotificationHandler notificationHandler;
 
 	/**
 	 * @return An {@link ILogic} instance.
@@ -101,18 +101,31 @@ public abstract class Engine implements IEngine {
 		return shareIntent;
 	}
 
+	/**
+	 * Sets the {@link IShareIntent} system.
+	 *
+	 * @param shareIntent An {@link IShareIntent} instance.
+	 */
 	@Override
 	public void setShareIntent(IShareIntent shareIntent) {
 		this.shareIntent = shareIntent;
 	}
 
+	/**
+	 * @return An {@link INotificationHandler} instance
+	 */
 	@Override
-	public INotificationManager getNotificationManager() {
-		return notificationManager;
+	public INotificationHandler getNotificationHandler() {
+		return notificationHandler;
 	}
 
+	/**
+	 * Sets the {@link INotificationHandler} instance.
+	 *
+	 * @param notificationHandler An {@link INotificationHandler} instance.
+	 */
 	@Override
-	public void setNotificationManager(INotificationManager notificationManager) {
-		this.notificationManager = notificationManager;
+	public void setNotificationHandler(INotificationHandler notificationHandler) {
+		this.notificationHandler = notificationHandler;
 	}
 }
