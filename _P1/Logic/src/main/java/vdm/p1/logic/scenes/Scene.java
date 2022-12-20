@@ -24,6 +24,10 @@ public abstract class Scene implements IScene {
 		this.engine = engine;
 	}
 
+	/**
+	 * @return The {@link IEngine} that instantiated this scene.
+	 */
+	@Override
 	public IEngine getEngine() {
 		return engine;
 	}
@@ -32,8 +36,8 @@ public abstract class Scene implements IScene {
 		objects.add(object);
 	}
 
-	public void removeGameObject(GameObject object) {
-		objects.remove(object);
+	public ArrayList<GameObject> getObjects() {
+		return objects;
 	}
 
 	/**
@@ -118,7 +122,7 @@ public abstract class Scene implements IScene {
 		final int textOffsetX = 50;
 		final int textOffsetY = 25;
 
-		GameObject textComponent = new Text(text, font).setPosition(x + textOffsetX, y + textOffsetY);
+		GameObject textComponent = new Text(this, text, font).setPosition(x + textOffsetX, y + textOffsetY);
 		addGameObject(button.addChild(textComponent).setPosition(x, y).setSize(width, 40));
 	}
 
@@ -127,8 +131,8 @@ public abstract class Scene implements IScene {
 		final int textOffsetX = 30;
 		final int textOffsetY = 26;
 
-		GameObject imageComponent = new Image(image).setPosition(x + 5, y + 10).setSize(20, 20);
-		GameObject textComponent = new Text(text, font, HorizontalAlignment.LEFT).setPosition(x + textOffsetX, y + textOffsetY);
+		GameObject imageComponent = new Image(this, image).setPosition(x + 5, y + 10).setSize(20, 20);
+		GameObject textComponent = new Text(this, text, font, HorizontalAlignment.LEFT).setPosition(x + textOffsetX, y + textOffsetY);
 		addGameObject(button.addChild(textComponent).addChild(imageComponent).setPosition(x, y).setSize(width, 40));
 	}
 }

@@ -3,24 +3,23 @@ package vdm.p1.logic;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
+import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
+import vdm.p1.engine.IScene;
+import vdm.p1.engine.Palette;
 import vdm.p1.engine.TouchEvent;
 
 public abstract class GameObject {
 	private final Vector<GameObject> children = new Vector<>();
-	private Vector2D position;
-	private Vector2D size;
+	private final IScene scene;
+	private Vector2D position = new Vector2D(0, 0);
+	private Vector2D size = new Vector2D(0, 0);
 	private boolean enabled = true;
 	private Color strokeColor = null;
 	private GameObject parent = null;
 
-	public GameObject() {
-		this(0, 0, 0, 0);
-	}
-
-	public GameObject(int x, int y, int width, int height) {
-		this.position = new Vector2D(x, y);
-		this.size = new Vector2D(width, height);
+	public GameObject(IScene scene) {
+		this.scene = scene;
 	}
 
 	public Vector2D getPosition() {
@@ -85,6 +84,18 @@ public abstract class GameObject {
 	public GameObject setStrokeColor(Color strokeColor) {
 		this.strokeColor = strokeColor;
 		return this;
+	}
+
+	public IScene getScene() {
+		return scene;
+	}
+
+	public IEngine getEngine() {
+		return scene.getEngine();
+	}
+
+	protected Palette getPalette() {
+		return getEngine().getLogic().getPalette();
 	}
 
 	/**

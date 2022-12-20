@@ -25,22 +25,22 @@ public final class StartScene extends Scene {
 		int buttonX = center - buttonW / 2;
 
 		// Title
-		addGameObject(new Text("Nonogramas", font).setPosition(center, 50));
+		addGameObject(new Text(this, "Nonogramas", font).setPosition(center, 50));
 
 		// Quick Match
-		addGameObject(new Text("Partida Rapida", font).setPosition(center, 250));
-		addGameObject(new GoToLevelSelectSceneButton(getEngine()).setPosition(buttonX, 210).setSize(buttonW, 50));
+		addGameObject(new Text(this, "Partida Rapida", font).setPosition(center, 250));
+		addGameObject(new GoToLevelSelectSceneButton(this).setPosition(buttonX, 210).setSize(buttonW, 50));
 
 		// Story Mode
-		addGameObject(new Text("Modo Historia", font).setPosition(center, 350));
-		addGameObject(new GoToThemeSelectSceneButton(getEngine()).setPosition(buttonX, 310).setSize(buttonW, 50));
+		addGameObject(new Text(this, "Modo Historia", font).setPosition(center, 350));
+		addGameObject(new GoToThemeSelectSceneButton(this).setPosition(buttonX, 310).setSize(buttonW, 50));
 
 		// Buttons
-		addGameObject(createButton(new GoToShopSceneButton(getEngine()).setPosition(20, 500).setSize(50, 50), share));
+		addGameObject(createButton(new GoToShopSceneButton(this).setPosition(20, 500).setSize(50, 50), share));
 	}
 
-	private GameObject createButton(GameObject button, IImage img) {
-		return button.addChild(new Image(img)
+	private GameObject createButton(GameObject button, IImage image) {
+		return button.addChild(new Image(this, image)
 				.setPosition(button.getPosition())
 				.setSize(button.getSize()));
 	}
