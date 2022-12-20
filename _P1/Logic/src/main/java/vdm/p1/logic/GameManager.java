@@ -26,20 +26,22 @@ public final class GameManager implements Serializable {
 		try {
 			stream = engine.getFileManager().openInputFile("save");
 		} catch (Exception e) {
-			return new GameManager();
+			GameManager manager = new GameManager();
+			manager.loadPalettes(engine);
+			return manager;
 		}
 
-		GameManager object = null;
+		GameManager manager = null;
 		try {
 			ObjectInputStream objectStream = new ObjectInputStream(stream);
-			object = (GameManager) objectStream.readObject();
+			manager = (GameManager) objectStream.readObject();
+			manager.loadPalettes(engine);
 			objectStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		if (object != null) object.loadPalettes(engine);
-		return object;
+		return manager;
 	}
 
 	/**

@@ -5,6 +5,7 @@ import android.view.SurfaceView;
 
 import vdm.p1.engine.Engine;
 import vdm.p1.engine.Notification;
+import vdm.p1.engine.Palette;
 
 public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;
@@ -76,7 +77,7 @@ public final class AndroidEngine extends Engine implements Runnable {
 		// Waits for an invalid surface
 		while (!graphics.surfaceValid()) ;
 
-		graphics.clear(0xFFFFFFFF); // ARGB
+		graphics.clear(getLogic().getPalette().getColor(Palette.BACKGROUND)); // ARGB
 		getLogic().render(getGraphics());
 		graphics.present();
 	}
