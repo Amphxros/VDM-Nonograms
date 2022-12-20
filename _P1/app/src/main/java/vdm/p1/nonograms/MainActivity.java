@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
 		SurfaceView renderView = new SurfaceView(this);
 		setContentView(renderView);
 
+
+
+
+
 		engine = new AndroidEngine(renderView, this);
 		engine.getGraphics().setResolution(400, 600);
 
