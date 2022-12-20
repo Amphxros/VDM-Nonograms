@@ -21,13 +21,22 @@ public class AndroidNotificationHandler implements INotificationHandler {
 		notifications= new ArrayList<>();
 		createNotificationChannel();
 	}
+
+	/**
+	 * @return the channel id
+	 */
 	@Override
 	public String getChannelID() {
 		return CHANNEL_ID;
 	}
 
+	/**
+	 *  Create the NotificationChannel, but only on API 26+ because
+	 * 	 the NotificationChannel class is new and not in the support library
+	 */
 	@Override
 	public void createNotificationChannel() {
+
 		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
 			NotificationChannel channel= new NotificationChannel(CHANNEL_ID,"notifications",NotificationManager.IMPORTANCE_DEFAULT);
 			NotificationManager mngr= (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -38,11 +47,19 @@ public class AndroidNotificationHandler implements INotificationHandler {
 		}
 	}
 
+	/**
+	 *
+	 * @return the pending notifications
+	 */
 	@Override
 	public ArrayList<Notification> getNotifications() {
 		return notifications;
 	}
 
+	/**
+	 * Adds a new notification to launch
+	 * @param notification {@link Notification} to launch
+	 */
 	@Override
 	public void addNotification(Notification notification) {
 		notifications.add(notification);

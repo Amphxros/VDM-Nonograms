@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 		while (i < notifications.size() ){
 			Notification notification= notifications.get(i);
 			Data input= new Data.Builder()
-					.putString("tittle",notification.getTitle())
+					.putString("title",notification.getTitle())
 					.putString("content",notification.getContent())
 					.putString("biggerText",notification.getSubtitle())
 					.putBoolean("autocancel",true)
