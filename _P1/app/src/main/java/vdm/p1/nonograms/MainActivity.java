@@ -95,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
 					.putString("CHANNEL_ID", engine.getNotificationHandler().getChannelID())
 					.build();
 
-			/**OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+			OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotificationWorker.class)
 					.setInitialDelay(notification.getDelay(), TimeUnit.SECONDS)
 					.setInputData(input)
 					.build();
 
-			//WorkManager.getInstance(this).enqueue(notificationWork);
-			 */i++;
+			WorkManager.getInstance(this).enqueue(notificationWork);
+			 i++;
 		}
 		notifications.clear();
 
