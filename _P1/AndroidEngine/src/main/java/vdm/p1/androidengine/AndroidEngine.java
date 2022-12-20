@@ -3,6 +3,8 @@ package vdm.p1.androidengine;
 import android.content.Context;
 import android.view.SurfaceView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import vdm.p1.engine.Engine;
 import vdm.p1.engine.Notification;
 import vdm.p1.engine.Palette;
@@ -11,13 +13,14 @@ public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;
 	private boolean running;
 
-	public AndroidEngine(SurfaceView surfaceView, Context context) {
+	public AndroidEngine(AppCompatActivity activity, SurfaceView surfaceView, Context context) {
 		setGraphics(new AndroidGraphics(surfaceView, context));
 		setAudio(new AndroidAudio(context));
 		setFileManager(new AndroidFileManager(context));
 		setShareIntent(new AndroidShareIntent(context));
 		setSensors(new AndroidSensors(context));
 		setNotificationHandler(new AndroidNotificationHandler(context));
+		setAdSystem(new AndroidAdSystem(context,activity ));
 
 		AndroidInput input = new AndroidInput();
 		surfaceView.setOnTouchListener(input);

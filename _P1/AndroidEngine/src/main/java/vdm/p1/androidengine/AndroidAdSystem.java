@@ -58,7 +58,7 @@ public class AndroidAdSystem implements IAdSystem {
 		this.view.loadAd(this.request);
 	}
 
-	public void loadReward(RewardedAd reward) {
+	public void loadReward() {
 		this.reward.load(this.activity, TOKEN, new AdRequest.Builder().build(), new RewardLoadCallback());
 	}
 
@@ -100,9 +100,8 @@ public class AndroidAdSystem implements IAdSystem {
 				else{
 					System.out.println("The reward ad wasnt ready");
 				}
-
-
 				reward=null;
+				loadReward();
 			}
 		}
 	}
@@ -111,7 +110,7 @@ public class AndroidAdSystem implements IAdSystem {
 		@Override
 		public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
 			// Handle the reward.
-			System.out.println("Rewarded granted.");
+
 			//int amount
 			rewardGranted= true;
 		}

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-		engine = new AndroidEngine(renderView, this);
+		engine = new AndroidEngine(this,renderView, this);
 		engine.getGraphics().setResolution(400, 600);
 
 		Logic logic = new Logic(engine);

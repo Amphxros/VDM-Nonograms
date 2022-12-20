@@ -100,6 +100,18 @@ public interface IEngine {
 	void setNotificationHandler(INotificationHandler notificationHandler);
 
 	/**
+	 *
+	 * @return the {@link IAdSystem} instance
+	 */
+	IAdSystem getAdSystem();
+
+	/**
+	 * Sets the {@link IAdSystem} instance
+	 * @param adSystem instance to add
+	 */
+	void setAdSystem(IAdSystem adSystem);
+
+	/**
 	 * @return The application's window width.
 	 */
 	int getWidth();
