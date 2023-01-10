@@ -21,44 +21,44 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import vdm.p1.engine.IAdsManager;
 
-public class AndroidAdsManager implements IAdsManager {
-
-	private final String AD_TOKEN = "ca-app-pub-3940256099942544/5224354917";
-	private AdView adView;
-	private AdRequest adRequest;
+public final class AndroidAdsManager implements IAdsManager {
+	private static final String AD_TOKEN = "ca-app-pub-3940256099942544/5224354917";
+	private final AdView adView;
+	private final AdRequest adRequest;
+	private final AppCompatActivity activity;
 	private RewardedAd rewardAd;
 	private boolean hasRewardAdShown;
 
-	private AppCompatActivity activity;
-	private Context context;
+	public AndroidAdsManager(AppCompatActivity activity, Context context, AdView adView) {
+		this.activity = activity;
 
-	public AndroidAdsManager(AppCompatActivity activity, Context context, AdView adView){
-		this.activity=activity;
-		this.context=context;
-
-		MobileAds.initialize(this.context, new OnInitializationCompleteListener() {
+		MobileAds.initialize(context, new OnInitializationCompleteListener() {
 			@Override
 			public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-				System.out.println("initialization" + initializationStatus.toString());
+				System.out.println("initialization " + initializationStatus);
 			}
 		});
-		this.adRequest = new AdRequest.Builder().build();
-		this.adView=adView;
-		adView.loadAd(this.adRequest);
 
+		this.adRequest = new AdRequest.Builder().build();
+		this.adView = adView;
+		adView.loadAd(this.adRequest);
 	}
+
 	@Override
 	public boolean onAdRewardShown() {
-		if(hasRewardAdShown){
-			hasRewardAdShown=false;
+		if (hasRewardAdShown) {
+			hasRewardAdShown = false;
 			return true;
 		}
+
 		return false;
 	}
-	public void loadRewardAd(){
+
+	public void loadRewardAd() {
 		RewardedAd.load(this.activity, AD_TOKEN, adRequest,
 				new UserRewardedAdLoadCallback());
 	}
+
 	@Override
 	public void showRewardAd() {
 		this.activity.runOnUiThread(new ShowRewardAd(this.activity));
@@ -66,23 +66,24 @@ public class AndroidAdsManager implements IAdsManager {
 
 	@Override
 	public void showBanner(boolean visible) {
-		if(this.adView==null){
+		if (this.adView == null) {
 			return;
 		}
-		this.adView.setVisibility(visible? View.VISIBLE : View.GONE);
+		this.adView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 
-	private class ShowRewardAd implements Runnable{
+	private class ShowRewardAd implements Runnable {
+		private final AppCompatActivity activity;
 
-		private AppCompatActivity activity;
-		ShowRewardAd(AppCompatActivity activity){
-			this.activity=activity;
+		ShowRewardAd(AppCompatActivity activity) {
+			this.activity = activity;
 		}
+
 		@Override
 		public void run() {
-			if (rewardAd == null)
+			if (rewardAd == null) {
 				System.out.println("Reward ad not set up yet.");
-			else {
+			} else {
 				// show ad (we assume one has been preloaded before)
 				rewardAd.setFullScreenContentCallback(new UserFullScreenContentCallback());
 				rewardAd.show(this.activity, new UserEarnedRewardListener());
@@ -96,17 +97,16 @@ public class AndroidAdsManager implements IAdsManager {
 
 	private class UserEarnedRewardListener implements OnUserEarnedRewardListener {
 		/**
-		 *	// Handle the reward.
-		 * @param rewardItem
+		 * Handle the rewards.
+		 *
+		 * @param rewardItem The reward to give.
 		 */
 		@Override
 		public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
 			System.out.println("Rewarded granted.");
-			hasRewardAdShown=true;
-
+			hasRewardAdShown = true;
 		}
 	}
-
 
 	/**
 	 *
@@ -114,7 +114,8 @@ public class AndroidAdsManager implements IAdsManager {
 	private class UserRewardedAdLoadCallback extends RewardedAdLoadCallback {
 		/**
 		 * Handle the error.
-		 * @param loadAdError
+		 *
+		 * @param loadAdError The error.
 		 */
 		@Override
 		public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
@@ -125,7 +126,7 @@ public class AndroidAdsManager implements IAdsManager {
 
 		@Override
 		public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-			// obtain data
+			// Obtain data
 			System.out.println("Rewarded ad properly loaded");
 			rewardAd = rewardedAd;
 		}
@@ -134,10 +135,10 @@ public class AndroidAdsManager implements IAdsManager {
 
 	// full screen callback
 	private class UserFullScreenContentCallback extends FullScreenContentCallback {
-		@Override
 		/**
 		 *  Called when a click is recorded for an ad.
 		 */
+		@Override
 		public void onAdClicked() {
 			System.out.println("Ad was clicked.");
 		}
@@ -154,7 +155,8 @@ public class AndroidAdsManager implements IAdsManager {
 
 		/**
 		 * Called when ad fails to show.
-		 * @param adError
+		 *
+		 * @param adError The error.
 		 */
 		@Override
 		public void onAdFailedToShowFullScreenContent(AdError adError) {
@@ -165,7 +167,7 @@ public class AndroidAdsManager implements IAdsManager {
 		/**
 		 * Called when an impression is recorded for an ad.
 		 */
-		 @Override
+		@Override
 		public void onAdImpression() {
 			System.out.println("Ad recorded an impression.");
 		}

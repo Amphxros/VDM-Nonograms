@@ -131,12 +131,12 @@ public abstract class Engine implements IEngine {
 	}
 
 	@Override
-	public IAdsManager getAdManager() {
+	public IAdsManager getAdsManager() {
 		return adsManager;
 	}
 
 	@Override
-	public void setAdManager(IAdsManager adManager) {
-		this.adsManager=adManager;
+	public void setAdsManager(IAdsManager adsManager) {
+		this.adsManager = adsManager;
 	}
 }

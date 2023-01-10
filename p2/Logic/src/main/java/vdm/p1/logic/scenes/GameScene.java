@@ -1,7 +1,9 @@
 package vdm.p1.logic.scenes;
 
+import vdm.p1.engine.IAdsManager;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
+import vdm.p1.engine.IImage;
 import vdm.p1.engine.ISensors;
 import vdm.p1.engine.ISound;
 import vdm.p1.engine.ShakeListener;
@@ -10,7 +12,6 @@ import vdm.p1.logic.objects.LifeManager;
 import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.buttons.CheckSolutionButton;
 import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
-import vdm.p1.logic.objects.buttons.GoToThemeLevelSelectButton;
 import vdm.p1.logic.objects.buttons.ShowRewardAdButton;
 
 public final class GameScene extends Scene {
@@ -34,8 +35,12 @@ public final class GameScene extends Scene {
 		addGameObject(table);
 
 
-		addButton(new ShowRewardAdButton(this, lifeManager), getEngine().getGraphics().newImage("image/heartfill.png"), font, "Recuperar vida", 20, 20);
+		IAdsManager adsManager = engine.getAdsManager();
+		if (adsManager != null) {
+			IImage image = engine.getGraphics().newImage("image/heartfill.png");
+			addButton(new ShowRewardAdButton(this, adsManager, lifeManager), image, font, "Recuperar vida", 20, 20);
 		}
+	}
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);

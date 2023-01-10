@@ -6,13 +6,14 @@ import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.objects.LifeManager;
 import vdm.p1.logic.objects.base.Button;
 
-public class ShowRewardAdButton extends Button {
-	IAdsManager adsManager;
-	LifeManager lifeManager;
-	public ShowRewardAdButton(IScene scene, LifeManager lifeManager) {
+public final class ShowRewardAdButton extends Button {
+	private final IAdsManager adsManager;
+	private final LifeManager lifeManager;
+
+	public ShowRewardAdButton(IScene scene, IAdsManager adsManager, LifeManager lifeManager) {
 		super(scene);
-		this.lifeManager= lifeManager;
-		this.adsManager= getEngine().getAdManager();
+		this.lifeManager = lifeManager;
+		this.adsManager = adsManager;
 	}
 
 	@Override
@@ -23,7 +24,7 @@ public class ShowRewardAdButton extends Button {
 
 	@Override
 	public void update(double delta) {
-		if(adsManager.onAdRewardShown())
+		if (adsManager.onAdRewardShown())
 			lifeManager.addHeart();
 	}
 }

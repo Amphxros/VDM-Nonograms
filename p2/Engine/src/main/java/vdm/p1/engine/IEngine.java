@@ -99,9 +99,9 @@ public interface IEngine {
 	 */
 	void setNotificationHandler(INotificationHandler notificationHandler);
 
-	IAdsManager getAdManager();
+	IAdsManager getAdsManager();
 
-	void setAdManager(IAdsManager adManager);
+	void setAdsManager(IAdsManager adManager);
 
 	/**
 	 * @return The application's window width.

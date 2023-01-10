@@ -22,7 +22,7 @@ import vdm.p1.engine.Notification;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
-	SharedPreferences mPreferences;
+	private SharedPreferences mPreferences;
 	private AndroidEngine engine;
 	private String sharedPrefFile = "MySharedPreferences";    // TEMPORAL
 
@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
 		// Creamos el SurfaceView que "contendrá" nuestra escena
 		SurfaceView renderView = findViewById(R.id.surfaceView);
-		AdView adView= findViewById(R.id.adView);
+		AdView adView = findViewById(R.id.adView);
 		setContentView(R.layout.layout);
 
-		engine = new AndroidEngine(this,renderView, adView,this);
+		engine = new AndroidEngine(this, renderView, adView, this);
 		engine.getGraphics().setResolution(400, 600);
 
 		Logic logic = new Logic(engine);

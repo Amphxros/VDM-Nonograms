@@ -12,7 +12,7 @@ import vdm.p1.logic.objects.Text;
 import vdm.p1.logic.objects.base.Button;
 import vdm.p1.logic.scenes.Scene;
 
-public class ShopPaletteButton extends Button {
+public final class ShopPaletteButton extends Button {
 	private static final String PALETTE_ICON_ROUTE = "image/palettes_icons/";
 
 	private final GameManager gameManager;

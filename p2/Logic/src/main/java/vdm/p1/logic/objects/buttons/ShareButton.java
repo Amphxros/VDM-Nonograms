@@ -5,7 +5,7 @@ import vdm.p1.engine.IShareIntent;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.objects.base.Button;
 
-public class ShareButton extends Button {
+public final class ShareButton extends Button {
 	private final IShareIntent intent;
 	private final String imagePath;
 
