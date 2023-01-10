@@ -1,9 +1,12 @@
 package vdm.p1.nonograms;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +34,11 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 
 		// Creamos el SurfaceView que "contendrá" nuestra escena
-		SurfaceView renderView = findViewById(R.id.surfaceView);
-		AdView adView = findViewById(R.id.adView);
-		setContentView(R.layout.layout);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View row = inflater.inflate(R.layout.layout, null, false);
+		SurfaceView renderView = row.findViewById(R.id.surfaceView);
+		AdView adView = row.findViewById(R.id.adView);
+		setContentView(row);
 
 		engine = new AndroidEngine(this, renderView, adView, this);
 		engine.getGraphics().setResolution(400, 600);
