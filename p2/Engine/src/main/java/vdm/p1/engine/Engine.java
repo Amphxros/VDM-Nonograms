@@ -9,6 +9,7 @@ public abstract class Engine implements IEngine {
 	private IShareIntent shareIntent;
 	private ISensors sensors;
 	private INotificationHandler notificationHandler;
+	private IAdsManager adsManager;
 
 	/**
 	 * @return An {@link ILogic} instance.
@@ -127,5 +128,15 @@ public abstract class Engine implements IEngine {
 	@Override
 	public void setNotificationHandler(INotificationHandler notificationHandler) {
 		this.notificationHandler = notificationHandler;
+	}
+
+	@Override
+	public IAdsManager getAdsManager() {
+		return adsManager;
+	}
+
+	@Override
+	public void setAdsManager(IAdsManager adsManager) {
+		this.adsManager = adsManager;
 	}
 }

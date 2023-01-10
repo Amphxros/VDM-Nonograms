@@ -1,15 +1,20 @@
 package vdm.p1.nonograms;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +25,7 @@ import vdm.p1.engine.Notification;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
-	SharedPreferences mPreferences;
+	private SharedPreferences mPreferences;
 	private AndroidEngine engine;
 	private String sharedPrefFile = "MySharedPreferences";    // TEMPORAL
 
@@ -29,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 
 		// Creamos el SurfaceView que "contendrá" nuestra escena
-		SurfaceView renderView = new SurfaceView(this);
-		setContentView(renderView);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.layout, null, false);
+		SurfaceView renderView = layout.findViewById(R.id.surfaceView);
+		AdView adView = layout.findViewById(R.id.adView);
+		setContentView(layout);
 
-		engine = new AndroidEngine(renderView, this);
+		engine = new AndroidEngine(this, renderView, adView, this);
 		engine.getGraphics().setResolution(400, 600);
 
 		Logic logic = new Logic(engine);
@@ -52,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
 		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-		
-
 		engine.resume();
 	}
 
