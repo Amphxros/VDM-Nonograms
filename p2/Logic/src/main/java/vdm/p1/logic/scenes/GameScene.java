@@ -11,6 +11,7 @@ import vdm.p1.logic.objects.Table;
 import vdm.p1.logic.objects.buttons.CheckSolutionButton;
 import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 import vdm.p1.logic.objects.buttons.GoToThemeLevelSelectButton;
+import vdm.p1.logic.objects.buttons.ShowRewardAdButton;
 
 public final class GameScene extends Scene {
 	private final ISound sound;
@@ -32,8 +33,9 @@ public final class GameScene extends Scene {
 		addGameObject(lifeManager);
 		addGameObject(table);
 
-		addButton(new GoToThemeLevelSelectButton(this, theme), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
-	}
+
+		addButton(new ShowRewardAdButton(this, lifeManager), getEngine().getGraphics().newImage("image/heartfill.png"), font, "Recuperar vida", 20, 20);
+		}
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);

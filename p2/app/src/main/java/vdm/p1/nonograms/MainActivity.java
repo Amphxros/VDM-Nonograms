@@ -11,6 +11,8 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -29,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 
 		// Creamos el SurfaceView que "contendrá" nuestra escena
-		SurfaceView renderView = new SurfaceView(this);
-		setContentView(renderView);
+		SurfaceView renderView = findViewById(R.id.surfaceView);
+		AdView adView= findViewById(R.id.adView);
+		setContentView(R.layout.layout);
 
-		engine = new AndroidEngine(renderView, this);
+		engine = new AndroidEngine(this,renderView, adView,this);
 		engine.getGraphics().setResolution(400, 600);
 
 		Logic logic = new Logic(engine);
@@ -52,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
 		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-		
-
 		engine.resume();
 	}
 
