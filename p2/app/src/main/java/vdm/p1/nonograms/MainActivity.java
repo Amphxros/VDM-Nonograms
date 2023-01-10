@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
 		// Creamos el SurfaceView que "contendrá" nuestra escena
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View row = inflater.inflate(R.layout.layout, null, false);
-		SurfaceView renderView = row.findViewById(R.id.surfaceView);
-		AdView adView = row.findViewById(R.id.adView);
-		setContentView(row);
+		View layout = inflater.inflate(R.layout.layout, null, false);
+		SurfaceView renderView = layout.findViewById(R.id.surfaceView);
+		AdView adView = layout.findViewById(R.id.adView);
+		setContentView(layout);
 
 		engine = new AndroidEngine(this, renderView, adView, this);
 		engine.getGraphics().setResolution(400, 600);
