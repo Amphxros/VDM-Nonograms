@@ -21,8 +21,6 @@ public final class DesktopEngine extends Engine implements Runnable {
 
 		setAudio(new DesktopAudio());
 		setGraphics(new DesktopGraphics(renderView));
-		setFileManager(new DesktopFileManager());
-
 		DesktopInput input = new DesktopInput(renderView);
 		setInput(input);
 		running = true;
@@ -55,7 +53,7 @@ public final class DesktopEngine extends Engine implements Runnable {
 			getLogic().handleEvents(getInput());
 			getLogic().update(elapsedTime);
 
-			getGraphics().clear(getLogic().getPalette().getColor(Palette.BACKGROUND));
+			getGraphics().clear(new Color(255,255,255));
 			getLogic().render(getGraphics());
 			getGraphics().present();
 		}

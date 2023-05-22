@@ -94,9 +94,6 @@ public abstract class GameObject {
 		return scene.getEngine();
 	}
 
-	protected Palette getPalette() {
-		return getEngine().getLogic().getPalette();
-	}
 
 	/**
 	 * Adds a child to the GameObject.

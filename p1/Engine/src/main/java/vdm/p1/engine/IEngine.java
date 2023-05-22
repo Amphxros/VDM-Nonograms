@@ -1,6 +1,5 @@
 package vdm.p1.engine;
 
-import java.util.ArrayList;
 
 public interface IEngine {
 	/**
@@ -50,54 +49,6 @@ public interface IEngine {
 	 * @param audio An {@link IAudio} instance.
 	 */
 	void setAudio(IAudio audio);
-
-	/**
-	 * @return An {@link IShareIntent} instance.
-	 */
-	IShareIntent getShareIntent();
-
-	/**
-	 * Sets the {@link IShareIntent} system.
-	 *
-	 * @param shareIntent An {@link IShareIntent} instance.
-	 */
-	void setShareIntent(IShareIntent shareIntent);
-
-	/**
-	 * @return An {@link IFileManager} instance.
-	 */
-	IFileManager getFileManager();
-
-	/**
-	 * Sets the {@link IFileManager} engine.
-	 *
-	 * @param manager An {@link IFileManager} instance.
-	 */
-	void setFileManager(IFileManager manager);
-
-	/**
-	 * @return An {@link ISensors} instance
-	 */
-	ISensors getSensors();
-
-	/**
-	 * Sets the {@link ISensors} system.
-	 *
-	 * @param sensors An {@link ISensors} instance.
-	 */
-	void setSensors(ISensors sensors);
-
-	/**
-	 * @return An {@link INotificationHandler} instance
-	 */
-	INotificationHandler getNotificationHandler();
-
-	/**
-	 * Sets the {@link INotificationHandler} instance.
-	 *
-	 * @param notificationHandler An {@link INotificationHandler} instance.
-	 */
-	void setNotificationHandler(INotificationHandler notificationHandler);
 
 	/**
 	 * @return The application's window width.

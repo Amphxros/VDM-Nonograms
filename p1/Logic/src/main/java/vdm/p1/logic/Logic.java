@@ -9,17 +9,11 @@ import vdm.p1.engine.Palette;
 import vdm.p1.logic.scenes.StartScene;
 
 public final class Logic implements ILogic {
-	private final GameManager gameManager;
 	private IScene currentScene;
 
 	// TODO: Do not pass Engine, pass GameManager + StartScene
 	public Logic(Engine engine) {
-		this.gameManager = GameManager.load(engine);
 		this.currentScene = new StartScene(engine);
-	}
-
-	public GameManager getGameManager() {
-		return gameManager;
 	}
 
 	@Override
@@ -42,18 +36,5 @@ public final class Logic implements ILogic {
 	@Override
 	public void handleEvents(IInput input) {
 		currentScene.handleInput(input);
-	}
-
-	@Override
-	public void handleOpeningNotifications() {
-		currentScene.handleOpeningNotifications();
-	}
-
-	/**
-	 * @return The active palette.
-	 */
-	@Override
-	public Palette getPalette() {
-		return getGameManager().getCurrentPalette().getPalette();
 	}
 }

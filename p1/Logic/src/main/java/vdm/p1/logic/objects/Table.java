@@ -12,7 +12,6 @@ import vdm.p1.engine.IFont;
 import vdm.p1.engine.IScene;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.GameTheme;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.State;
 import vdm.p1.logic.scenes.StartScene;
@@ -34,9 +33,6 @@ public final class Table extends GameObject {
 	 */
 	private static final double CHECK_RESET_DURATION = 1.0;
 
-	private final GameTheme theme;
-	private final String level;
-	private final String name;
 	private final Cell[][] cells;
 	private final boolean[][] solutions;
 	private final IFont font;
@@ -47,20 +43,14 @@ public final class Table extends GameObject {
 	private int remaining = 0;
 	private boolean pendingShuffle = false;
 
-	private Table(IScene scene, IFont font, LifeManager lifeManager, boolean[][] solutions) {
-		this(scene, font, lifeManager, solutions, null, null, null);
-	}
 
-	private Table(IScene scene, IFont font, LifeManager lifeManager, boolean[][] solutions, GameTheme theme, String level, String name) {
+	private Table(IScene scene, IFont font, LifeManager lifeManager, boolean[][] solutions) {
 		super(scene);
 		this.font = font;
 		this.lifeManager = lifeManager;
 		this.rows = solutions.length;
 		this.columns = solutions[0].length;
 		this.solutions = solutions;
-		this.theme = theme;
-		this.level = level;
-		this.name = name;
 
 		cells = new Cell[rows][columns];
 	}
@@ -78,21 +68,6 @@ public final class Table extends GameObject {
 		return new Table(scene, font, lifeManager, solutions);
 	}
 
-	public static Table fromFile(IScene scene, IFont font, LifeManager lifeManager, GameTheme theme, String level) {
-		String content = lifeManager.getEngine().getFileManager().readFile(theme.getDataPath(level));
-		Scanner read = new Scanner(content);
-		int rows = read.nextInt();
-		int columns = read.nextInt();
-		String name = read.next();
-		boolean[][] solutions = new boolean[rows][columns];
-
-		for (int i = 0; i < rows; ++i) {
-			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = read.next().equals("O");
-			}
-		}
-		return new Table(scene, font, lifeManager, solutions, theme, level, name);
-	}
 
 	public void prepareShuffle() {
 		pendingShuffle = true;
@@ -131,12 +106,6 @@ public final class Table extends GameObject {
 
 	@Override
 	public void update(double delta) {
-		if (pendingShuffle) {
-			pendingShuffle = false;
-			shuffle();
-			return;
-		}
-
 		if (elapsed != CHECK_NULL_TIME) {
 			elapsed += delta;
 			if (elapsed < CHECK_RESET_DURATION) return;
@@ -171,14 +140,7 @@ public final class Table extends GameObject {
 		return solutions;
 	}
 
-	/**
-	 * Gets the table's name.
-	 *
-	 * @return The name of the table.
-	 */
-	public String getName() {
-		return name;
-	}
+
 
 	public boolean performSolutionShow() {
 		if (elapsed != CHECK_NULL_TIME) return false;
@@ -231,12 +193,6 @@ public final class Table extends GameObject {
 
 				IEngine engine = lifeManager.getEngine();
 				Logic logic = (Logic) engine.getLogic();
-				if (theme != null && level != null) {
-					if (logic.getGameManager().setCompleted(theme, level)) {
-						logic.getGameManager().addMoney(30);
-						logic.getGameManager().save(engine);
-					}
-				}
 				logic.setScene(new WinScene(engine, getSolutions()));
 			} else {
 				cell.setWrong(true);
@@ -248,19 +204,6 @@ public final class Table extends GameObject {
 		} else if (previous == State.SELECT && cell.isSolution()) {
 			remaining++;
 		}
-	}
-
-	private void shuffle() {
-		getChildren().clear();
-
-		Random rng = new Random();
-		for (int i = 0; i < rows; ++i) {
-			for (int j = 0; j < columns; ++j) {
-				solutions[i][j] = rng.nextBoolean();
-			}
-		}
-
-		init();
 	}
 
 	private void addXHints(List<List<Integer>> lines) {

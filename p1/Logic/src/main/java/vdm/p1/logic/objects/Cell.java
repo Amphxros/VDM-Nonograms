@@ -52,16 +52,16 @@ public final class Cell extends Button {
 
 		switch (current) {
 			case EMPTY:
-				graphics.setColor(getPalette().getColor(Palette.EMPTY));
+				graphics.setColor(new Color(0,0,0));
 				break;
 			case WRONG:
-				graphics.setColor(getPalette().getColor(Palette.WRONG));
+				graphics.setColor(new Color(255,0,0));
 				break;
 			case SELECT:
-				graphics.setColor(getPalette().getColor(Palette.SELECT));
+				graphics.setColor(new Color(0,0,255));
 				break;
 			case FLAGGED:
-				graphics.setColor(getPalette().getColor(Palette.FONT));
+				graphics.setColor(new Color(0,255,0));
 				graphics.drawRectangle(x, y, w, h);
 				graphics.drawLine(x, y, x + w, y + h);
 				return;

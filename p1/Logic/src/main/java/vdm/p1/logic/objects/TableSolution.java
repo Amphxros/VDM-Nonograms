@@ -20,7 +20,7 @@ public final class TableSolution extends GameObject {
 
 		final int cellSize = getWidth() / Math.max(rows, columns);
 
-		Color color = getPalette().getColor(Palette.SELECT);
+		Color color =new Color(0,0,255);
 		for (int i = 0; i < rows; ++i) {
 			int y = getY() + (i * cellSize);
 			for (int j = 0; j < columns; ++j) {

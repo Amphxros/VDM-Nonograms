@@ -14,20 +14,13 @@ public final class AndroidEngine extends Engine implements Runnable {
 	public AndroidEngine(SurfaceView surfaceView, Context context) {
 		setGraphics(new AndroidGraphics(surfaceView, context));
 		setAudio(new AndroidAudio(context));
-		setFileManager(new AndroidFileManager(context));
-		setShareIntent(new AndroidShareIntent(context));
-		setSensors(new AndroidSensors(context));
-		setNotificationHandler(new AndroidNotificationHandler(context));
+
 
 		AndroidInput input = new AndroidInput();
 		surfaceView.setOnTouchListener(input);
 		setInput(input);
 	}
 
-	@Override
-	public AndroidNotificationHandler getNotificationHandler() {
-		return (AndroidNotificationHandler) super.getNotificationHandler();
-	}
 
 	@Override
 	public AndroidGraphics getGraphics() {
@@ -73,9 +66,8 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 	private void render() {
 		AndroidGraphics graphics = getGraphics();
-
 		// Waits for an invalid surface
-		while (!graphics.surfaceValid()) ;
+		while (!graphics.surfaceValid());
 
 		graphics.clear(getLogic().getPalette().getColor(Palette.BACKGROUND)); // ARGB
 		getLogic().render(getGraphics());
@@ -100,12 +92,10 @@ public final class AndroidEngine extends Engine implements Runnable {
 			thread = new Thread(this);
 			thread.start();
 
-			getSensors().register();
 		}
 	}
 
 	public void pause() {
-		getNotificationHandler().add(new Notification("Nonograms", "sub", "content", 30));
 		if (running) {
 			running = false;
 			while (true) {
@@ -117,8 +107,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 					// Something went REALLY wrong
 				}
 			}
-
-			getSensors().unregister();
 		}
 	}
 }
