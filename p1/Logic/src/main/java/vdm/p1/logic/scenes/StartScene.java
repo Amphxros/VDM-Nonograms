@@ -15,17 +15,17 @@ public final class StartScene extends Scene {
 		IImage share = engine.getGraphics().newImage("image/cart.png");
 
 		int maxWidth = engine.getGraphics().getWidth();
+		int maxHeight = engine.getGraphics().getHeight();
 		int center = maxWidth / 2;
 
 		int buttonW = (int) (maxWidth * 0.8);
 		int buttonX = center - buttonW / 2;
-
 		// Title
-		addGameObject(new Text(this, "Nonogramas", font).setPosition(center, 50));
+		addGameObject(new Text(this, "Nonogramas", font).setPosition(center, 150));
 
 		// Quick Match
-		addGameObject(new Text(this, "Partida Rapida", font).setPosition(center, 250));
-		addGameObject(new GoToLevelSelectSceneButton(this).setPosition(buttonX, 210).setSize(buttonW, 50));
+		addGameObject(new Text(this, "Partida Rapida", font).setPosition(center, 350));
+		addGameObject(new GoToLevelSelectSceneButton(this).setPosition(buttonX, 310).setSize(buttonW, 50));
 
 	}
 

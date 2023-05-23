@@ -18,6 +18,7 @@ public final class Image extends GameObject {
 		return this;
 	}
 
+	@Override
 	public void render(IGraphics graphics) {
 		super.render(graphics);
 		graphics.drawImage(image, getPosition().getX(), getPosition().getY(), getWidth(), getHeight());

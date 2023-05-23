@@ -3,7 +3,6 @@ package vdm.p1.logic.objects;
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IScene;
-import vdm.p1.engine.Palette;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.State;
 import vdm.p1.logic.objects.base.Button;
@@ -52,7 +51,7 @@ public final class Cell extends Button {
 
 		switch (current) {
 			case EMPTY:
-				graphics.setColor(new Color(0,0,0));
+				graphics.setColor(new Color(200,200,200));
 				break;
 			case WRONG:
 				graphics.setColor(new Color(255,0,0));
@@ -61,7 +60,7 @@ public final class Cell extends Button {
 				graphics.setColor(new Color(0,0,255));
 				break;
 			case FLAGGED:
-				graphics.setColor(new Color(0,255,0));
+				graphics.setColor(new Color(0,0,0));
 				graphics.drawRectangle(x, y, w, h);
 				graphics.drawLine(x, y, x + w, y + h);
 				return;

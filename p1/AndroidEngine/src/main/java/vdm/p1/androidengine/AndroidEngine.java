@@ -3,6 +3,7 @@ package vdm.p1.androidengine;
 import android.content.Context;
 import android.view.SurfaceView;
 
+import vdm.p1.engine.Color;
 import vdm.p1.engine.Engine;
 import vdm.p1.engine.Notification;
 import vdm.p1.engine.Palette;
@@ -69,8 +70,8 @@ public final class AndroidEngine extends Engine implements Runnable {
 		// Waits for an invalid surface
 		while (!graphics.surfaceValid());
 
-		graphics.clear(getLogic().getPalette().getColor(Palette.BACKGROUND)); // ARGB
-		getLogic().render(getGraphics());
+		graphics.clear(new Color(255,255,255)); // ARGB
+		getLogic().render(graphics);
 		graphics.present();
 	}
 

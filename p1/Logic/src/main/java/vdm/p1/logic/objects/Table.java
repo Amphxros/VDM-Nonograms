@@ -36,7 +36,6 @@ public final class Table extends GameObject {
 	private final Cell[][] cells;
 	private final boolean[][] solutions;
 	private final IFont font;
-	private final LifeManager lifeManager;
 	private final int rows;
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
@@ -44,10 +43,9 @@ public final class Table extends GameObject {
 	private boolean pendingShuffle = false;
 
 
-	private Table(IScene scene, IFont font, LifeManager lifeManager, boolean[][] solutions) {
+	private Table(IScene scene, IFont font, boolean[][] solutions) {
 		super(scene);
 		this.font = font;
-		this.lifeManager = lifeManager;
 		this.rows = solutions.length;
 		this.columns = solutions[0].length;
 		this.solutions = solutions;
@@ -55,7 +53,7 @@ public final class Table extends GameObject {
 		cells = new Cell[rows][columns];
 	}
 
-	public static Table fromRandom(IScene scene, IFont font, LifeManager lifeManager, int rows, int columns) {
+	public static Table fromRandom(IScene scene, IFont font,  int rows, int columns) {
 		boolean[][] solutions = new boolean[rows][columns];
 
 		Random rng = new Random();
@@ -65,7 +63,7 @@ public final class Table extends GameObject {
 			}
 		}
 
-		return new Table(scene, font, lifeManager, solutions);
+		return new Table(scene, font, solutions);
 	}
 
 
@@ -77,7 +75,6 @@ public final class Table extends GameObject {
 	public void init() {
 		elapsed = CHECK_NULL_TIME;
 		remaining = 0;
-		while (lifeManager.addHeart()) ;
 
 		final int w02 = (int) (getWidth() * 0.2);
 		final int w08 = getWidth() - w02;
@@ -191,15 +188,12 @@ public final class Table extends GameObject {
 				remaining--;
 				if (remaining > 0) return;
 
-				IEngine engine = lifeManager.getEngine();
+				IEngine engine = getEngine();
 				Logic logic = (Logic) engine.getLogic();
 				logic.setScene(new WinScene(engine, getSolutions()));
 			} else {
 				cell.setWrong(true);
-				if (!lifeManager.removeHeart()) {
-					Logic logic = (Logic) lifeManager.getEngine().getLogic();
-					logic.setScene(new StartScene(lifeManager.getEngine()));
-				}
+
 			}
 		} else if (previous == State.SELECT && cell.isSolution()) {
 			remaining++;
