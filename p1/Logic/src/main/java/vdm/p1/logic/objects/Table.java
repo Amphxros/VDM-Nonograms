@@ -3,7 +3,6 @@ package vdm.p1.logic.objects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
@@ -14,7 +13,6 @@ import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
 import vdm.p1.logic.Logic;
 import vdm.p1.logic.State;
-import vdm.p1.logic.scenes.StartScene;
 import vdm.p1.logic.scenes.WinScene;
 
 public final class Table extends GameObject {
@@ -53,7 +51,7 @@ public final class Table extends GameObject {
 		cells = new Cell[rows][columns];
 	}
 
-	public static Table fromRandom(IScene scene, IFont font,  int rows, int columns) {
+	public static Table fromRandom(IScene scene, IFont font, int rows, int columns) {
 		boolean[][] solutions = new boolean[rows][columns];
 
 		Random rng = new Random();
@@ -136,7 +134,6 @@ public final class Table extends GameObject {
 	public boolean[][] getSolutions() {
 		return solutions;
 	}
-
 
 
 	public boolean performSolutionShow() {

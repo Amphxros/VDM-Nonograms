@@ -22,7 +22,7 @@ public final class GameScene extends Scene {
 		engine.getAudio().playSound(sound);
 
 		table = (Table) Table.fromRandom(this, tableFont, rows, columns).setPosition(50, 150).setSize(300, 300);
-		
+
 		addGameObject(table);
 
 		addButton(new GoToStartSceneButton(this), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);

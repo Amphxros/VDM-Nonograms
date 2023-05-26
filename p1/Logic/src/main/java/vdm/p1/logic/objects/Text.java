@@ -38,7 +38,7 @@ public final class Text extends GameObject {
 	public void render(IGraphics graphics) {
 		super.render(graphics);
 
-		graphics.setColor(new Color(0,0,0));
+		graphics.setColor(new Color(0, 0, 0));
 		graphics.setFont(font);
 		graphics.setTextAlignment(alignment);
 		graphics.drawText(text, getX(), getY());
