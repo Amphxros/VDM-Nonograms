@@ -5,8 +5,6 @@ import android.view.SurfaceView;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.Engine;
-import vdm.p1.engine.Notification;
-import vdm.p1.engine.Palette;
 
 public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;

@@ -5,7 +5,6 @@ import vdm.p1.engine.HorizontalAlignment;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IScene;
-import vdm.p1.engine.Palette;
 import vdm.p1.logic.GameObject;
 
 public final class Text extends GameObject {

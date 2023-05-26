@@ -2,7 +2,6 @@ package vdm.p1.logic.objects;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.IScene;
-import vdm.p1.engine.Palette;
 import vdm.p1.logic.GameObject;
 
 public final class TableSolution extends GameObject {

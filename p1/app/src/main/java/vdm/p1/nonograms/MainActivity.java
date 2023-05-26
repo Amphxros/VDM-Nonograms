@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import vdm.p1.androidengine.AndroidEngine;
-import vdm.p1.engine.Notification;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
