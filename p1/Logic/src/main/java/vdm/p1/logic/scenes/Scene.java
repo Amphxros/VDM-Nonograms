@@ -103,20 +103,6 @@ public abstract class Scene implements IScene {
 	public void dispose() {
 	}
 
-	/**
-	 * Handles when a notification has been closed.
-	 */
-	@Override
-	public void handleClosingNotifications() {
-	}
-
-	/**
-	 * Handles when a notification has been opened.
-	 */
-	@Override
-	public void handleOpeningNotifications() {
-	}
-
 	protected void addButton(GameObject button, IFont font, String text, int x, int y) {
 		final int width = 100;
 		final int textOffsetX = 50;

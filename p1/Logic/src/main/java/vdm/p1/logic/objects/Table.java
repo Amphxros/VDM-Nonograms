@@ -38,8 +38,6 @@ public final class Table extends GameObject {
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
 	private int remaining = 0;
-	private boolean pendingShuffle = false;
-
 
 	private Table(IScene scene, IFont font, boolean[][] solutions) {
 		super(scene);
@@ -62,11 +60,6 @@ public final class Table extends GameObject {
 		}
 
 		return new Table(scene, font, solutions);
-	}
-
-
-	public void prepareShuffle() {
-		pendingShuffle = true;
 	}
 
 	@Override
@@ -134,7 +127,6 @@ public final class Table extends GameObject {
 	public boolean[][] getSolutions() {
 		return solutions;
 	}
-
 
 	public boolean performSolutionShow() {
 		if (elapsed != CHECK_NULL_TIME) return false;

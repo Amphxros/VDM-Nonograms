@@ -60,7 +60,7 @@ public final class Cell extends Button {
 				graphics.setColor(new Color(0, 0, 255));
 				break;
 			case FLAGGED:
-				graphics.setColor(new Color(0, 0, 0));
+				graphics.setColor(Color.BLACK);
 				graphics.drawRectangle(x, y, w, h);
 				graphics.drawLine(x, y, x + w, y + h);
 				return;

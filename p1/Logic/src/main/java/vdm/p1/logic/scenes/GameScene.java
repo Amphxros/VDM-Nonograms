@@ -9,22 +9,18 @@ import vdm.p1.logic.objects.buttons.GoToStartSceneButton;
 
 public final class GameScene extends Scene {
 	private final ISound sound;
-	private final IFont font;
-	private final Table table;
-
 
 	public GameScene(IEngine engine, int rows, int columns) {
 		super(engine);
 
-		font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
+		IFont font = engine.getGraphics().newFont("font/pico.ttf", 10, true);
 		IFont tableFont = engine.getGraphics().newFont("font/pico.ttf", 7, false);
 		sound = engine.getAudio().createSound("audio/meadow_thoughts");
 		engine.getAudio().playSound(sound);
 
-		table = (Table) Table.fromRandom(this, tableFont, rows, columns).setPosition(50, 150).setSize(300, 300);
+		Table table = (Table) Table.fromRandom(this, tableFont, rows, columns).setPosition(50, 150).setSize(300, 300);
 
 		addGameObject(table);
-
 		addButton(new GoToStartSceneButton(this), engine.getGraphics().newImage("image/grey_boxCross.png"), font, "Rendirse", 20, 20);
 		addButton(new CheckSolutionButton(this, table), engine.getGraphics().newImage("image/grey_boxCheckmark.png"), font, "Comprobar", 260, 20);
 	}
