@@ -50,7 +50,7 @@ public final class DesktopEngine extends Engine implements Runnable {
 			getLogic().handleEvents(getInput());
 			getLogic().update(elapsedTime);
 
-			getGraphics().clear(new Color(255,255,255));
+			getGraphics().clear(Color.WHITE);
 			getLogic().render(getGraphics());
 			getGraphics().present();
 		}

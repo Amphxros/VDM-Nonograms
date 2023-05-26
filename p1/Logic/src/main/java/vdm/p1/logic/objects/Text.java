@@ -11,7 +11,7 @@ public final class Text extends GameObject {
 	private final IFont font;
 	private String text;
 	private Color color = Color.BLACK;
-	private HorizontalAlignment alignment;
+	private final HorizontalAlignment alignment;
 
 	public Text(IScene scene, String text, IFont font) {
 		this(scene, text, font, HorizontalAlignment.CENTRE);
@@ -38,7 +38,7 @@ public final class Text extends GameObject {
 	public void render(IGraphics graphics) {
 		super.render(graphics);
 
-		graphics.setColor(new Color(0,0,0));
+		graphics.setColor(color);
 		graphics.setFont(font);
 		graphics.setTextAlignment(alignment);
 		graphics.drawText(text, getX(), getY());
