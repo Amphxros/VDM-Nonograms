@@ -1,6 +1,5 @@
 package vdm.p1.pclauncher;
 
-
 import vdm.p1.logic.Logic;
 import vdm.p1.pcengine.DesktopEngine;
 

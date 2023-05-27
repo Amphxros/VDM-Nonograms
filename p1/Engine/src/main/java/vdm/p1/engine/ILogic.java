@@ -8,5 +8,4 @@ public interface ILogic {
 	void render(IGraphics graphics);
 
 	void handleEvents(IInput input);
-
 }

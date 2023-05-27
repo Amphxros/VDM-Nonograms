@@ -34,16 +34,6 @@ public interface IScene {
 	void dispose();
 
 	/**
-	 * Handles when a notification has been closed.
-	 */
-	void handleClosingNotifications();
-
-	/**
-	 * Handles when a notification has been opened.
-	 */
-	void handleOpeningNotifications();
-
-	/**
 	 * @return The {@link IEngine} that instantiated this scene.
 	 */
 	IEngine getEngine();

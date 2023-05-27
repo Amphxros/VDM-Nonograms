@@ -1,7 +1,6 @@
 package vdm.p1.engine;
 
 public interface IAudio {
-
 	/**
 	 * Creates an instance of a ISound
 	 *
@@ -23,5 +22,4 @@ public interface IAudio {
 	 * @param s The {@link ISound} to stop playing.
 	 */
 	void stopSound(ISound s);
-
 }

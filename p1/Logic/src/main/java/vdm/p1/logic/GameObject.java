@@ -6,7 +6,6 @@ import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IGraphics;
 import vdm.p1.engine.IScene;
-import vdm.p1.engine.Palette;
 import vdm.p1.engine.TouchEvent;
 
 public abstract class GameObject {

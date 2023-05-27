@@ -5,8 +5,6 @@ import android.view.SurfaceView;
 
 import vdm.p1.engine.Color;
 import vdm.p1.engine.Engine;
-import vdm.p1.engine.Notification;
-import vdm.p1.engine.Palette;
 
 public final class AndroidEngine extends Engine implements Runnable {
 	private Thread thread;
@@ -16,12 +14,10 @@ public final class AndroidEngine extends Engine implements Runnable {
 		setGraphics(new AndroidGraphics(surfaceView, context));
 		setAudio(new AndroidAudio(context));
 
-
 		AndroidInput input = new AndroidInput();
 		surfaceView.setOnTouchListener(input);
 		setInput(input);
 	}
-
 
 	@Override
 	public AndroidGraphics getGraphics() {
@@ -67,10 +63,11 @@ public final class AndroidEngine extends Engine implements Runnable {
 
 	private void render() {
 		AndroidGraphics graphics = getGraphics();
-		// Waits for an invalid surface
-		while (!graphics.surfaceValid());
 
-		graphics.clear(new Color(255,255,255)); // ARGB
+		// Waits for an invalid surface
+		while (!graphics.surfaceValid()) ;
+
+		graphics.clear(Color.WHITE);
 		getLogic().render(graphics);
 		graphics.present();
 	}
@@ -92,7 +89,6 @@ public final class AndroidEngine extends Engine implements Runnable {
 			// run() is "running" in a new thread
 			thread = new Thread(this);
 			thread.start();
-
 		}
 	}
 

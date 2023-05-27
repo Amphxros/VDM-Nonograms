@@ -1,21 +1,13 @@
 package vdm.p1.nonograms;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.SurfaceView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import vdm.p1.androidengine.AndroidEngine;
-import vdm.p1.engine.Notification;
 import vdm.p1.logic.Logic;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
 		Logic logic = new Logic(engine);
 		engine.setLogic(logic);
 
-		//if the user enters by a notification
-		Intent intent = getIntent();
-		if (intent.getExtras() != null && intent.getExtras().containsKey("notification")) {
-			logic.handleOpeningNotifications();
-		}
-
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) actionBar.hide();
 	}
@@ -51,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
 		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-		
-
 		engine.resume();
 	}
 
@@ -72,29 +56,5 @@ public class MainActivity extends AppCompatActivity {
 		preferencesEditor.apply(); // APPLIES ALL CHANGED PREFERENCES
 
 		engine.pause();
-		handleNotifications();
-	}
-
-	private void handleNotifications() {
-		INotificationHandler notificationHandler = engine.getNotificationHandler();
-		ArrayList<Notification> notifications = notificationHandler.getPendingEntries();
-		for (Notification notification : notifications) {
-			Data input = new Data.Builder()
-					.putString(NotificationWorker.INPUT_CHANNEL_ID, notificationHandler.getChannelID())
-					.putString(NotificationWorker.INPUT_TITLE, notification.getTitle())
-					.putString(NotificationWorker.INPUT_CONTENT, notification.getContent())
-					.putString(NotificationWorker.INPUT_BIGGER_TEXT, notification.getSubtitle())
-					.putBoolean(NotificationWorker.INPUT_AUTO_CANCEL, true)
-					.build();
-
-			OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(NotificationWorker.class)
-					.setInitialDelay(notification.getDelay(), TimeUnit.SECONDS)
-					.setInputData(input)
-					.build();
-
-			WorkManager.getInstance(this).enqueue(notificationWork);
-		}
-
-		notifications.clear();
 	}
 }

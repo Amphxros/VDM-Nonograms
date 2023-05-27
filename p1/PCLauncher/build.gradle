@@ -1,14 +1,14 @@
 plugins {
-    id 'java-library'
+	id 'java-library'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+	sourceCompatibility = JavaVersion.VERSION_1_7
+	targetCompatibility = JavaVersion.VERSION_1_7
 }
 
 dependencies {
-    api project(path: ':Logic')
-    api project(path: ':PCEngine')
-    api project(path: ':Engine')
+	api project(path: ':Logic')
+	api project(path: ':PCEngine')
+	api project(path: ':Engine')
 }

@@ -1,6 +1,5 @@
 package vdm.p1.logic.scenes;
 
-import vdm.p1.engine.Color;
 import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IImage;
