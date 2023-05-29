@@ -13,8 +13,6 @@ import vdm.p1.logic.Logic;
 public class MainActivity extends AppCompatActivity {
 	SharedPreferences mPreferences;
 	private AndroidEngine engine;
-	private String sharedPrefFile = "MySharedPreferences";    // TEMPORAL
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,25 +34,12 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 		engine.resume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		// Editor object is mandatory for the changes on the SharedPreferences object
-		SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-		SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-
-		// PREFERENCES SAVING
-		//preferencesEditor.putInt("lastColor", mColor);
-		//preferencesEditor.putBoolean("soundFX", logic.getSoundFX());
-		//preferencesEditor.putBoolean("soundMusic", logic.getSoundMusic());
-
-		preferencesEditor.apply(); // APPLIES ALL CHANGED PREFERENCES
-
 		engine.pause();
 	}
 }
