@@ -38,7 +38,7 @@ public final class Table extends GameObject {
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
 	private int remaining = 0;
-
+	private int missing=0;
 	private Table(IScene scene, IFont font, boolean[][] solutions) {
 		super(scene);
 		this.font = font;
@@ -89,6 +89,15 @@ public final class Table extends GameObject {
 		addXHints(getXHints(solutions));
 		addYHints(getYHints(solutions));
 
+
+		for (Cell[] cells : getCells()) {
+			for (Cell cell : cells) {
+				if (cell.isMissing()) {
+					++missing;
+				}
+			}
+		}
+
 		super.init();
 	}
 
@@ -132,7 +141,7 @@ public final class Table extends GameObject {
 		if (elapsed != CHECK_NULL_TIME) return false;
 		elapsed = CHECK_START_TIME;
 
-		int missing = 0;
+		missing = 0;
 		int wrong = 0;
 
 		for (Cell[] cells : getCells()) {
@@ -175,16 +184,17 @@ public final class Table extends GameObject {
 		if (cell.getState() == State.SELECT) {
 			if (cell.isSolution()) {
 				remaining--;
-				if (remaining > 0) return;
+				missing--;
+				if (remaining > 0 && missing > 0) return;
 
 				IEngine engine = getEngine();
 				Logic logic = (Logic) engine.getLogic();
 				logic.setScene(new WinScene(engine, getSolutions()));
-			} else {
-				cell.setWrong(true);
-
 			}
-		} else if (previous == State.SELECT && cell.isSolution()) {
+
+		}
+
+		if (previous == State.SELECT && cell.isSolution()) {
 			remaining++;
 		}
 	}
