@@ -6,14 +6,10 @@ import java.util.Random;
 import java.util.Vector;
 
 import vdm.p1.engine.Color;
-import vdm.p1.engine.IEngine;
 import vdm.p1.engine.IFont;
 import vdm.p1.engine.IScene;
 import vdm.p1.engine.TouchEvent;
 import vdm.p1.logic.GameObject;
-import vdm.p1.logic.Logic;
-import vdm.p1.logic.State;
-import vdm.p1.logic.scenes.WinScene;
 
 public final class Table extends GameObject {
 	/**
@@ -37,8 +33,7 @@ public final class Table extends GameObject {
 	private final int rows;
 	private final int columns;
 	private double elapsed = CHECK_NULL_TIME;
-	private int remaining = 0;
-	private int missing=0;
+
 	private Table(IScene scene, IFont font, boolean[][] solutions) {
 		super(scene);
 		this.font = font;
@@ -65,7 +60,6 @@ public final class Table extends GameObject {
 	@Override
 	public void init() {
 		elapsed = CHECK_NULL_TIME;
-		remaining = 0;
 
 		final int w02 = (int) (getWidth() * 0.2);
 		final int w08 = getWidth() - w02;
@@ -80,7 +74,6 @@ public final class Table extends GameObject {
 						.setPosition(x + j * cellSize, y + i * cellSize)
 						.setSize(cellSize, cellSize);
 				cells[i][j] = cell;
-				if (solution) remaining++;
 
 				addChild(cell);
 			}
@@ -88,15 +81,6 @@ public final class Table extends GameObject {
 
 		addXHints(getXHints(solutions));
 		addYHints(getYHints(solutions));
-
-
-		for (Cell[] cells : getCells()) {
-			for (Cell cell : cells) {
-				if (cell.isMissing()) {
-					++missing;
-				}
-			}
-		}
 
 		super.init();
 	}
@@ -141,7 +125,7 @@ public final class Table extends GameObject {
 		if (elapsed != CHECK_NULL_TIME) return false;
 		elapsed = CHECK_START_TIME;
 
-		missing = 0;
+		int missing = 0;
 		int wrong = 0;
 
 		for (Cell[] cells : getCells()) {
@@ -178,25 +162,6 @@ public final class Table extends GameObject {
 
 		Vector<GameObject> children = getChildren();
 		children.removeElementAt(children.size() - 1);
-	}
-
-	public void onCellUpdate(Cell cell, State previous) {
-		if (cell.getState() == State.SELECT) {
-			if (cell.isSolution()) {
-				remaining--;
-				missing--;
-				if (remaining > 0 && missing > 0) return;
-
-				IEngine engine = getEngine();
-				Logic logic = (Logic) engine.getLogic();
-				logic.setScene(new WinScene(engine, getSolutions()));
-			}
-
-		}
-
-		if (previous == State.SELECT && cell.isSolution()) {
-			remaining++;
-		}
 	}
 
 	private void addXHints(List<List<Integer>> lines) {

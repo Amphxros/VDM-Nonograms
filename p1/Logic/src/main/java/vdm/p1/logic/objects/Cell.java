@@ -84,7 +84,6 @@ public final class Cell extends Button {
 				break;
 		}
 
-		table.onCellUpdate(this, previous);
 		return true;
 	}
 
@@ -93,7 +92,6 @@ public final class Cell extends Button {
 		if (current != State.WRONG) {
 			State previous = current;
 			current = previous == State.FLAGGED ? State.EMPTY : State.FLAGGED;
-			table.onCellUpdate(this, previous);
 		}
 		return true;
 	}
